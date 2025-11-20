@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "minishell.h"
 
 void	handle_builtin(char *argv)
 {
+	(void)argv;
 	readline("Spablob3's shell >$ ");
 }
 
 int	main(int argc, char **argv)
 {
+	(void)argc;
 	handle_builtin(argv[1]);
 	return (0);
 }

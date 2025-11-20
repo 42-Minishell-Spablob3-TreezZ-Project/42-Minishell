@@ -7,7 +7,7 @@ LIBFT_PATH = ./include/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -g
+CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 
@@ -16,7 +16,7 @@ AR = ar rcs
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-		@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_PATH) -lft -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) -lreadline -L$(LIBFT_PATH) -lft -o $(NAME)
 
 $(LIBFT):
 		make -C $(LIBFT_PATH)

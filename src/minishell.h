@@ -9,4 +9,6 @@
 
 //Libft
 
+# include "minishell.h"
+
 #endif
