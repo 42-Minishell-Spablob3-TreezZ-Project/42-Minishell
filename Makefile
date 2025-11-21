@@ -3,7 +3,7 @@ NAME = minishell
 SRC = $(shell find ./src -name "*.c")
 OBJ = $(SRC:.c=.o)
 
-LIBFT_PATH = ./include/libft
+LIBFT_PATH = ./lib/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = cc
