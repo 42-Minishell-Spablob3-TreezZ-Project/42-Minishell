@@ -3,11 +3,15 @@
 void	handle_builtin(char *argv)
 {
 	(void)argv;
-	readline("Spablob3's shell >$ ");
+	while (1)
+	{
+		readline("Minisheila>$ ");
+	}
 }
 
 int	main(int argc, char **argv)
 {
+	
 	(void)argc;
 	handle_builtin(argv[1]);
 	return (0);

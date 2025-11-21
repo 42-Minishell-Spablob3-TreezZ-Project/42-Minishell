@@ -13,6 +13,6 @@
 
 //Libft
 
-# include "../include/libft/libft.h"
+# include "../../lib/libft/libft.h"
 
 #endif
