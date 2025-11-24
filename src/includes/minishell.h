@@ -10,6 +10,8 @@
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <limits.h>
+# include <fcntl.h>
 
 //Libft
 
@@ -18,5 +20,7 @@
 //Includes
 
 # include "history.h"
+
+//Defines
 
 #endif
