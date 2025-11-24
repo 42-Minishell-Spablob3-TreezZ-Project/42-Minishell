@@ -1,28 +1,8 @@
 #include "includes/minishell.h"
 
-void	handle_builtin(char *argv)
+int	main(void)
 {
-	char	*user;
-	char	*host;
-	char	*prompt;
-
-	(void)argv;
-	user = ft_strjoin(getenv("USER"), "@");
-	host = "Minisheila";
-	prompt = ft_strjoin(ft_strjoin(user, host), ">$ ");
-	while (1)
-	{
-		readline(prompt);
-	}
-}
-
-int	main(int argc, char **argv)
-{
-	
-	(void)argc;
-	(void)argv;
-//	handle_builtin(argv[1]);
-	hist_test();
+	start_shell();
 	return (0);
 }
 

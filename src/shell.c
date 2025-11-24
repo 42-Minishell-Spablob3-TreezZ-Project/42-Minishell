@@ -1,32 +1,40 @@
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 char	*create_prompt(void)
 {
 	char	*prompt;
 
-	prompt = "@hist_test>$ ";
+	prompt = "@minisheila>$ ";
 	prompt = ft_strjoin(getenv("USER"), prompt);
 	return (prompt);
 }
 
-void	hist_test(void)
+int	check_command(char *cmd)
 {
-	char	*line;
+	if (ft_strncmp (cmd, "exit", INT_MAX) == 0)
+		return (0);
+	return (1);
+}
+
+void	start_shell(void)
+{
+	char	*command;
 	char	*prompt;
 
-	line = NULL;
+	command = NULL;
 	prompt = create_prompt();
 	while (1)
 	{
-		line = readline(prompt);
-		if (ft_strncmp (line, "exit", INT_MAX) == 0)
+		command = readline(prompt);
+		if (!check_command(command))
 		{
-			free (line);
+			free (command);
 			break ;
 		}
-		add_history(line);
-		free (line);
+		add_history(command);
+		free (command);
 	}
+	free (prompt);
 }
 
 //enum { MAXC = 128 };

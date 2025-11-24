@@ -1,7 +1,7 @@
 #ifndef HISTORY_H
 # define HISTORY_H
 
-void	hist_test(void);
+void	start_shell(void);
 char	*create_prompt(void);
 
 #endif
