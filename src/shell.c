@@ -9,13 +9,6 @@ char	*create_prompt(void)
 	return (prompt);
 }
 
-int	check_command(char *cmd)
-{
-	if (ft_strncmp (cmd, "exit", INT_MAX) == 0)
-		return (0);
-	return (1);
-}
-
 void	start_shell(void)
 {
 	char	*command;
@@ -26,7 +19,7 @@ void	start_shell(void)
 	while (1)
 	{
 		command = readline(prompt);
-		if (!check_command(command))
+		if (!class_command(command))
 		{
 			free (command);
 			break ;

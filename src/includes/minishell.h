@@ -20,6 +20,7 @@
 //Includes
 
 # include "shell.h"
+# include "parsing.h"
 
 //Defines
 
