@@ -19,13 +19,30 @@
 /* 	return (1); */
 /* } */
 
+//Idea
+/* token coiso(args) */
+/* { */
+/* 	int	i; */
+/* 	int	j; */
+/* 	char	**holder; */
+
+/* 	while (args[i]) */
+/* 	{ */
+/* 		holder[j] = tokenizer_function(result[i]); */
+/* 		i++; */
+/* 		j++; */
+/* 	} */
+/* } */
+
 char	*parse_command(char *cmd)
 {
 	int		i;
+	char	**splits;
 	char	**results;
 
 	i = 0;
-	results = ft_split(cmd, ' ');
+	splits = ft_split(cmd, ' ');
+	results = tokenize(splits[i]);
 	while (results[i])
 		i++;
 	if (i == 1)
