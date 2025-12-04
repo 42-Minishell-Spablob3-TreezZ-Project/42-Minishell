@@ -1,5 +1,16 @@
 #include "../includes/minishell.h"
 
+int	verify_next(char *string, int i, char limiter)
+{
+	while (string[i] == limiter)
+		i++;
+	if (isalpha(string[i]))
+			return (0);
+	else if (string[i] == '"')
+		return (i);
+	return (0);
+}
+
 int	check_quotation(char *string, int i)
 {
 	if (string[i] == '"')
@@ -27,10 +38,10 @@ int	custom_word_count(char *string, char limiter)
 	int	count;
 
 	i = 0;
-	check = 0;
 	count = 0;
 	while (string[i])
 	{
+		check = 0;
 		while (string[i] == limiter)
 			i++;
 		if (string[i])
@@ -38,9 +49,9 @@ int	custom_word_count(char *string, char limiter)
 		while (string[i] != limiter && string[i] != '"' && \
 string[i])
 			i++;
-		if (string[i] == ' ' && string[i + 1] == '"')
+		if (string[i] == ' ' && verify_next(string, i, limiter))
 		{
-			i++;
+			i = verify_next(string, i, limiter);
 			check = check_quotation(string, i);
 		}
 		else if (string[i] == '"')
@@ -51,6 +62,7 @@ string[i])
 			count++;
 		}
 		else
+//			i = check - 1;
 			i = i + check;
 	}
 	return (count);
