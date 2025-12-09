@@ -40,7 +40,7 @@ void	echo_builtin(char **argv)
 
 
 /* 
-TESTAGEM SEM INPUT VERDADEIRO
+TESTAGEM SEM INPUT VERDADEIRO!
 int main(void)
 {
 	char *str[] = {"-n", NULL};
