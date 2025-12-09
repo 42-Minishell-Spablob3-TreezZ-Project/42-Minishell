@@ -41,7 +41,8 @@ char	*parse_command(char *cmd)
 	char	**results;
 
 	i = 0;
-	splits = ft_split(cmd, ' ');
+	splits = 
+//	splits = ft_split(cmd, ' ');
 	results = tokenize(splits[i]);
 	while (results[i])
 		i++;

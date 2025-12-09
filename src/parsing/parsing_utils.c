@@ -44,7 +44,7 @@ int	custom_word_count(char *string, char limiter)
 		check = 0;
 		while (string[i] == limiter)
 			i++;
-		if (string[i])
+		if (string[i] && i == 0)
 			count++;
 		while (string[i] != limiter && string[i] != '"' && \
 string[i])
@@ -63,7 +63,8 @@ string[i])
 		}
 		else
 //			i = check - 1;
-			i = i + check;
+//			i = i + check;
+			count++;
 	}
 	return (count);
 }
