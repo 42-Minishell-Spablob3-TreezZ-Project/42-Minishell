@@ -1,112 +1,57 @@
-#include "../includes/minishell.h"
+/* int	skip_spaces(char c) */
+/* { */
+/* 	return (c == 32 || (c >= 9 && c <= 13)); */
+/* } */
 
-int	verify_next(char *string, int i, char limiter)
-{
-	while (string[i] == limiter)
-		i++;
-	if (isalpha(string[i]))
-			return (0);
-	else if (string[i] == '"')
-		return (i);
-	return (0);
-}
+/* #include <stdio.h> */
 
-int	check_quotation(char *string, int i)
-{
-	if (string[i] == '"')
-	{
-		i++;
-		while (string[i] != '"' && string[i])
-			i++;
-		if (!string[i])
-			return (0);
-		else if (string[i] == '"' && string[i + 1])
-			i++;
-		else
-		{
-			i++;
-			return (i);
-		}
-	}
-	return (i);
-}
-
-int	custom_word_count(char *string, char limiter)
-{
-	int	i;
-	int	check;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (string[i])
-	{
-		check = 0;
-		while (string[i] == limiter)
-			i++;
-		if (string[i] && i == 0)
-			count++;
-		while (string[i] != limiter && string[i] != '"' && \
-string[i])
-			i++;
-		if (string[i] == ' ' && verify_next(string, i, limiter))
-		{
-			i = verify_next(string, i, limiter);
-			check = check_quotation(string, i);
-		}
-		else if (string[i] == '"')
-			check = check_quotation(string, i);
-		if (check && string[check])
-		{
-			i = check;
-			count++;
-		}
-		else
-//			i = check - 1;
-//			i = i + check;
-			count++;
-	}
-	return (count);
-}
-
-int	main(void)
-{
-	char	*str;
-	int		i;
-
-	str = readline("Boas: ");
-	i = custom_word_count(str, ' ');
-	printf("%d\n", i);
-	return (0);
-}
-
-/* int	custom_word_count(char *string, char limiter) */
+/* int	get_args(char *cmd) */
 /* { */
 /* 	int	i; */
-/* 	int	count; */
+/* 	int	j; */
+/* 	int	args; */
 
 /* 	i = 0; */
-/* 	count = 0; */
-/* 	while (string[i]) */
+/* 	args = 0; */
+/* 	while (cmd[i]) */
 /* 	{ */
-/* 		while (string[i] == limiter) */
+/* 		while (cmd[i] && cmd[i] == 32) */
 /* 			i++; */
-/* 		if (string[i]) */
-/* 			count++; */
-/* 		if (string[i] == '"') */
+/* 		if (cmd[i] > 32 && cmd[i] < 127) */
 /* 		{ */
-/* 			while (string[i] != '"' && string[i]) */
-/* 				i++; */
-/* 			if (!string[i]) */
-/* 				return (0); */
-/* 			else if (string[i] == '"') */
+/* //			args++; */
+/* 			if (cmd[i] == 34 || cmd[i] == 39) */
 /* 			{ */
-/* 				i++; */
-/* 				count++; */
+/* 				j = i; */
+/* 				j++; */
+/* 				while (cmd[j] && (cmd[j] != 34 && cmd[j] != 39)) */
+/* 				{ */
+/* 					if (cmd[j + 1] == 34 || cmd[j + 1] == 39) */
+/* 					{ */
+/* 						i = j; */
+/* 						break ; */
+/* 					} */
+/* 					else */
+/* 						j++; */
+/* 				} */
 /* 			} */
+/* //			else */
+/* //				i++; */
+/* //			args++; */
 /* 		} */
-/* 		while (string[i] != limiter && string[i]) */
+/* 		i++; */
+/* 		if (cmd[i] == 34 || cmd[i] == 39) */
 /* 			i++; */
+/* 		if (!cmd[i] || cmd[i] == 32) */
+/* 			args++; */
 /* 	} */
-/* 	return (count); */
+/* 	return (args); */
+/* } */
+
+/* int	main(void) */
+/* { */
+/* 	char	*str = "ola eu sou 'esmega coco' lol     lmao'   sakj"; */
+/* //	char	*str = "ola eu sou 'esmega coco'lol     lmao'   sakj"; */
+/* //	char	*str = "ola eu sou 'esmega coco' lol"; */
+/* 	printf("%i\n", get_args(str)); */
 /* } */
