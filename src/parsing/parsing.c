@@ -53,15 +53,10 @@ char	**treat_command(char *cmd)
 
 	i = 0;
 	j = 0;
-	array = get_args(cmd);
-	while (cmd[i])
-	{
-		while (skip_spaces(cmd[i]))
-			i++;
-		while ()
-		
-		i++;
-	}
+	array = ft_calloc(get_args(cmd), sizeof(int));
+	if (!array)
+		return (NULL);
+	return (write_words(array, cmd));
 }
 
 char	*parse_command(char *cmd)
