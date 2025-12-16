@@ -21,24 +21,12 @@ void	start_shell(void)
 	while (1)
 	{
 		command = readline(prompt);
-		// CTRL-C
-		if (!command && g_sigint)
+		if (!class_command(command))
 		{
-			g_sigint = 0;
-			continue ;
-		}
-		// CTRL-D
-		if (!command)
-		{
+			free (command);
 			printf("exit\n");
 			break ;
 		}
-		if (*command == '\0')
-		{
-			free(command);
-			continue;
-		}
-		class_command(command);
 		add_history(command);
 		free (command);
 	}
