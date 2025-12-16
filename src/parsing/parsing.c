@@ -25,6 +25,8 @@ char	*parse_command(char *cmd)
 	char	**results;
 
 	i = 0;
+	if (!cmd)
+		return NULL;
 	results = ft_split(cmd, ' ');
 	while (results[i])
 		i++;
@@ -43,7 +45,7 @@ int	class_command(char *cmd)
 
 	parsed = parse_command(cmd);
 	if (!parsed)
-		return (1);
+		return (0);
 	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
 		return (0);
 //If invalid command
