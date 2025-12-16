@@ -3,9 +3,17 @@
 
 typedf enum token_type
 {
-	WORD, 
-	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT
-	APPEND,
+	TOKEN_WORD, 
+	TOKEN_PIPE,
+	TOKEN_REDIN,
+	TOKEN_REDIROUT,
+	TOKEN_HERE_DOC,
+	
 }	t_token_type,
+
+typedef struct s_tokens
+{
+	char		*input;
+	t_node_type	type;
+	struct s_tokens *next;
+}			t_tokens;

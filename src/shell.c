@@ -1,5 +1,7 @@
 #include "includes/minishell.h"
 
+volatile sig_atomic_t g_sigint = 0;
+
 char	*create_prompt(void)
 {
 	char	*prompt;
@@ -19,11 +21,24 @@ void	start_shell(void)
 	while (1)
 	{
 		command = readline(prompt);
-		if (!class_command(command))
+		// CTRL-C
+		if (!command && g_sigint)
 		{
-			free (command);
+			g_sigint = 0;
+			continue ;
+		}
+		// CTRL-D
+		if (!command)
+		{
+			printf("exit\n");
 			break ;
 		}
+		if (*command == '\0')
+		{
+			free(command);
+			continue;
+		}
+		class_command(command);
 		add_history(command);
 		free (command);
 	}

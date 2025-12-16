@@ -2,6 +2,7 @@
 
 int	main(void)
 {
+	handle_signals();
 	start_shell();
 	return (0);
 }
