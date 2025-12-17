@@ -5,9 +5,10 @@ typedf enum token_type
 {
 	TOKEN_WORD, 
 	TOKEN_PIPE,
-	TOKEN_REDIN,
-	TOKEN_REDIROUT,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
 	TOKEN_HERE_DOC,
+	TOKEN_APPEND,
 	
 }	t_token_type,
 

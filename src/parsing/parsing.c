@@ -1,23 +1,28 @@
 #include "../includes/minishell.h"
 
-//Mode for treating stuff with quotes, and without
+int class_tokens(char **results)
+{
+	int	i;
 
-/* check_token_word() */
-/* { */
-	
-/* } */
-
-/* wejh90df */
-
-/* int	tokenize(char **split) */
-/* { */
-/* 	while (*split) */
-/* 	{ */
-		
-/* 		split++; */
-/* 	} */
-/* 	return (1); */
-/* } */
+	i = 0;
+	while (results[i])
+	{
+		if (!strcmp(results[i], "|"))
+			printf("TOKEN_PIPE\n");
+		else if (!strcmp(results[i], ">"))
+			printf("TOKEN_IN\n");
+		else if (!strcmp(results[i], "<"))
+			printf("TOKEN_OUT\n");
+		else if (!strcmp(results[i], ">>"))
+			printf("TOKEN_APPEND\n");
+		else if (!strcmp(results[i], "<<"))
+			printf("TOKEN_HEREDOC\n");
+		else
+			printf ("TOKEN_WORD\n");
+		i++;
+	}
+	return (0);
+}
 
 char	*parse_command(char *cmd)
 {
@@ -28,15 +33,8 @@ char	*parse_command(char *cmd)
 	if (!cmd)
 		return NULL;
 	results = ft_split(cmd, ' ');
-	while (results[i])
-		i++;
-	if (i == 1)
-		return (results[0]);
-	if (i > 1)
-	{
-		return ("FALTA ISTO");
-	}
-	return NULL;
+	class_tokens(results);
+	return (results[0]);
 }
 
 int	class_command(char *cmd)

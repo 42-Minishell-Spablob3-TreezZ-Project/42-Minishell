@@ -35,10 +35,6 @@ void	start_shell(void)
 
 //enum { MAXC = 128 };
 
-/* void	write_history(int) */
-/* { */
-/* 	add_history */
-/* } */
 
 /* int main (void){ */
 
