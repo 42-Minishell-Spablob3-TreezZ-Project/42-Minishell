@@ -24,6 +24,7 @@ extern volatile sig_atomic_t g_sigint;
 
 # include "shell.h"
 # include "parsing.h"
+# include "tokenization.h"
 
 //Defines
 

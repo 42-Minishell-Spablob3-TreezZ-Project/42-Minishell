@@ -1,5 +1,17 @@
 #include "../includes/minishell.h"
 
+t_tokens	*init_list(t_tokens *tokens)
+{
+	tokens = malloc(sizeof(t_tokens));
+	if (!tokens)
+		return NULL;
+	tokens->input = NULL;
+	tokens->type = 0;
+	tokens->next = NULL;
+	tokens->prev = NULL;
+	return (tokens);
+}
+
 int class_tokens(char **results)
 {
 	int	i;
@@ -26,14 +38,19 @@ int class_tokens(char **results)
 
 char	*parse_command(char *cmd)
 {
-	int		i;
-	char	**results;
+	int			i;
+	char		**results;
+	t_tokens	*tokens;
 
 	i = 0;
+	tokens = NULL;
 	if (!cmd)
 		return NULL;
+	tokens = init_list(tokens);
+	ft_printf("%s\n", tokens->input);
 	results = ft_split(cmd, ' ');
 	class_tokens(results);
+
 	return (results[0]);
 }
 
