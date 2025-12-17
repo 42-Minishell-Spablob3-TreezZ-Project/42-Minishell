@@ -4,7 +4,7 @@ int main(void)
 {
 	handle_signals();
 	start_shell();
-	return (0);
+	exit (0);
 }
 
 /* int	main(int argc, char **argv) */

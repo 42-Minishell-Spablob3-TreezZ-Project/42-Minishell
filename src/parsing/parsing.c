@@ -19,15 +19,15 @@ int class_tokens(char **results)
 	i = 0;
 	while (results[i])
 	{
-		if (!strcmp(results[i], "|"))
+		if (!ft_strncmp(results[i], "|", INT_MAX))
 			printf("TOKEN_PIPE\n");
-		else if (!strcmp(results[i], ">"))
+		else if (!ft_strncmp(results[i], ">", INT_MAX))
 			printf("TOKEN_IN\n");
-		else if (!strcmp(results[i], "<"))
+		else if (!ft_strncmp(results[i], "<", INT_MAX))
 			printf("TOKEN_OUT\n");
-		else if (!strcmp(results[i], ">>"))
+		else if (!ft_strncmp(results[i], ">>", INT_MAX))
 			printf("TOKEN_APPEND\n");
-		else if (!strcmp(results[i], "<<"))
+		else if (!ft_strncmp(results[i], "<<", INT_MAX))
 			printf("TOKEN_HEREDOC\n");
 		else
 			printf ("TOKEN_WORD\n");
