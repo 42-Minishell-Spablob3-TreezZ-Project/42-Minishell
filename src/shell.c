@@ -1,13 +1,45 @@
 #include "includes/minishell.h"
 
-volatile sig_atomic_t g_sigint = 0;
+volatile sig_atomic_t	g_sigint = 0;
+
+char	*get_prompt_host(char *prompt)
+{
+	int		i;
+	char	*host;
+
+	i = 0;
+	while (prompt[i] != '.')
+		i++;
+	host = malloc(i * sizeof(char *));
+	i = 0;
+	while (prompt[i] != '.')
+	{
+		host[i] = prompt[i];
+		i++;
+	}
+	prompt = ft_strjoin(getenv("USER"), \
+ft_strjoin("@", ft_strjoin(host, ">$ ")));
+	free(host);
+	return (prompt);
+}
 
 char	*create_prompt(void)
 {
 	char	*prompt;
+	char	buf[256];
+	int		fd;
 
-	prompt = "@minisheila>$ ";
-	prompt = ft_strjoin(getenv("USER"), prompt);
+	fd = open("/etc/hostname", O_RDONLY);
+	read(fd, buf, 256);
+	prompt = buf;
+	if (prompt[0] == 'c')
+	{
+		prompt = get_prompt_host(prompt);
+	}
+	else
+		prompt = ft_strjoin(getenv("USER"), \
+ft_strjoin("@", ft_strjoin(prompt, ">$ ")));
+	close(fd);
 	return (prompt);
 }
 
@@ -34,7 +66,6 @@ void	start_shell(void)
 }
 
 //enum { MAXC = 128 };
-
 
 /* int main (void){ */
 
