@@ -1,18 +1,24 @@
 #include "../includes/minishell.h"
 
-t_tokens	*init_list(t_tokens *tokens)
+void	start_lexer(t_tokens **tokens, char *cmd)
 {
-	tokens = malloc(sizeof(t_tokens));
-	if (!tokens)
-		return NULL;
-	tokens->input = NULL;
-	tokens->type = 0;
-	tokens->next = NULL;
-	tokens->prev = NULL;
-	return (tokens);
+	int			i;
+	t_tokens	*new;
+
+	i = 0;
+	new = NULL;
+	while (cmd[i])
+	{
+		if (cmd[i] == 32 || (cmd[i] >= 9 && cmd[i] <= 13))
+			i++;
+		is_operator(cmd[i]);
+			tokenize_operator(cmd, new, &i);
+		else
+			tokenize_word(cmd, new, &i);
+	}
 }
 
-int class_tokens(char **results)
+int is_operator(char **results)
 {
 	int	i;
 
@@ -22,9 +28,9 @@ int class_tokens(char **results)
 		if (!ft_strncmp(results[i], "|", INT_MAX))
 			printf("TOKEN_PIPE\n");
 		else if (!ft_strncmp(results[i], ">", INT_MAX))
-			printf("TOKEN_IN\n");
-		else if (!ft_strncmp(results[i], "<", INT_MAX))
 			printf("TOKEN_OUT\n");
+		else if (!ft_strncmp(results[i], "<", INT_MAX))
+			printf("TOKEN_IN\n");
 		else if (!ft_strncmp(results[i], ">>", INT_MAX))
 			printf("TOKEN_APPEND\n");
 		else if (!ft_strncmp(results[i], "<<", INT_MAX))
@@ -39,17 +45,16 @@ int class_tokens(char **results)
 char	*parse_command(char *cmd)
 {
 	int			i;
-	char		**results;
 	t_tokens	*tokens;
 
 	i = 0;
 	tokens = NULL;
 	if (!cmd)
 		return NULL;
-	tokens = init_list(tokens);
-	ft_printf("%s\n", tokens->input);
-	results = ft_split(cmd, ' ');
-	class_tokens(results);
+	//Initialize token struct with all values to NULL
+	tokens = ft_calloc(1, sizeof(tokens));
+	start_lexer(&tokens, cmd);
+	is_operator(results);
 
 	return (results[0]);
 }
