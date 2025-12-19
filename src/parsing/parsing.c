@@ -18,6 +18,21 @@
 /* 	} */
 /* } */
 
+void	add_token(t_tokens **tokens, t_tokens *new)
+{
+	t_tokens	*temp;
+
+	if (!(*tokens))
+	{
+		*tokens = new;
+		return ;
+	}
+	temp = *tokens;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
+}
+
 void	start_lexer(t_tokens **tokens, char *cmd)
 {
 	int			i;
@@ -48,7 +63,7 @@ char	*parse_command(char *cmd)
 		return NULL;
 	//Initialize token struct with all values to NULL
 	tokens = ft_calloc(1, sizeof(tokens));
-//	start_lexer(&tokens, cmd);
+	start_lexer(&tokens, cmd);
 	return (tokens->input);
 }
 
