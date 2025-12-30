@@ -15,7 +15,7 @@ int 		is_operator(char c);
 int 		is_quote(char c);
 int			which_token(char *cmd, int *i);
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i);
-t_tokens	*tokenize_operator(char *cmd, t_tokens *new, int *i);
+void		tokenize_operator(char *cmd, t_tokens *new, int *i);
 void		check_quotes(char *cmd, int *i);
 
 #endif

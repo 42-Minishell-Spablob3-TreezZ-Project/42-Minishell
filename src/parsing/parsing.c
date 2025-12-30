@@ -36,15 +36,17 @@ void	add_token(t_tokens **tokens, t_tokens *new)
 void	start_lexer(t_tokens **tokens, char *cmd)
 {
 	int			i;
-	int			which;
 	t_tokens	*new;
 
 	i = 0;
-	new = NULL;
 	while (cmd[i])
 	{
-		which = which_token(cmd, &i);
-		if (!which)
+		while (cmd[i] && is_space(cmd[i]))
+			i++;
+		if (!cmd[i])
+			break ;
+		new = ft_calloc(1, sizeof(t_tokens));
+		if (is_operator(cmd[i]))
 			tokenize_operator(cmd, new, &i);
 		else
 			tokenize_word(cmd, new, &i);
@@ -52,31 +54,28 @@ void	start_lexer(t_tokens **tokens, char *cmd)
 	}
 }
 
+//ALTERAR FUNCAO PARA START LEXER
 char	*parse_command(char *cmd)
 {
-	int			i;
 	t_tokens	*tokens;
 
-	i = 0;
 	tokens = NULL;
 	if (!cmd)
 		return NULL;
-	//Initialize token struct with all values to NULL
-	tokens = ft_calloc(1, sizeof(tokens));
 	start_lexer(&tokens, cmd);
-	return (tokens->input);
+	return (tokens->input); //Apenas retorna primeiro node (não precisamo de retornar)
 }
 
 int	class_command(char *cmd)
 {
 	char	*parsed;
 
-	parsed = parse_command(cmd);
+	parsed = parse_command(cmd); //Chamar futura start lexer
 	if (!parsed)
 		return (0);
 	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
 		return (0);
-//If invalid command
+	//If invalid command
 	else if (parsed)
 	{
 		ft_printf("%s: command not found\n", parsed);

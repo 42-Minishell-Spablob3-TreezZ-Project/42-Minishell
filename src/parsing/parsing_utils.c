@@ -1,33 +1,54 @@
 #include "../includes/minishell.h"
 
-t_tokens	*tokenize_operator(char *cmd, t_tokens *new, int *i)
+//Precisa de ser refatorada
+void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 {
+	int	start;
+
+	start = *i;
 	if (cmd[*i] == '|')
+	{
 		new->type = TOKEN_PIPE;
-	if (cmd[*i] == '<')
+		(*i)++;
+	}
+	else if (cmd[*i] == '<')
 	{
 		if (cmd[*i + 1] == '<')
+		{
 			new->type = TOKEN_HERE_DOC;
+			(*i) += 2;
+		}
 		else
+		{
 			new->type = TOKEN_REDIR_IN;
+			(*i)++;
+		}
 	}
-	if (cmd[*i] == '>')
+	else if (cmd[*i] == '>')
 	{
 		if (cmd[*i + 1] == '>')
+		{
 			new->type = TOKEN_APPEND;
+			(*i) += 2;
+		}
 		else
+		{
 			new->type = TOKEN_REDIR_OUT;
+			(*i)++;
+		}
 	}
-	new->input = cmd;
-	return (new);
+	new->input = ft_substr(cmd, start, *i - start);
 }
 
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 {
+	int start;
+
+	start = *i;
 	new->type = TOKEN_WORD;
 	while (cmd[*i] && !is_space(cmd[*i]) && !is_operator(cmd[*i]))
 		check_quotes(cmd, i);
-	new->input = cmd;
+	new->input = ft_substr(cmd, start, *i - start);
 	return (new);
 }
 
