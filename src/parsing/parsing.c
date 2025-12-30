@@ -18,19 +18,22 @@
 /* 	} */
 /* } */
 
+// Ponteiro para o previous node 
 void	add_token(t_tokens **tokens, t_tokens *new)
 {
-	t_tokens	*temp;
+	t_tokens	*last;
 
 	if (!(*tokens))
 	{
 		*tokens = new;
+		new->prev = NULL;
 		return ;
 	}
-	temp = *tokens;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
+	last = *tokens;
+	while (last->next)
+		last = last->next;
+	last->next = new;
+	new->prev = last;
 }
 
 void	start_lexer(t_tokens **tokens, char *cmd)
@@ -70,7 +73,7 @@ int	class_command(char *cmd)
 {
 	char	*parsed;
 
-	parsed = parse_command(cmd); //Chamar futura start lexer
+	parsed = parse_command(cmd); //Chamar start lexer
 	if (!parsed)
 		return (0);
 	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
