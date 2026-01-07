@@ -66,6 +66,7 @@ char	*parse_command(char *cmd)
 	if (!cmd)
 		return NULL;
 	start_lexer(&tokens, cmd);
+	expand_tokens(tokens);
 	return (tokens->input); //Apenas retorna primeiro node (não precisamo de retornar)
 }
 

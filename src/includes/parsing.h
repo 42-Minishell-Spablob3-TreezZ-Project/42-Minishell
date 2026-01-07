@@ -18,4 +18,13 @@ t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i);
 void		tokenize_operator(char *cmd, t_tokens *new, int *i);
 void		check_quotes(char *cmd, int *i);
 
+//Expander (talvez criar um header proprio)
+void	expand_tokens(t_tokens *tokens);
+char	*expand_word(char *str);
+char	*expand_variable(char **str);
+char	*ft_append(char *dest, char c);
+void	handle_single_quotes(char **str, char **result);
+void	handle_double_quotes(char **str, char **result);
+void	handle_dollar(char **str, char **result);
+
 #endif
