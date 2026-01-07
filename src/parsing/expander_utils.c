@@ -8,6 +8,8 @@ void	handle_single_quotes(char **str, char **result)
 		*result = ft_append(*result, **str); // percorro carateres e faço append.
 		(*str)++;
 	}
+	/* if (**str != '\'')
+		return ; // no caso da string nao tiver sido fechada com aspas. Ex: '$USER */
 	if (**str == '\'') // salto ultimas aspas.
 		(*str)++;
 }
@@ -18,15 +20,17 @@ void	handle_double_quotes(char **str, char **result)
 	{
 		if (**str == '$')
 			handle_dollar(str, result);
-		else
+		else 
+		{
 			*result = ft_append(*result, **str);
-		(*str)++;
+			(*str)++;
+		}
 	}
 }
 
 void	handle_dollar(char **str, char **result)
 {
-	char *expanded;
+	char	*expanded;
 
 	expanded = expand_variable(str);
 	if (expanded)

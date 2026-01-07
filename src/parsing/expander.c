@@ -36,12 +36,12 @@ char	*ft_append(char *dest, char c)
 	int	i;
 	
 	if (!dest)
-	len = 0;
+		len = 0;
 	else
-	len = ft_strlen(dest);
+		len = ft_strlen(dest);
 	new = malloc(len + 2);
 	if (!new)
-	return NULL;
+		return NULL;
 	i = 0;
 	if (dest)
 	{
