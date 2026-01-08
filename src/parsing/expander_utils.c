@@ -8,8 +8,12 @@ void	handle_single_quotes(char **str, char **result)
 		*result = ft_append(*result, **str); // percorro carateres e faço append.
 		(*str)++;
 	}
-	/* if (**str != '\'')
-		return ; // no caso da string nao tiver sido fechada com aspas. Ex: '$USER */
+	if (**str != '\'')
+	{
+		printf("Error: unclosed quotes detected.\n");
+		return ;
+	}
+// no caso da string nao tiver sido fechada com aspas. Ex: '$USER
 	if (**str == '\'') // salto ultimas aspas.
 		(*str)++;
 }
@@ -25,6 +29,11 @@ void	handle_double_quotes(char **str, char **result)
 			*result = ft_append(*result, **str);
 			(*str)++;
 		}
+	}
+	if (**str != '"')
+	{
+		printf("Error: unclosed quotes detected.\n");
+		return ;
 	}
 }
 
