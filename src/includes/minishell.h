@@ -2,7 +2,6 @@
 # define MINISHELL_H
 
 //Standard Libraries
-
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -12,6 +11,10 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <signal.h>
+
+// variavel global para os sinais
+extern volatile sig_atomic_t g_sigint;
 
 //Libft
 
@@ -21,6 +24,7 @@
 
 # include "shell.h"
 # include "parsing.h"
+# include "tokenization.h"
 
 //Defines
 

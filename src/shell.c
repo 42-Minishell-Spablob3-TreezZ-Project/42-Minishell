@@ -1,5 +1,7 @@
 #include "includes/minishell.h"
 
+volatile sig_atomic_t g_sigint = 0;
+
 char	*create_prompt(void)
 {
 	char	*prompt;
@@ -22,6 +24,7 @@ void	start_shell(void)
 		if (!class_command(command))
 		{
 			free (command);
+			printf("exit\n");
 			break ;
 		}
 		add_history(command);
@@ -32,10 +35,6 @@ void	start_shell(void)
 
 //enum { MAXC = 128 };
 
-/* void	write_history(int) */
-/* { */
-/* 	add_history */
-/* } */
 
 /* int main (void){ */
 
