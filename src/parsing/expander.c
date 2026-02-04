@@ -21,7 +21,11 @@ char *expand_word(char *str)
 		else if (*str == '"')
 			handle_double_quotes(&str, &result);
 		else if (*str == '$')
+		{
 			handle_dollar(&str, &result);
+			if (*str == '\'' || *str == '$' || *str == '"')
+				continue;
+		}
 		else
 			result = ft_append(result, *str); //concatenar carateres para formar string final.
 		str++;
@@ -72,6 +76,8 @@ char	*expand_variable(char **str)
 	while (**str && (ft_isalnum(**str) || **str == '_'))
 		(*str)++;
 	len = *str - start;
+	/* if (**str == '$')
+		(*str)--; */
 	var_name = ft_substr(start, 0, len);
 	env_var = getenv(var_name);
 	free(var_name);
