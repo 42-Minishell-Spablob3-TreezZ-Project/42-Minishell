@@ -27,4 +27,8 @@ void	handle_single_quotes(char **str, char **result);
 void	handle_double_quotes(char **str, char **result);
 void	handle_dollar(char **str, char **result);
 
+//Command Parsing
+t_command	*new_command(void);
+void		add_arg(t_command *cmd, char *word);
+t_command	*parse_cmd(t_tokens *tokens);
 #endif
