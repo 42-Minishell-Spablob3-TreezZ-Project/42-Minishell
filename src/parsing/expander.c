@@ -23,12 +23,12 @@ char *expand_word(char *str)
 		else if (*str == '$')
 		{
 			handle_dollar(&str, &result);
-			if (*str == '\'' || *str == '$' || *str == '"')
-				continue;
+			//if (*str == '\'' || *str == '$' || *str == '"')
+				//continue;
 		}
 		else
 			result = ft_append(result, *str); //concatenar carateres para formar string final.
-		str++;
+		//str++;
 	}
 	return (result);
 }

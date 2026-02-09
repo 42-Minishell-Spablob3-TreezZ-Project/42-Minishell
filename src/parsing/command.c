@@ -33,6 +33,7 @@ void add_arg(t_command *cmd, char *word)
 	free(cmd->argv);
 	cmd->argv = new_argv; 
 }
+
 t_command *parse_cmd(t_tokens *tokens)
 {
 	t_command *cmd;
@@ -50,12 +51,7 @@ t_command *parse_cmd(t_tokens *tokens)
 			cmd = cmd->next;
 		}
 		else if (tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_APPEND)
-		{
-			tokens = tokens->next;
-			cmd->outfile = ft_strdup(tokens->input);
-			if (tokens->prev->type == TOKEN_APPEND)
-				cmd->append = 1;
-		}
+			redir_in(tokens, cmd);
 		else if (tokens->type == TOKEN_REDIR_IN)
 		{
 			tokens = tokens->next;
@@ -64,4 +60,12 @@ t_command *parse_cmd(t_tokens *tokens)
 		tokens = tokens->next;
 	}
 	return (head);
+}
+
+void redir_in(t_tokens *tokens, t_command *cmd)
+{
+	tokens = tokens->next;
+	cmd->outfile = ft_strdup(tokens->input);
+	if (tokens->prev->type == TOKEN_APPEND)
+		cmd->append = 1;
 }
