@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-//Precisa de ser refatorada
 void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 {
 	int	start;
@@ -42,7 +41,7 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 {
-	int start;
+	int	start;
 
 	start = *i;
 	new->type = TOKEN_WORD;
@@ -55,7 +54,7 @@ t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 void	check_quotes(char *cmd, int *i)
 {
 	char	quote;
-	
+
 	if (is_quote(cmd[*i]))
 	{
 		quote = cmd[*i];
@@ -86,23 +85,12 @@ int	is_space(char c)
 	return (c == 32 || (c >= 9 && c <= 13));
 }
 
-int is_operator(char c)
+int	is_operator(char c)
 {
-    return (c == '|' || c == '>' || c == '<');
+	return (c == '|' || c == '>' || c == '<');
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
-    return (c == '"' || c == '\'');
+	return (c == '"' || c == '\'');
 }
-
-/* #include <stdio.h> */
-
-/* int	main(void) */
-/* { */
-/* 	char	*str = "hello > yo"; */
-/* 	int	i = 0; */
-/* 	while (str[i]) */
-/* 		printf("%i\n", which_token(str, &i)); */
-/* 	return (0); */
-/* } */

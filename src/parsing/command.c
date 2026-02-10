@@ -1,21 +1,21 @@
 #include "../includes/minishell.h"
 
-t_command *new_command(void)
+t_command	*new_command(void)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_command));
-	return (cmd); 
+	return (cmd);
 }
 
-void add_arg(t_command *cmd, char *word)
+void	add_arg(t_command *cmd, char *word)
 {
 	char	**new_argv;
 	int		i;
 	int		j;
 
 	i = 0;
-	while(cmd->argv && cmd->argv[i])
+	while (cmd->argv && cmd->argv[i])
 		i++;
 	new_argv = malloc((i + 2) * sizeof(char *));
 	if (!new_argv)
@@ -27,19 +27,19 @@ void add_arg(t_command *cmd, char *word)
 		j++;
 	}
 	new_argv[i] = ft_strdup(word);
-	new_argv[i + 1] = NULL; 
+	new_argv[i + 1] = NULL;
 	free(cmd->argv);
-	cmd->argv = new_argv; 
+	cmd->argv = new_argv;
 }
 
-t_command *parse_cmd(t_tokens *tokens)
+t_command	*parse_cmd(t_tokens *tokens)
 {
-	t_command *cmd;
-	t_command *head;
+	t_command	*cmd;
+	t_command	*head;
 
 	head = new_command();
 	cmd = head;
-	while(tokens)
+	while (tokens)
 	{
 		if (tokens->type == TOKEN_WORD)
 			add_arg(cmd, tokens->input);
@@ -57,7 +57,7 @@ t_command *parse_cmd(t_tokens *tokens)
 	return (head);
 }
 
-void redir_out(t_tokens *tokens, t_command *cmd)
+void	redir_out(t_tokens *tokens, t_command *cmd)
 {
 	tokens = tokens->next;
 	cmd->outfile = ft_strdup(tokens->input);
@@ -65,7 +65,7 @@ void redir_out(t_tokens *tokens, t_command *cmd)
 		cmd->append = 1;
 }
 
-void redir_in_and_heredoc(t_tokens *tokens, t_command *cmd)
+void	redir_in_and_heredoc(t_tokens *tokens, t_command *cmd)
 {
 	tokens = tokens->next;
 	if (tokens->type == TOKEN_REDIRIN)

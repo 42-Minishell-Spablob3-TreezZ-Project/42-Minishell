@@ -45,9 +45,10 @@ char	*parse_command(char *cmd)
 {
 	t_tokens	*tokens;
 	char		*result;
+
 	tokens = NULL;
 	if (!cmd)
-		return NULL;
+		return (NULL);
 	start_lexer(&tokens, cmd);
 	expand_tokens(tokens);
 	parse_cmd(tokens);
@@ -77,9 +78,10 @@ int	class_command(char *cmd)
 	}
 	return (1);
 }
-void free_tokens(t_tokens *tokens)
+
+void	free_tokens(t_tokens *tokens)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	while (tokens)
 	{

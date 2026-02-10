@@ -2,10 +2,10 @@
 
 void	handle_single_quotes(char **str, char **result)
 {
-	(*str)++; // salto primeras aspas.
+	(*str)++;
 	while (**str && **str != '\'')
 	{
-		*result = ft_append(*result, **str); // percorro carateres e faço append.
+		*result = ft_append(*result, **str);
 		(*str)++;
 	}
 	if (**str != '\'')
@@ -13,9 +13,10 @@ void	handle_single_quotes(char **str, char **result)
 		printf("Error: unclosed quotes detected.\033[0m\n");
 		return ;
 	}
-	if (**str == '\'') // salto ultimas aspas.
+	if (**str == '\'')
 		(*str)++;
 }
+
 void	handle_double_quotes(char **str, char **result)
 {
 	(*str)++;
@@ -23,7 +24,7 @@ void	handle_double_quotes(char **str, char **result)
 	{
 		if (**str == '$')
 			handle_dollar(str, result);
-		else 
+		else
 		{
 			*result = ft_append(*result, **str);
 			(*str)++;

@@ -1,6 +1,6 @@
 #include "includes/minishell.h"
 
-volatile sig_atomic_t g_sigint = 0;
+volatile sig_atomic_t	g_sigint = 0;
 
 char	*create_prompt(void)
 {
@@ -32,29 +32,3 @@ void	start_shell(void)
 	}
 	free (prompt);
 }
-
-//enum { MAXC = 128 };
-
-
-/* int main (void){ */
-
-/*     char ps[MAXC] = "", */
-/*         *p = getenv("USER"), */
-/*         *host = getenv("HOSTNAME"), */
-/*         *s = NULL; */
-/*     int count = 1; */
-/*     sprintf(ps, "%d %s@%s> ", count, p, host); */
-/* //	CHECK WHAT THIS DOES PROPERLY */
-/*     using_history();    /\* initialize history *\/ */
-
-/*     while ((s = readline(ps))) { */
-/*         if (strcmp (s, "quit") == 0) { */
-/*             free (s); */
-/*             break; */
-/*         } */
-/*         add_history (s); */
-/*         free (s); */
-/*         count++; */
-/*         sprintf (ps, "%d %s@%s> ", count, p, host); */
-/*     } */
-/* } */

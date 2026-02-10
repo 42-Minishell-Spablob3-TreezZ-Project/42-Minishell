@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
-void expand_tokens(t_tokens *tokens)
+void	expand_tokens(t_tokens *tokens)
 {
 	char	*tmp;
-	
+
 	while (tokens)
 	{
 		if (tokens->type == TOKEN_WORD)
@@ -16,9 +16,10 @@ void expand_tokens(t_tokens *tokens)
 	}
 }
 
-char *expand_word(char *str)
+char	*expand_word(char *str)
 {
-	char *result;
+	char	*result;
+
 	result = NULL;
 	while (*str)
 	{
@@ -30,7 +31,7 @@ char *expand_word(char *str)
 			handle_dollar(&str, &result);
 		else
 		{
-			result = ft_append(result, *str); //concatenar carateres para formar string final.
+			result = ft_append(result, *str);
 			str++;
 		}
 	}
@@ -39,17 +40,17 @@ char *expand_word(char *str)
 
 char	*ft_append(char *dest, char c)
 {
-	int	len;
+	int		len;
 	char	*new;
-	int	i;
-	
+	int		i;
+
 	if (!dest)
 		len = 0;
 	else
 		len = ft_strlen(dest);
 	new = malloc(len + 2);
 	if (!new)
-		return NULL;
+		return (NULL);
 	i = 0;
 	if (dest)
 	{
@@ -67,9 +68,6 @@ char	*ft_append(char *dest, char c)
 
 char	*expand_variable(char **str)
 {
-/* 	*str++;
-	if (*str == '?')
-		return(ft_itoa(g_exit_status)); */
 	char	*start;
 	int		len;
 	char	*var_name;
@@ -84,6 +82,6 @@ char	*expand_variable(char **str)
 	env_var = getenv(var_name);
 	free(var_name);
 	if (!env_var)
-		return NULL;
+		return (NULL);
 	return (ft_strdup(env_var));
 }

@@ -12,7 +12,6 @@ void	sighandler(int sig, siginfo_t *info, void *context)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-
 }
 
 int	handle_signals(void)
@@ -22,9 +21,7 @@ int	handle_signals(void)
 	s_sa.sa_sigaction = sighandler;
 	s_sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&s_sa.sa_mask);
-
 	sigaction(SIGINT, &s_sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-
 	return (0);
 }
