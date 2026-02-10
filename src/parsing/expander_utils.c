@@ -2,9 +2,6 @@
 
 void	handle_single_quotes(char **str, char **result)
 {
-	// se carater anterior for duplas aspas seguido de aspas singulares e $. tenho que tratar $
-	/* if (*(*str - 1) == '"')
-		handle_double_quotes(str, result); */
 	(*str)++; // salto primeras aspas.
 	while (**str && **str != '\'')
 	{
@@ -16,9 +13,8 @@ void	handle_single_quotes(char **str, char **result)
 		printf("Error: unclosed quotes detected.\033[0m\n");
 		return ;
 	}
-// no caso da string nao tiver sido fechada com aspas. Ex: '$USER
-	/* if (**str == '\'') // salto ultimas aspas.
-		(*str)++; */
+	if (**str == '\'') // salto ultimas aspas.
+		(*str)++;
 }
 void	handle_double_quotes(char **str, char **result)
 {
@@ -38,6 +34,8 @@ void	handle_double_quotes(char **str, char **result)
 		printf("Error: unclosed quotes detected.\033[0m\n");
 		return ;
 	}
+	if (**str == '"')
+		(*str)++;
 }
 
 void	handle_dollar(char **str, char **result)

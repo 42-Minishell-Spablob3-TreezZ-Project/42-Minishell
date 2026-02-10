@@ -31,7 +31,9 @@ void	handle_dollar(char **str, char **result);
 t_command	*new_command(void);
 void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
-void		redir_in(t_tokens *tokens, t_command *cmd);
-void free_new(t_tokens *new);
+void		redir_out(t_tokens *tokens, t_command *cmd);
+void		redir_in_and_heredoc(t_tokens *tokens, t_command *cmd);
+void		free_new(t_tokens *new);
+void		free_tokens(t_tokens *tokens);
 //void		free_cmd(t_command *cmd);
 #endif

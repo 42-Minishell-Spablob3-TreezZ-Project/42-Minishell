@@ -3,13 +3,11 @@
 t_command *new_command(void)
 {
 	t_command *cmd;
-	
-	//setar struct command a 0.
+
 	cmd = ft_calloc(1, sizeof(t_command));
 	return (cmd); 
 }
 
-//adicionar words do type WORD (realloc dinamico)
 void add_arg(t_command *cmd, char *word)
 {
 	char	**new_argv;
@@ -17,7 +15,7 @@ void add_arg(t_command *cmd, char *word)
 	int		j;
 
 	i = 0;
-	while(cmd->argv && cmd->argv[i]) // ["echo"; "hi" ; "joao"];
+	while(cmd->argv && cmd->argv[i])
 		i++;
 	new_argv = malloc((i + 2) * sizeof(char *));
 	if (!new_argv)
@@ -28,7 +26,7 @@ void add_arg(t_command *cmd, char *word)
 		new_argv[j] = cmd->argv[j];
 		j++;
 	}
-	new_argv[i] = ft_strdup(word); //adiciona nova WORD
+	new_argv[i] = ft_strdup(word);
 	new_argv[i + 1] = NULL; 
 	free(cmd->argv);
 	cmd->argv = new_argv; 
@@ -50,22 +48,28 @@ t_command *parse_cmd(t_tokens *tokens)
 			cmd->next = new_command();
 			cmd = cmd->next;
 		}
-		else if (tokens->type == TOKEN_REDIR_OUT || tokens->type == TOKEN_APPEND)
-			redir_in(tokens, cmd);
-		else if (tokens->type == TOKEN_REDIR_IN)
-		{
-			tokens = tokens->next;
-			cmd->infile = ft_strdup(tokens->input);
-		}
+		else if (tokens->type == TOKEN_REDIROUT || tokens->type == TOKEN_APPEND)
+			redir_out(tokens, cmd);
+		else if (tokens->type == TOKEN_REDIRIN || tokens->type == TOKEN_HEREDOC)
+			redir_in_and_heredoc(tokens, cmd);
 		tokens = tokens->next;
 	}
 	return (head);
 }
 
-void redir_in(t_tokens *tokens, t_command *cmd)
+void redir_out(t_tokens *tokens, t_command *cmd)
 {
 	tokens = tokens->next;
 	cmd->outfile = ft_strdup(tokens->input);
 	if (tokens->prev->type == TOKEN_APPEND)
 		cmd->append = 1;
+}
+
+void redir_in_and_heredoc(t_tokens *tokens, t_command *cmd)
+{
+	tokens = tokens->next;
+	if (tokens->type == TOKEN_REDIRIN)
+		cmd->infile = ft_strdup(tokens->input);
+	else
+		cmd->heredoc_delimiter = ft_strdup(tokens->input);
 }

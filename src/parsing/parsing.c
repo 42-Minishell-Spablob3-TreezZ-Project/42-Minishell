@@ -1,28 +1,11 @@
 #include "../includes/minishell.h"
 
-/* void	start_lexer(t_tokens **tokens, char *cmd) */
-/* { */
-/* 	int			i; */
-/* 	t_tokens	*new; */
-
-/* 	i = 0; */
-/* 	new = NULL; */
-/* 	while (cmd[i]) */
-/* 	{ */
-/* 		if (cmd[i] == 32 || (cmd[i] >= 9 && cmd[i] <= 13)) */
-/* 			i++; */
-/* 		is_operator(cmd[i]); */
-/* 			tokenize_operator(cmd, new, &i); */
-/* 		else */
-/* 			tokenize_word(cmd, new, &i); */
-/* 	} */
-/* } */
-
 // Ponteiro para o previous node 
 void	add_token(t_tokens **tokens, t_tokens *new)
 {
 	t_tokens	*last;
 
+	new->next = NULL;
 	if (!(*tokens))
 	{
 		*tokens = new;
@@ -61,14 +44,16 @@ void	start_lexer(t_tokens **tokens, char *cmd)
 char	*parse_command(char *cmd)
 {
 	t_tokens	*tokens;
-
+	char		*result;
 	tokens = NULL;
 	if (!cmd)
 		return NULL;
 	start_lexer(&tokens, cmd);
 	expand_tokens(tokens);
 	parse_cmd(tokens);
-	return (tokens->input); //Apenas retorna primeiro node (não precisamo de retornar)
+	result = ft_strdup(tokens->input);
+	free_tokens(tokens);
+	return (result); //Apenas retorna primeiro node (não precisamo de retornar)
 }
 
 int	class_command(char *cmd)
@@ -79,12 +64,28 @@ int	class_command(char *cmd)
 	if (!parsed)
 		return (0);
 	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
+	{
+		free(parsed);
 		return (0);
+	}
 	//If invalid command
 	else if (parsed)
 	{
 		ft_printf("%s: command not found\n", parsed);
+		free(parsed);
 		return (1);
 	}
 	return (1);
+}
+void free_tokens(t_tokens *tokens)
+{
+	t_tokens *tmp;
+
+	while (tokens)
+	{
+		tmp = tokens->next;
+		free(tokens->input);
+		free(tokens);
+		tokens = tmp;
+	}
 }

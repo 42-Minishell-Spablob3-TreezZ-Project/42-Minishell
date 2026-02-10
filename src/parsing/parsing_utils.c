@@ -15,12 +15,12 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 	{
 		if (cmd[*i + 1] == '<')
 		{
-			new->type = TOKEN_HERE_DOC;
+			new->type = TOKEN_HEREDOC;
 			(*i) += 2;
 		}
 		else
 		{
-			new->type = TOKEN_REDIR_IN;
+			new->type = TOKEN_REDIRIN;
 			(*i)++;
 		}
 	}
@@ -33,7 +33,7 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 		}
 		else
 		{
-			new->type = TOKEN_REDIR_OUT;
+			new->type = TOKEN_REDIROUT;
 			(*i)++;
 		}
 	}
