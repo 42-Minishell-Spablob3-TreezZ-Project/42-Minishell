@@ -52,9 +52,14 @@ char	*parse_command(char *cmd)
 	start_lexer(&tokens, cmd);
 	expand_tokens(tokens);
 	parse_cmd(tokens);
-	result = ft_strdup(tokens->input);
-	free_tokens(tokens);
-	return (result); //Apenas retorna primeiro node (não precisamo de retornar)
+	if (tokens->input)
+	{
+		result = ft_strdup(tokens->input);
+		free_tokens(tokens);
+		return (result);
+	}
+	free(tokens);
+	return (0); //Apenas retorna primeiro node (não precisamo de retornar)
 }
 
 int	class_command(char *cmd)
