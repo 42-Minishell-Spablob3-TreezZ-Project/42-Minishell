@@ -18,8 +18,6 @@ void execute_command(t_command *cmd, char **envp)
 			execute_redir_out(cmd);
 		if (cmd->infile)
 			execute_redir_in(cmd);
-		if (cmd->next)
-			execute_pipe(cmd);
 		execve(path, cmd->argv, envp);
 		perror("Minishell");
 		exit(1);
