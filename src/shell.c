@@ -11,7 +11,7 @@ char	*create_prompt(void)
 	return (prompt);
 }
 
-void	start_shell(void)
+void	start_shell(char **envp)
 {
 	char	*command;
 	char	*prompt;
@@ -21,7 +21,7 @@ void	start_shell(void)
 	while (1)
 	{
 		command = readline(prompt);
-		if (!class_command(command))
+		if (!class_command(command, envp))
 		{
 			free (command);
 			printf("exit\n");

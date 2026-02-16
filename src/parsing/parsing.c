@@ -43,6 +43,7 @@ void	start_lexer(t_tokens **tokens, char *cmd)
 //ALTERAR FUNCAO PARA START LEXER
 char	*parse_command(char *cmd)
 {
+	t_command 	*command;
 	t_tokens	*tokens;
 	char		*result;
 
@@ -51,7 +52,7 @@ char	*parse_command(char *cmd)
 		return (NULL);
 	start_lexer(&tokens, cmd);
 	expand_tokens(tokens);
-	parse_cmd(tokens);
+	command = parse_cmd(tokens);
 	if (tokens->input)
 	{
 		result = ft_strdup(tokens->input);
@@ -62,11 +63,11 @@ char	*parse_command(char *cmd)
 	return (0); //Apenas retorna primeiro node (não precisamo de retornar)
 }
 
-int	class_command(char *cmd)
+int	class_command(char *cmd, char **envp)
 {
 	char	*parsed;
 
-	parsed = parse_command(cmd); //Chamar start lexer
+	parsed = parse_command(cmd);
 	if (!parsed)
 		return (0);
 	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
@@ -74,12 +75,10 @@ int	class_command(char *cmd)
 		free(parsed);
 		return (0);
 	}
-	//If invalid command
 	else if (parsed)
 	{
-		ft_printf("%s: command not found\n", parsed);
+		execute_command(parsed, envp);
 		free(parsed);
-		return (1);
 	}
 	return (1);
 }

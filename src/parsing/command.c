@@ -51,7 +51,7 @@ t_command	*parse_cmd(t_tokens *tokens)
 		else if (tokens->type == TOKEN_REDIROUT || tokens->type == TOKEN_APPEND)
 			redir_out(&tokens, cmd);
 		else if (tokens->type == TOKEN_REDIRIN || tokens->type == TOKEN_HEREDOC)
-			redir_in_and_heredoc(tokens, cmd);
+			redir_in_and_heredoc(&tokens, cmd);
 		tokens = tokens->next;
 	}
 	return (head);
@@ -59,25 +59,23 @@ t_command	*parse_cmd(t_tokens *tokens)
 
 void	redir_out(t_tokens **tokens, t_command *cmd)
 {
-	int fd;
-
 	(*tokens) = (*tokens)->next;
 	if (cmd->outfile)
 		free(cmd->outfile);
 	cmd->outfile = ft_strdup((*tokens)->input);
-	fd = open(cmd->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644); // cria file (0_CREAT) se nao existir e escreve no fim se existir (o_APPEND);
-	close(fd);
 	if ((*tokens)->prev->type == TOKEN_APPEND)
 		cmd->append = 1;
 	else
 		cmd->append = 0;
 }
 
-void	redir_in_and_heredoc(t_tokens *tokens, t_command *cmd)
+void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 {
-	tokens = tokens->next;
-	if (tokens->type == TOKEN_REDIRIN)
-		cmd->infile = ft_strdup(tokens->input);
+	(*tokens) = (*tokens)->next;
+	if (cmd->infile)
+		free(cmd->infile);
+	if ((*tokens)->prev->type == TOKEN_REDIRIN)
+		cmd->infile = ft_strdup((*tokens)->input);
 	else
-		cmd->heredoc_delimiter = ft_strdup(tokens->input);
+		cmd->heredoc_delimiter = ft_strdup((*tokens)->input);
 }

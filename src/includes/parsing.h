@@ -4,7 +4,7 @@
 # include "tokenization.h"
 
 //Parsing
-int			class_command(char *cmd);
+int			class_command(char *cmd, char **envp);
 void		add_token(t_tokens **tokens, t_tokens *new);
 void		start_lexer(t_tokens **tokens, char *cmd);
 char		*parse_command(char *cmd);
@@ -32,8 +32,11 @@ t_command	*new_command(void);
 void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
 void		redir_out(t_tokens **tokens, t_command *cmd);
-void		redir_in_and_heredoc(t_tokens *tokens, t_command *cmd);
+void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
-//void		free_cmd(t_command *cmd);
+
+// command execution
+void	execute_command(t_command *cmd, char **envp);
+
 #endif
