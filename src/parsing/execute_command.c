@@ -6,10 +6,10 @@ void execute_command(t_command *cmd, char **envp)
 	char	*path;
 
 	pid = fork(); // divide o processo em dois (child and parent).
-	path = ft_strjoin("/bin/", cmd->argv[0]);
+	path = ft_strjoin("/bin/", cmd->argv[0]); // path tem de ser alterado caso (built-ins pedidos).
 	if (pid < 0)
 	{
-		perror("fork foi de cona!");
+		perror("fork!");
 		return;
 	}
 	if (pid == 0)
@@ -18,6 +18,8 @@ void execute_command(t_command *cmd, char **envp)
 			execute_redir_out(cmd);
 		if (cmd->infile)
 			execute_redir_in(cmd);
+		if (cmd->next)
+			execute_pipe(cmd);
 		execve(path, cmd->argv, envp);
 		perror("Minishell");
 		exit(1);
