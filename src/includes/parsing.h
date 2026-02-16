@@ -37,6 +37,8 @@ void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
 
 // command execution
-void	execute_command(t_command *cmd, char **envp);
+void	execute_command(t_command *command, char **envp);
+void	execute_redir_out(t_command *cmd);
+void	execute_redir_in(t_command *cmd);
 
 #endif

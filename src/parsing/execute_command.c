@@ -5,25 +5,68 @@ void execute_command(t_command *cmd, char **envp)
 	pid_t	pid;
 	char	*path;
 
-	pid = fork();
+	pid = fork(); // divide o processo em dois (child and parent).
 	path = ft_strjoin("/bin/", cmd->argv[0]);
 	if (pid < 0)
 	{
-		perror("fork");
+		perror("fork foi de cona!");
 		return;
 	}
 	if (pid == 0)
 	{
-		//printf("----Child Process: child process has started----\n");
+		if (cmd->outfile)
+			execute_redir_out(cmd);
+		if (cmd->infile)
+			execute_redir_in(cmd);
 		execve(path, cmd->argv, envp);
-		perror("execve");
+		perror("Minishell");
 		exit(1);
 	}
 	else
-	{
-		//printf("----Parent Process: parent process is waiting----\n");
-		waitpid(pid, NULL, 0); // espera pelo processo child terminar, NULL = no status, 0 = no flags;
-		//printf("----Child Process: child process terminated----\n");
-	}
+		waitpid(pid, NULL, 0); // parent espera que o processo filho termine a execucao.
+}
 
+void	execute_redir_out(t_command *cmd)
+{
+	int	fd;
+
+	if (cmd->outfile && cmd->append == 0)
+	{
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			perror("Error: Overwrite");
+			exit(1);
+		}
+		dup2(fd, 1); 
+		close(fd);
+	}
+	else
+	{
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+		{
+			perror("Error: append");
+			exit(1);
+		}
+		dup2(fd, 1); 
+		close(fd);
+	}
+}
+
+void	execute_redir_in(t_command *cmd)
+{
+	int fd;
+
+	if (cmd->infile)
+	{
+		fd = open(cmd->infile, O_RDONLY);
+		if (fd < 0)
+		{
+			perror("open: infile");
+			exit(1);
+		}
+		dup2(fd, 0);
+		close(fd);
+	}
 }

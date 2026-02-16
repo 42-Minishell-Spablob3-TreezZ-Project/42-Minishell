@@ -29,7 +29,7 @@ typedef struct s_command
 	int					append; // flag para o append ">>".
 	char				*heredoc_delimiter; // no caso de heredoc <<.
 	int					heredoc_fd;
-	struct s_command	*next;
+	struct s_command	*next; // no caso de pipe.
 }		t_command;
 
 #endif
