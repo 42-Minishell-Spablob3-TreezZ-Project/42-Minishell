@@ -6,8 +6,8 @@
 //Parsing
 int			class_command(char *cmd, char **envp);
 void		add_token(t_tokens **tokens, t_tokens *new);
-void		start_lexer(t_tokens **tokens, char *cmd);
-char		*parse_command(char *cmd);
+void		tokenization(t_tokens **tokens, char *cmd);
+t_command	*start_lexer(char *cmd);
 
 //Utils
 int			is_space(char c);

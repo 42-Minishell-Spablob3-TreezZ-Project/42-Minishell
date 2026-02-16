@@ -19,7 +19,7 @@ void	add_token(t_tokens **tokens, t_tokens *new)
 	new->prev = last;
 }
 
-void	start_lexer(t_tokens **tokens, char *cmd)
+void	tokenization(t_tokens **tokens, char *cmd)
 {
 	int			i;
 	t_tokens	*new;
@@ -40,46 +40,35 @@ void	start_lexer(t_tokens **tokens, char *cmd)
 	}
 }
 
-//ALTERAR FUNCAO PARA START LEXER
-char	*parse_command(char *cmd)
+t_command	*start_lexer(char *cmd)
 {
 	t_command 	*command;
 	t_tokens	*tokens;
-	char		*result;
 
 	tokens = NULL;
 	if (!cmd)
 		return (NULL);
-	start_lexer(&tokens, cmd);
+	tokenization(&tokens, cmd);
 	expand_tokens(tokens);
 	command = parse_cmd(tokens);
-	if (tokens->input)
-	{
-		result = ft_strdup(tokens->input);
-		free_tokens(tokens);
-		return (result);
-	}
-	free(tokens);
-	return (0); //Apenas retorna primeiro node (não precisamo de retornar)
+	free_tokens(tokens);
+	return(command);
 }
 
 int	class_command(char *cmd, char **envp)
 {
-	char	*parsed;
+	t_command	*command;
 
-	parsed = parse_command(cmd);
-	if (!parsed)
+	command = start_lexer(cmd);
+	if (!command)
 		return (0);
-	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
+	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)
 	{
-		free(parsed);
+		free(command);
 		return (0);
 	}
-	else if (parsed)
-	{
-		execute_command(parsed, envp);
-		free(parsed);
-	}
+	execute_command(command, envp);
+	free(command);
 	return (1);
 }
 

@@ -12,6 +12,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 // variavel global para os sinais
 extern volatile sig_atomic_t g_sigint;

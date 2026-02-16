@@ -2,16 +2,11 @@
 
 void execute_command(t_command *cmd, char **envp)
 {
-	/* printf("command -> %s\n", cmd->argv[0]);
-	printf("command -> %s\n", cmd->argv[1]);
-	printf("outfile -> %s\n", cmd->outfile);
-	printf("infile -> %s\n", cmd->infile);
-	printf("append -> %d\n", cmd->append);
- */
-	pid_t pid;
+	pid_t	pid;
+	char	*path;
 
 	pid = fork();
-
+	path = ft_strjoin("/bin/", cmd->argv[0]);
 	if (pid < 0)
 	{
 		perror("fork");
@@ -19,14 +14,16 @@ void execute_command(t_command *cmd, char **envp)
 	}
 	if (pid == 0)
 	{
-		printf("----Child Process: child process has started----\n");
-		execve("/bin/echo", cmd->argv, envp);
+		//printf("----Child Process: child process has started----\n");
+		execve(path, cmd->argv, envp);
+		perror("execve");
+		exit(1);
 	}
 	else
 	{
-		printf("----Parent Process: parent process is waiting----\n");
+		//printf("----Parent Process: parent process is waiting----\n");
 		waitpid(pid, NULL, 0); // espera pelo processo child terminar, NULL = no status, 0 = no flags;
-		printf("----Child Process: child process terminated----\n");
+		//printf("----Child Process: child process terminated----\n");
 	}
 
 }
