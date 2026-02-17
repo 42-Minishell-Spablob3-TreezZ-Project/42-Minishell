@@ -68,7 +68,7 @@ int	class_command(char *cmd, char **envp)
 		return (0);
 	}
 	execute_command(command, envp);
-	free(command);
+	free_command(command);
 	return (1);
 }
 
@@ -82,5 +82,30 @@ void	free_tokens(t_tokens *tokens)
 		free(tokens->input);
 		free(tokens);
 		tokens = tmp;
+	}
+}
+void	free_command(t_command *cmd)
+{
+	t_command	*tmp;
+	int			i;
+
+	while (cmd)
+	{
+		tmp = cmd->next;
+		if (cmd->argv)
+		{
+			i = 0;
+			while (cmd->argv[i])
+			{
+				free(cmd->argv[i]);
+				i++;
+			}
+			free(cmd->argv);
+		}
+		free(cmd->infile);
+		free(cmd->outfile);
+		free(cmd->heredoc_delimiter);
+		free(cmd);
+		cmd = tmp;
 	}
 }

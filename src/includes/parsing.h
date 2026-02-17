@@ -35,6 +35,7 @@ void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
+void        free_command(t_command *cmd);
 
 // command execution
 void	execute_command(t_command *command, char **envp);

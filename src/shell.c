@@ -30,5 +30,6 @@ void	start_shell(char **envp)
 		add_history(command);
 		free (command);
 	}
+	rl_clear_history();
 	free (prompt);
 }
