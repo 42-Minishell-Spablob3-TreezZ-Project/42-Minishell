@@ -40,5 +40,6 @@ void		free_tokens(t_tokens *tokens);
 void	execute_command(t_command *command, char **envp);
 void	execute_redir_out(t_command *cmd);
 void	execute_redir_in(t_command *cmd);
+void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp);
 
 #endif

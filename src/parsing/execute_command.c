@@ -2,10 +2,9 @@
 
 void execute_command(t_command *cmd, char **envp)
 {
-	int pipe_fd[2];
-	int prev_fd;
+	int		pipe_fd[2];
+	int		prev_fd;
 	pid_t	pid;
-	char	*path;
 
 	prev_fd = -1;
 	while (cmd)
@@ -29,7 +28,7 @@ void execute_command(t_command *cmd, char **envp)
 		}
 		cmd = cmd->next;
 	}
-	waitpid(pid, NULL, 0);
+	while (wait(NULL) > 0);
 
 }
 
@@ -39,13 +38,13 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
 	// se houver comando anterior
 	if (prev_fd != -1)
 	{
-		dup2(prev_fd, 0); // copia fd e redireciona STDIN para o pipe.
+		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
 		close(prev_fd); // fechar o fd do comando anterior original.
 	}
 	// se houver proximo comando
 	if (cmd->next)
 	{
-		dup2(pipe_fd[1], 1); // copia fd e redireciona STDUT para novo pipe.
+		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
