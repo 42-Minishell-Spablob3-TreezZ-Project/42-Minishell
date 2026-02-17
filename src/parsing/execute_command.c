@@ -2,28 +2,61 @@
 
 void execute_command(t_command *cmd, char **envp)
 {
+	int pipe_fd[2];
+	int prev_fd;
 	pid_t	pid;
 	char	*path;
 
-	pid = fork(); // divide o processo em dois (child and parent).
-	path = ft_strjoin("/bin/", cmd->argv[0]); // path tem de ser alterado caso (built-ins pedidos).
-	if (pid < 0)
+	prev_fd = -1;
+	while (cmd)
 	{
-		perror("fork!");
-		return;
+		if (cmd->next) // se houver cmd->next, criar pipe
+			pipe(pipe_fd);
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			return ;
+		}
+		if (pid == 0)
+			child_process(cmd, pipe_fd, prev_fd, envp);
+		if (prev_fd != -1)
+			close(prev_fd);
+		if (cmd->next)
+		{
+			close(pipe_fd[1]);
+			prev_fd = pipe_fd[0];
+		}
+		cmd = cmd->next;
 	}
-	if (pid == 0)
+	waitpid(pid, NULL, 0);
+
+}
+
+void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
+{
+	char	*path;
+	// se houver comando anterior
+	if (prev_fd != -1)
 	{
-		if (cmd->outfile)
-			execute_redir_out(cmd);
-		if (cmd->infile)
-			execute_redir_in(cmd);
-		execve(path, cmd->argv, envp);
-		perror("Minishell");
-		exit(1);
+		dup2(prev_fd, 0); // copia fd e redireciona STDIN para o pipe.
+		close(prev_fd); // fechar o fd do comando anterior original.
 	}
-	else
-		waitpid(pid, NULL, 0); // parent espera que o processo filho termine a execucao.
+	// se houver proximo comando
+	if (cmd->next)
+	{
+		dup2(pipe_fd[1], 1); // copia fd e redireciona STDUT para novo pipe.
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+	if (cmd->outfile || cmd->append)
+		execute_redir_out(cmd);
+	if (cmd->infile)
+		execute_redir_in(cmd);
+	path = ft_strjoin("/bin/", cmd->argv[0]);
+	execve(path, cmd->argv, envp);
+	perror("Minisheila");
+	exit(1);
 }
 
 void	execute_redir_out(t_command *cmd)
@@ -38,7 +71,7 @@ void	execute_redir_out(t_command *cmd)
 			perror("Error: Overwrite");
 			exit(1);
 		}
-		dup2(fd, 1); 
+		dup2(fd, 1);
 		close(fd);
 	}
 	else
@@ -49,14 +82,14 @@ void	execute_redir_out(t_command *cmd)
 			perror("Error: append");
 			exit(1);
 		}
-		dup2(fd, 1); 
+		dup2(fd, 1);
 		close(fd);
 	}
 }
 
 void	execute_redir_in(t_command *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->infile)
 	{
