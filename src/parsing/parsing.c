@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// Ponteiro para o previous node 
+// Ponteiro para o previous node
 void	add_token(t_tokens **tokens, t_tokens *new)
 {
 	t_tokens	*last;

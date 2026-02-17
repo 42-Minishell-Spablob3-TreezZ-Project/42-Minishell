@@ -11,7 +11,7 @@ void execute_command(t_command *cmd, char **envp)
 	{
 		if (cmd->next) // se houver cmd->next, criar pipe
 			pipe(pipe_fd);
-		pid = fork();
+		pid = fork(); // dividir o processo em pai e filho
 		if (pid < 0)
 		{
 			perror("fork");
@@ -20,11 +20,11 @@ void execute_command(t_command *cmd, char **envp)
 		if (pid == 0)
 			child_process(cmd, pipe_fd, prev_fd, envp);
 		if (prev_fd != -1)
-			close(prev_fd);
+			close(prev_fd);// fechar pipe anterior;
 		if (cmd->next)
 		{
-			close(pipe_fd[1]);
-			prev_fd = pipe_fd[0];
+			close(pipe_fd[1]);// fechar o write
+			prev_fd = pipe_fd[0]; // read para o proximo comando
 		}
 		cmd = cmd->next;
 	}
@@ -45,7 +45,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
 	if (cmd->next)
 	{
 		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
-		close(pipe_fd[0]);
+		close(pipe_fd[0]); // fecha o pipe 
 		close(pipe_fd[1]);
 	}
 	if (cmd->outfile || cmd->append)
