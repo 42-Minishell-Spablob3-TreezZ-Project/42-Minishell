@@ -2,6 +2,16 @@
 
 void execute_command(t_command *cmd, char **envp)
 {
+	//temos que retornar exit_status assim que o comando foi executado ou nao.
+	//temos que guardar o valor do last pid (valor do ultimo processo) no parent para depois retornar o seu exit_status
+	//só deve retornar exit_status do ultimo comando EX: ls | wc --> o exit status é referente ao wc.
+	
+	//comando ok	0
+	//erro genérico	1
+	//command not found	127
+	//Ctrl+C	130
+	//Ctrl+\	131
+
 	int		pipe_fd[2];
 	int		prev_fd;
 	pid_t	pid;
@@ -9,8 +19,8 @@ void execute_command(t_command *cmd, char **envp)
 	prev_fd = -1;
 	while (cmd)
 	{
-		if (cmd->next) // se houver cmd->next, criar pipe
-			pipe(pipe_fd);
+		if (create_pipe(cmd, pipe_fd) < 0)
+			return ;
 		pid = fork(); // dividir o processo em pai e filho
 		if (pid < 0)
 		{
@@ -29,7 +39,19 @@ void execute_command(t_command *cmd, char **envp)
 		cmd = cmd->next;
 	}
 	while (wait(NULL) > 0);
+}
 
+int	create_pipe(t_command *cmd, int pipe_fd[2])
+{
+	if (cmd->next)// se houver cmd->next, criar pipe
+	{	
+		if (pipe(pipe_fd) < 0)
+		{
+			perror("pipe"); // funcao pipe retorna 0 se bem sucedida e -1 em caso de erro.
+			return (-1);
+		}
+	}
+	return (0);
 }
 
 void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)

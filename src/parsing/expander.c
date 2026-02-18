@@ -75,6 +75,11 @@ char	*expand_variable(char **str)
 
 	(*str)++;
 	start = *str;
+	if(**str == '?')
+	{
+		(*str)++;
+		return (ft_itoa(g_exit_status));
+	}
 	while (**str && (ft_isalnum(**str) || **str == '_'))
 		(*str)++;
 	len = *str - start;

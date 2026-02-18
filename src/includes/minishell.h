@@ -15,7 +15,7 @@
 # include <sys/wait.h>
 
 // variavel global para os sinais
-extern volatile sig_atomic_t g_sigint;
+extern int g_exit_status;
 
 //Libft
 
