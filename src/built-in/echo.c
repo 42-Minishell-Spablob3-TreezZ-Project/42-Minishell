@@ -24,25 +24,16 @@ void	echo_builtin(char **argv)
 	int i;
 	int n_flag;
 
-	i = 0;
+	i = 1;
 	n_flag = 0;
 
 	if (argv[i] && check_n_flag(argv[i]))
 		n_flag = 1;
 	while (argv[i])
 	{
-		printf("%s", argv[i]);
+		printf("%s ", argv[i]);
 		i++;
 	}
 	if (!n_flag)
 		printf("\n");
 }
-
-
-/* 
-TESTAGEM SEM INPUT VERDADEIRO!
-int main(void)
-{
-	char *str[] = {"-n", NULL};
-	echo_builtin(str);
-} */

@@ -74,6 +74,11 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
 		execute_redir_out(cmd);
 	if (cmd->infile)
 		execute_redir_in(cmd);
+	if (ft_strncmp(cmd->argv[0], "echo", INT_MAX) == 0)
+	{
+		echo_builtin(cmd->argv);
+		exit(0);
+	}
 	path = ft_strjoin("/bin/", cmd->argv[0]);
 	execve(path, cmd->argv, envp);
 	perror("Minisheila");

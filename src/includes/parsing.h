@@ -43,5 +43,7 @@ void	execute_redir_out(t_command *cmd);
 void	execute_redir_in(t_command *cmd);
 void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp);
 int	    create_pipe(t_command *cmd, int pipe_fd[2]);
+//char	*find_path(char *word);
+void	echo_builtin(char **argv);
 
 #endif
