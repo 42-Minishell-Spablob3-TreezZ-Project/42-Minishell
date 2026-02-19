@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:55:10 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 13:17:33 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
 
 int	check_n_flag(char *argv)
@@ -17,7 +30,6 @@ int	check_n_flag(char *argv)
 	else
 		return(1);
 }
-
 
 void	echo_builtin(char **argv)
 {

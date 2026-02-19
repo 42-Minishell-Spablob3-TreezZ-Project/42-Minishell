@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 14:03:26 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void execute_command(t_command *cmd, char **envp)
@@ -21,6 +33,12 @@ void execute_command(t_command *cmd, char **envp)
 	{
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
+		// antes de fork executar built-ins : cd, export, unset, exit.
+		if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
+		{
+			cd_builtin(cmd);
+			return ;
+		}
 		pid = fork(); //dividir o processo em pai e filho
 		if (pid < 0)
 		{
@@ -74,11 +92,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
 		execute_redir_out(cmd);
 	if (cmd->infile)
 		execute_redir_in(cmd);
-	if (ft_strncmp(cmd->argv[0], "echo", INT_MAX) == 0)
-	{
-		echo_builtin(cmd->argv);
-		exit(0);
-	}
+	execute_built_in(cmd); // pwd e echo. restantes bultins executados no pai para haver alteracoes.
 	path = ft_strjoin("/bin/", cmd->argv[0]);
 	execve(path, cmd->argv, envp);
 	perror("Minisheila");
