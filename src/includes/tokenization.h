@@ -44,4 +44,13 @@ typedef struct s_command
 	struct s_command	*next; // no caso de pipe.
 }		t_command;
 
+//struct para envp
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}			t_env;
+
 #endif

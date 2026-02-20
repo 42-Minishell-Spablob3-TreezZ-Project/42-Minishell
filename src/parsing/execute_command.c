@@ -24,11 +24,13 @@ void execute_command(t_command *cmd, char **envp)
 	//Ctrl+C	130
 	//Ctrl+\	131
 
+	t_env	*env;
 	int		pipe_fd[2];
 	int		prev_fd;
 	pid_t	pid;
 
 	prev_fd = -1;
+	env = NULL;
 	while (cmd)
 	{
 		if (create_pipe(cmd, pipe_fd) < 0)
@@ -36,7 +38,12 @@ void execute_command(t_command *cmd, char **envp)
 		// antes de fork executar built-ins : cd, export, unset, exit.
 		if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
 		{
-			cd_builtin(cmd);
+			cd_builtin(cmd, envp);
+			return ;
+		}
+		if (ft_strncmp(cmd->argv[0], "env", INT_MAX) == 0)
+		{
+			env_bultin(&env, envp);
 			return ;
 		}
 		pid = fork(); //dividir o processo em pai e filho
