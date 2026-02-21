@@ -20,12 +20,11 @@ int	cd_builtin(t_command *cmd, t_env **env)
 
 	pwd = getcwd(NULL, 0);
 	if (!cmd->argv[1] || ft_strncmp(cmd->argv[1], "~", INT_MAX) == 0)
-	path = getenv("HOME");
+		path = getenv("HOME");
 	else if (ft_strncmp(cmd->argv[1], "-", INT_MAX) == 0)
-		path = getenv("OLDPWD");
+		path = get_env("OLDPWD", env);
 	else
 		path = cmd->argv[1];
-		
 	if (chdir(path) != 0)
 	{
 		printf ("cd: %s: No such file or directory\n", path);
@@ -33,8 +32,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	}
 	curr_dir = getcwd(NULL, 0);
 	update_env_var(env, pwd, curr_dir);
-	printf("PRINT do path: %s\n", path);
-	printf("current dir: %s\n", pwd);
+	printf("current dir: %s\n", curr_dir);
 	return (0);
 }
 
@@ -52,7 +50,22 @@ void	update_env_var(t_env **env, char *oldpwd, char *pwd)
 		}
 		temp = temp->next;
 	}
-	//adicionar node OLDPWD à env list.
+	add_env_node(env, "OLDPWD", oldpwd); //adicionar node OLDPWD à env list.
+}
+
+char	*get_env(char *str, t_env **env)
+{
+	t_env	*temp;
+	char	*path;
+
+	temp = *env;
+	while(temp)
+	{
+		if(ft_strncmp(str, temp->key, INT_MAX) == 0)
+			path = temp->value;
+		temp = temp->next;
+	}
+	return (path);
 }
 
 //Implementar "cd -" -> vai para diretorio anterior.

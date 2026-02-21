@@ -59,10 +59,11 @@ void	echo_builtin(char **argv);
 int		cd_builtin(t_command *cmd, t_env **env);
 void	get_current_dir();
 int		execute_built_in(t_command *cmd);
-void	update_env_var(t_env **env, char *path);
+void	update_env_var(t_env **env, char *oldpwd, char *pwd);
 void	env_bultin(t_env **env, char **envp);
 void	add_env_node(t_env **env, char *key, char *value);
 void	print_env_list(t_env **env);
 char	**env_to_array(t_env *env);
+char	*get_env(char *str, t_env **env);
 
 #endif
