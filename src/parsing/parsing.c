@@ -67,7 +67,7 @@ t_command	*start_lexer(char *cmd)
 	return(command);
 }
 
-int	class_command(char *cmd, char **envp)
+int	class_command(char *cmd, t_env **env)
 {
 	t_command	*command;
 
@@ -79,7 +79,7 @@ int	class_command(char *cmd, char **envp)
 		free(command);
 		return (0);
 	}
-	execute_command(command, envp);
+	execute_command(command, env);
 	free_command(command);
 	return (1);
 }

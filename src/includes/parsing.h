@@ -16,7 +16,7 @@
 # include "tokenization.h"
 
 //tokenization
-int			class_command(char *cmd, char **envp);
+int			class_command(char *cmd, t_env **env);
 void		add_token(t_tokens **tokens, t_tokens *new);
 void		tokenization(t_tokens **tokens, char *cmd);
 t_command	*start_lexer(char *cmd);
@@ -48,20 +48,21 @@ void		free_tokens(t_tokens *tokens);
 void		free_command(t_command *cmd);
 
 // command execution
-void	execute_command(t_command *command, char **envp);
+void	execute_command(t_command *command, t_env **env);
 void	execute_redir_out(t_command *cmd);
 void	execute_redir_in(t_command *cmd);
-void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp);
+void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env);
 int		create_pipe(t_command *cmd, int pipe_fd[2]);
 
 // built-in execution
 void	echo_builtin(char **argv);
-int		cd_builtin(t_command *cmd, char **envp);
+int		cd_builtin(t_command *cmd, t_env **env);
 void	get_current_dir();
 int		execute_built_in(t_command *cmd);
-char	*update_env_var(char **envp, char *path);
+//char	*update_env_var(t_env **env, char *path);
 void	env_bultin(t_env **env, char **envp);
 void	add_env_node(t_env **env, char *key, char *value);
 void	print_env_list(t_env **env);
+char	**env_to_array(t_env *env);
 
 #endif

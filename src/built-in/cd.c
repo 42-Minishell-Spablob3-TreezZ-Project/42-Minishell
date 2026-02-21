@@ -12,12 +12,12 @@
 
 #include "../includes/minishell.h"
 
-int	cd_builtin(t_command *cmd, char **envp)
+int	cd_builtin(t_command *cmd, t_env **env)
 {
 	char	*path;
 	//char	*oldpwd;
 	//char	*pwd;
-
+	(void)env;
 	//pwd = getcwd(NULL, 0);
 	if (!cmd->argv[1] || ft_strncmp(cmd->argv[1], "~", INT_MAX) == 0)
 		path = getenv("HOME");
@@ -31,27 +31,27 @@ int	cd_builtin(t_command *cmd, char **envp)
 		printf ("cd: %s: No such file or directory\n", path);
 		return (1);
 	}
-	update_env_var(envp, path);
+	//update_env_var(env, path);
 	printf("PRINT do path: %s\n", path);
 	return (0);
 }
 
-char	*update_env_var(char **envp, char *path)
+/* char	*update_env_var(t_env **env, char *path)
 {
 	int i;
 
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+		if (ft_strncmp(env[i], "PWD=", 4) == 0)
 		{
-			free(envp[i]);
-			envp[i] = ft_strjoin("PWD=", path);
+			free(env[i]);
+			env[i] = ft_strjoin("PWD=", path);
 		}
 		i++;
 	}
-	return (envp[i]);
-}
+	return (env[i]);
+} */
 
 
 //Implementar "cd -" -> vai para diretorio anterior.

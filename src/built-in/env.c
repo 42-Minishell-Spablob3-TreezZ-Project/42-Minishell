@@ -39,7 +39,6 @@ void	env_bultin(t_env **env, char **envp)
 		add_env_node(env, key, value);
 		i++;
 	}
-	print_env_list(env);
 }
 void	add_env_node(t_env **env, char *key, char *value)
 {
@@ -62,4 +61,43 @@ void	print_env_list(t_env **env)
 		printf("%s=%s\n", temp->key, temp->value);
 		temp = temp->next;
 	}
+}
+int	env_array_len(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return(i);
+}
+
+char	**env_to_array(t_env *env)
+{
+	int		len;
+	char	**env_array;
+	int		i;
+	char	*temp;
+
+	len = env_array_len(env);
+	env_array = malloc((len + 1) * sizeof(char *));
+	if (!env_array)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		temp = ft_strjoin(env->key, "=");
+		if (env->value)
+			env_array[i] = ft_strjoin(temp, env->value);
+		else
+			env_array[i] = ft_strdup(temp);
+		free(temp);
+		i++;
+		env = env->next;
+	}
+	env_array[i] = NULL;
+	return (env_array);
 }

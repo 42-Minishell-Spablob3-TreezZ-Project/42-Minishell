@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void execute_command(t_command *cmd, char **envp)
+void execute_command(t_command *cmd, t_env **env)
 {
 	//temos que retornar exit_status assim que o comando foi executado ou nao.
 	//temos que guardar o valor do last pid (valor do ultimo processo) no parent para depois retornar o seu exit_status
@@ -23,27 +23,25 @@ void execute_command(t_command *cmd, char **envp)
 	//command not found	127
 	//Ctrl+C	130
 	//Ctrl+\	131
-
-	t_env	*env;
 	int		pipe_fd[2];
 	int		prev_fd;
 	pid_t	pid;
 
 	prev_fd = -1;
-	env = NULL;
 	while (cmd)
 	{
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
 		// antes de fork executar built-ins : cd, export, unset, exit.
-		if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
+	/* 	if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
 		{
-			cd_builtin(cmd, envp);
+			cd_builtin(cmd, &env);
 			return ;
-		}
+		} */
 		if (ft_strncmp(cmd->argv[0], "env", INT_MAX) == 0)
 		{
-			env_bultin(&env, envp);
+			print_env_list(env);
+			printf ("PUTA DA LISTA FOI PRINTADA!!!\n");
 			return ;
 		}
 		pid = fork(); //dividir o processo em pai e filho
@@ -53,7 +51,7 @@ void execute_command(t_command *cmd, char **envp)
 			return ;
 		}
 		if (pid == 0)
-			child_process(cmd, pipe_fd, prev_fd, envp);
+			child_process(cmd, pipe_fd, prev_fd, env);
 		if (prev_fd != -1)
 			close(prev_fd);//fechar pipe anterior;
 		if (cmd->next)
@@ -79,9 +77,10 @@ int	create_pipe(t_command *cmd, int pipe_fd[2])
 	return (0);
 }
 
-void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
+void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char	*path;
+	char	**env_array;
 	// se houver comando anterior
 	if (prev_fd != -1)
 	{
@@ -100,9 +99,10 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, char **envp)
 	if (cmd->infile)
 		execute_redir_in(cmd);
 	execute_built_in(cmd); // pwd e echo. restantes bultins executados no pai para haver alteracoes.
-	path = ft_strjoin("/bin/", cmd->argv[0]);
-	execve(path, cmd->argv, envp);
-	perror("Minisheila");
+	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
+	env_array = env_to_array(*env);
+	execve(path, cmd->argv, env_array);
+	perror("execve failed");
 	exit(1);
 }
 

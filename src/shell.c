@@ -27,13 +27,16 @@ void	start_shell(char **envp)
 {
 	char	*command;
 	char	*prompt;
+	t_env	*env;
 
 	command = NULL;
 	prompt = create_prompt();
+	env = NULL;
+	env_bultin(&env, envp);
 	while (1)
 	{
 		command = readline(prompt);
-		if (!class_command(command, envp))
+		if (!class_command(command, &env))
 		{
 			free (command);
 			printf("exit\n");
