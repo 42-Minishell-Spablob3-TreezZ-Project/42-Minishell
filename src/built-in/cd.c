@@ -22,7 +22,10 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	if (!cmd->argv[1] || ft_strncmp(cmd->argv[1], "~", INT_MAX) == 0)
 		path = getenv("HOME");
 	else if (ft_strncmp(cmd->argv[1], "-", INT_MAX) == 0)
+	{
 		path = get_env("OLDPWD", env);
+		printf("%s\n", path);
+	}
 	else
 		path = cmd->argv[1];
 	if (chdir(path) != 0)
@@ -32,15 +35,16 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	}
 	curr_dir = getcwd(NULL, 0);
 	update_env_var(env, pwd, curr_dir);
-	printf("current dir: %s\n", curr_dir);
 	return (0);
 }
 
 void	update_env_var(t_env **env, char *oldpwd, char *pwd)
 {
-	t_env *temp;
-
+	t_env	*temp;
+	int		OLDPWD_VAR;
 	temp = *env;
+
+	OLDPWD_VAR = 0;
 	while (temp)
 	{
 		if (ft_strncmp(temp->key, "PWD", 3) == 0)
@@ -48,9 +52,16 @@ void	update_env_var(t_env **env, char *oldpwd, char *pwd)
 			free(temp->value);
 			temp->value = ft_strdup(pwd);
 		}
+		else if (ft_strncmp(temp->key, "OLDPWD", 6) == 0)
+		{
+			OLDPWD_VAR = 1;
+			free(temp->value);
+			temp->value = ft_strdup(oldpwd);
+		}
 		temp = temp->next;
 	}
-	add_env_node(env, "OLDPWD", oldpwd); //adicionar node OLDPWD à env list.
+		if (!OLDPWD_VAR)
+			add_env_node(env, "OLDPWD", oldpwd); //adicionar node OLDPWD à env list.
 }
 
 char	*get_env(char *str, t_env **env)
