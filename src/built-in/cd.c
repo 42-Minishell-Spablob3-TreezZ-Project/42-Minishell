@@ -17,7 +17,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	char	*path;
 	//char	*oldpwd;
 	//char	*pwd;
-	(void)env;
+	
 	//pwd = getcwd(NULL, 0);
 	if (!cmd->argv[1] || ft_strncmp(cmd->argv[1], "~", INT_MAX) == 0)
 		path = getenv("HOME");
@@ -31,28 +31,26 @@ int	cd_builtin(t_command *cmd, t_env **env)
 		printf ("cd: %s: No such file or directory\n", path);
 		return (1);
 	}
-	//update_env_var(env, path);
+	update_env_var(env, path);
 	printf("PRINT do path: %s\n", path);
 	return (0);
 }
 
-/* char	*update_env_var(t_env **env, char *path)
+void	update_env_var(t_env **env, char *path)
 {
-	int i;
+	t_env *temp;
 
-	i = 0;
-	while (env[i])
+	temp = *env;
+	while (temp)
 	{
-		if (ft_strncmp(env[i], "PWD=", 4) == 0)
+		if (ft_strncmp(temp->key, "PWD", 3) == 0)
 		{
-			free(env[i]);
-			env[i] = ft_strjoin("PWD=", path);
+			free(temp->value);
+			temp->value = ft_strdup(path);
 		}
-		i++;
+		temp = temp->next;
 	}
-	return (env[i]);
-} */
-
+}
 
 //Implementar "cd -" -> vai para diretorio anterior.
 //Sempre que cd funciona, PWD tem de ser atualizado e o OLDPWD -> diretorio anterior

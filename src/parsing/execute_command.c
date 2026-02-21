@@ -33,11 +33,11 @@ void execute_command(t_command *cmd, t_env **env)
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
 		// antes de fork executar built-ins : cd, export, unset, exit.
-	/* 	if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
+		if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
 		{
-			cd_builtin(cmd, &env);
+			cd_builtin(cmd, env);
 			return ;
-		} */
+		}
 		if (ft_strncmp(cmd->argv[0], "env", INT_MAX) == 0)
 		{
 			print_env_list(env);
@@ -103,6 +103,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
 	perror("execve failed");
+	//dar free na env_array;
 	exit(1);
 }
 
