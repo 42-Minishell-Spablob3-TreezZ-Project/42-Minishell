@@ -14,8 +14,8 @@
 
 void execute_command(t_command *cmd, t_env **env)
 {
-	//temos que retornar exit_status assim que o comando foi executado ou nao.
-	//temos que guardar o valor do last pid (valor do ultimo processo) no parent para depois retornar o seu exit_status
+	//retornar exit_status assim que o comando foi executado ou nao.
+	//guardar o valor do last pid (valor do ultimo processo) no parent para depois retornar o seu exit_status
 	//só deve retornar exit_status do ultimo comando EX: ls | wc --> o exit status é referente ao wc.
 	
 	//comando ok	0
@@ -33,17 +33,8 @@ void execute_command(t_command *cmd, t_env **env)
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
 		// antes de fork executar built-ins : cd, export, unset, exit.
-		if (ft_strncmp(cmd->argv[0], "cd", INT_MAX) == 0)
-		{
-			cd_builtin(cmd, env);
+		if (exec_parent_built_in(cmd, env) == 0)
 			return ;
-		}
-		if (ft_strncmp(cmd->argv[0], "env", INT_MAX) == 0)
-		{
-			print_env_list(env);
-			printf ("PUTA DA LISTA FOI PRINTADA!!!\n");
-			return ;
-		}
 		pid = fork(); //dividir o processo em pai e filho
 		if (pid < 0)
 		{
