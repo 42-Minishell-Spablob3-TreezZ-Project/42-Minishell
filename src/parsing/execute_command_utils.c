@@ -17,7 +17,7 @@ int	execute_built_in(t_command *cmd)
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
-		printf("echo executado\n");
+		//printf("echo executado\n");
 		exit(0);
 	}
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)

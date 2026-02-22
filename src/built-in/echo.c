@@ -41,9 +41,10 @@ void	echo_builtin(char **argv)
 
 	if (argv[i] && check_n_flag(argv[i]))
 		n_flag = 1;
+	i = 2;
 	while (argv[i])
 	{
-		printf("%s ", argv[i]);
+		printf("%s", argv[i]);
 		i++;
 	}
 	if (!n_flag)

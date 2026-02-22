@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static void	update_env_var(t_env **env, char *oldpwd, char *pwd)
+static void	update_env_var(t_env **env, char *oldpwd, char *curr_dir)
 {
 	t_env	*temp;
 	int		OLDPWD_VAR;
@@ -24,7 +24,7 @@ static void	update_env_var(t_env **env, char *oldpwd, char *pwd)
 		if (ft_strcmp(temp->key, "PWD") == 0)
 		{
 			free(temp->value);
-			temp->value = ft_strdup(pwd);
+			temp->value = ft_strdup(curr_dir);
 		}
 		else if (ft_strcmp(temp->key, "OLDPWD") == 0)
 		{
@@ -40,7 +40,7 @@ static void	update_env_var(t_env **env, char *oldpwd, char *pwd)
 
 static char	*get_path(t_command *cmd, t_env **env)
 {
-	char *path;
+	char	*path;
 
 	if (!cmd->argv[1] || ft_strcmp(cmd->argv[1], "~") == 0)
 	{
@@ -83,25 +83,25 @@ char	*get_env(char *str, t_env **env)
 int	cd_builtin(t_command *cmd, t_env **env)
 {
 	char	*path;
-	char	*pwd;
+	char	*oldpwd;
 	char	*curr_dir;
 
-	pwd = getcwd(NULL, 0);
+	oldpwd = getcwd(NULL, 0);
 	path = get_path(cmd, env);
 	if (!path )
 	{
-		free(pwd);
+		free(oldpwd);
 		return (1);
 	}
 	if (chdir(path) != 0)
 	{
 		perror("cd");
-		free(pwd);
+		free(oldpwd);
 		return (1);
 	}
 	curr_dir = getcwd(NULL, 0);
-	update_env_var(env, pwd, curr_dir);
-	free(pwd);
+	update_env_var(env, oldpwd, curr_dir);
+	free(oldpwd);
 	free(curr_dir);
 	return (0);
 }
