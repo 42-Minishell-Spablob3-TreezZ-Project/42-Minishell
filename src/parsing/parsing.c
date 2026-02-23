@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:56:35 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:58:46 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	class_command(char *cmd, t_env **env)
 {
 	t_command	*command;
 
+	if (!cmd[0] || empty_prompt(cmd))
+		return (1);
 	command = start_lexer(cmd);
 	if (!command)
 		return (0);
