@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:10 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 13:17:33 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:19:06 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ void	echo_builtin(char **argv)
 
 	if (argv[i] && check_n_flag(argv[i]))
 		n_flag = 1;
-	i = 2;
+//	i = 2; Talvez adicionar este i = 2 ao if de cima e tirar n_flag
 	while (argv[i])
 	{
-		printf("%s", argv[i]);
+		if (!argv[i + 1])
+			printf("%s", argv[i]);
+		else
+			printf("%s ", argv[i]);
 		i++;
 	}
 	if (!n_flag)
