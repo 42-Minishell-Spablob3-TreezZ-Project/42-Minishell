@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 13:19:12 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:56:02 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,8 @@ void	print_env_list(t_env **env);
 char	**env_to_array(t_env *env);
 char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
+
+//See where to place
+int		empty_prompt(char *cmd);
 
 #endif

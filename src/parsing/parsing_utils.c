@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:24 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:56:26 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/23 16:04:43 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,20 @@ int	is_operator(char c)
 int	is_quote(char c)
 {
 	return (c == '"' || c == '\'');
+}
+
+int	empty_prompt(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (cmd[0] == ' ')
+	{
+		while (cmd[i] && cmd[i] == ' ')
+			i++;
+		if (cmd[i] && cmd[i] != ' ')
+			return (0);
+		return (1);
+	}
+	return (0);
 }
