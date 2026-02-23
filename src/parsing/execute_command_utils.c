@@ -41,6 +41,11 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 		print_env_list(env);
 		return (0);
 	}
+	else if (ft_strcmp(cmd->argv[0], "export") == 0)
+	{
+		export_built_in(cmd, env);
+		return (0);
+	}
 	return (1);
 }
 

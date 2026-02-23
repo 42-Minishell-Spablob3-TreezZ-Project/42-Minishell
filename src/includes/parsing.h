@@ -66,5 +66,6 @@ void	print_env_list(t_env **env);
 char	**env_to_array(t_env *env);
 char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
+void	export_built_in(t_command *cmd, t_env **env);
 
 #endif
