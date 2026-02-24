@@ -12,30 +12,40 @@
 
 #include "../includes/minishell.h"
 
+static void	delete_first_node(t_env **head)
+{
+	t_env	*temp;
+	
+	if (!head || !*head)
+		return ;
+	temp = *head;
+	*head = (*head)->next;
+	free(temp->value);
+	free(temp->key);
+	free(temp);
+	return ;
+}
+
 static void	delete_node(t_env **head, char *key)
 {
 	t_env	*temp;
 	t_env	*current;
 
-	current = *head;
 	if (ft_strcmp((*head)->key, key) == 0)
 	{
-		temp = *head;
-		*head = (*head)->next;
-		free(temp->value);
-		free(temp->key);
-		free(temp);
+		delete_first_node(head);
 		return ;
 	}
-	while (current)
+	current = *head;
+	while (current && current->next)
 	{
 		if (ft_strcmp(current->next->key, key)== 0)
 		{
-			temp = current;
-			free(temp->next->value);
-			free(temp->next->key);
-			free(temp->next);
-			current->next = current->next->next;
+			temp = current->next;
+			current->next = temp->next;
+			free(temp->value);
+			free(temp->key);
+			free(temp);
 			return ;
 		}
 		current = current->next;
@@ -53,7 +63,7 @@ void	unset_built_in(t_command *cmd, t_env **env)
 		temp = *env;
 		while (temp)
 		{
-			if (*cmd->argv && ft_strcmp(cmd->argv[i], temp->key) == 0)
+			if (ft_strcmp(cmd->argv[i], temp->key) == 0)
 			{
 				delete_node(env, temp->key);
 				break ;
