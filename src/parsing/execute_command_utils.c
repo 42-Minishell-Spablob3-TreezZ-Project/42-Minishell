@@ -47,7 +47,7 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
 	{
 		unset_built_in(cmd, env);
-		printf("unset executado");
+		printf("unset executado\n");
 		return (0);
 	}
 	return (1);
