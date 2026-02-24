@@ -45,21 +45,21 @@ static void	delete_node(t_env **head, char *key)
 void	unset_built_in(t_command *cmd, t_env **env)
 {
 	t_env	*temp;
-	int	i;
+	int		i;
 
-	temp = *env;
 	i = 1;
-	while (temp && cmd->argv[i])
+	while (cmd->argv[i])
 	{
-		if (*cmd->argv && ft_strcmp(cmd->argv[i], temp->key) == 0)
+		temp = *env;
+		while (temp)
 		{
-			delete_node(env, temp->key);
-			i++;
+			if (*cmd->argv && ft_strcmp(cmd->argv[i], temp->key) == 0)
+			{
+				delete_node(env, temp->key);
+				break ;
+			}
+			temp = temp->next;
 		}
-		else if (!*cmd->argv)
-			return ;
-		temp = temp->next;
-		if (temp->next == NULL)
-			temp = *env;
+		i++;
 	}
 }
