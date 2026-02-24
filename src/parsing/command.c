@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:58 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:08:21 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_command	*new_command(void)
 	t_command	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_command));
+	if (!cmd)
+		return NULL;
 	return (cmd);
 }
 

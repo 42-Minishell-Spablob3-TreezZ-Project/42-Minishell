@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:56:35 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:44:01 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	class_command(char *cmd, t_env **env)
 		free(command);
 		return (0);
 	}
-	execute_command(command, env);
+	execute_command(command, env); 
 	free_command(command);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:26 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 11:20:43 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:07:08 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	add_env_node(t_env **env, char *key, char *value)
 	t_env	*head;
 
 	env_node = malloc(sizeof(t_env));
+	if (!env_node)
+		return ;
 	env_node->next = NULL;
 	if (!(*env))
 	{
