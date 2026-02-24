@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 13:16:33 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 10:40:43 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ int	execute_built_in(t_command *cmd)
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
-		//printf("echo executado\n");
 		exit(0);
 	}
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 	{
 		get_current_dir();
-		printf("pwd executado\n");
 		exit(0);
 	}
 	return (1);
@@ -44,6 +42,12 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)
 	{
 		export_built_in(cmd, env);
+		return (0);
+	}
+	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
+	{
+		unset_built_in(cmd, env);
+		printf("unset executado");
 		return (0);
 	}
 	return (1);

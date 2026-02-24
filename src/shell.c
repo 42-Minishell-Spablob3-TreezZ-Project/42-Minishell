@@ -6,13 +6,11 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:56:59 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 11:49:15 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-volatile sig_atomic_t	g_sigint = 0;
 
 char	*create_prompt(void)
 {
