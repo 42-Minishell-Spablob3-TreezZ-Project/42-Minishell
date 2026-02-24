@@ -59,5 +59,7 @@ void	unset_built_in(t_command *cmd, t_env **env)
 		else if (!*cmd->argv)
 			return ;
 		temp = temp->next;
+		if (temp->next == NULL)
+			temp = *env;
 	}
 }
