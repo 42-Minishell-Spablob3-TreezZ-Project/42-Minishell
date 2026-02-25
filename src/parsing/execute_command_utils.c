@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 10:40:43 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/25 11:16:31 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
 	{
 		unset_built_in(cmd, env);
-		printf("unset executado\n");
 		return (0);
 	}
 	return (1);

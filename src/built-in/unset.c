@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:28 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 15:36:42 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:19:47 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,33 @@ static void	delete_node(t_env **head, char *key)
 		{
 			temp = current->next;
 			current->next = temp->next;
-			free(temp->value);
-			free(temp->key);
-			free(temp);
+			if (current->next)
+			{
+				free(temp->value);
+				free(temp->key);
+				free(temp);
+			}
 			return ;
 		}
 		current = current->next;
 	}
+}
+
+static int	is_valid(char *str)
+{
+	int	i;
+
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+		
 }
 
 void	unset_built_in(t_command *cmd, t_env **env)
@@ -60,6 +80,11 @@ void	unset_built_in(t_command *cmd, t_env **env)
 	i = 1;
 	while (cmd->argv[i])
 	{
+		if (!is_valid(cmd->argv[i]))
+		{
+			i++;
+			continue;
+		}
 		temp = *env;
 		while (temp)
 		{
@@ -73,3 +98,4 @@ void	unset_built_in(t_command *cmd, t_env **env)
 		i++;
 	}
 }
+//unset: 1DEF=OLA: invalid parameter name
