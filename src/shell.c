@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 11:49:15 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:02:36 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	start_shell(char **envp)
 		if (!class_command(command, &env))
 		{
 			free (command);
+			clear_env_list(env);
 			printf("exit\n");
 			break ;
 		}

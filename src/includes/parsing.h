@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 11:09:22 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:14:15 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
 void	export_built_in(t_command *cmd, t_env **env);
 void	unset_built_in(t_command *cmd, t_env	**env);
+void	clear_env_list(t_env *env);
 
 #endif
