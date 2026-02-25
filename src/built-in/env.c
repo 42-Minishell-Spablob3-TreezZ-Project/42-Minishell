@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 void	env_bultin(t_env **env, char **envp)
 {
 	int		i;
@@ -62,7 +61,6 @@ void	add_env_node(t_env **env, char *key, char *value)
 	while (head->next)
 		head = head->next;
 	head->next = env_node;
-	env_node = env_node->next;
 }
 
 void	print_env_list(t_env **env)

@@ -43,9 +43,6 @@ void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
 void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
-void		free_new(t_tokens *new);
-void		free_tokens(t_tokens *tokens);
-void		free_command(t_command *cmd);
 
 // command execution
 void	execute_command(t_command *command, t_env **env);
@@ -58,7 +55,7 @@ int		create_pipe(t_command *cmd, int pipe_fd[2]);
 void	echo_builtin(char **argv);
 int		cd_builtin(t_command *cmd, t_env **env);
 void	get_current_dir();
-int		execute_built_in(t_command *cmd);
+int		execute_built_in(t_command *cmd, t_env **env);
 int		exec_parent_built_in(t_command *cmd, t_env **env);
 void	env_bultin(t_env **env, char **envp);
 void	add_env_node(t_env **env, char *key, char *value);
@@ -68,6 +65,12 @@ char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
 void	export_built_in(t_command *cmd, t_env **env);
 void	unset_built_in(t_command *cmd, t_env	**env);
+
+//frees
 void	clear_env_list(t_env *env);
+void	free_env_array(char **array);
+void	free_new(t_tokens *new);
+void	free_tokens(t_tokens *tokens);
+void	free_command(t_command *cmd);
 
 #endif

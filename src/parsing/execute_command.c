@@ -32,7 +32,6 @@ void execute_command(t_command *cmd, t_env **env)
 	{
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
-		// antes de fork executar built-ins : cd, export, unset, exit.
 		if (exec_parent_built_in(cmd, env) == 0)
 			return ;
 		pid = fork(); //dividir o processo em pai e filho
@@ -89,12 +88,12 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		execute_redir_out(cmd);
 	if (cmd->infile)
 		execute_redir_in(cmd);
-	execute_built_in(cmd); // pwd e echo. restantes bultins executados no pai para haver alteracoes.
+	execute_built_in(cmd, env); // pwd e echo. restantes bultins executados no pai para haver alteracoes.
 	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
 	perror("execve failed");
-	//dar free na env_array;
+	free_env_array(env_array); //dar free na env_array;
 	exit(1);
 }
 

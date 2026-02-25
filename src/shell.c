@@ -37,13 +37,13 @@ void	start_shell(char **envp)
 		if (!class_command(command, &env))
 		{
 			free (command);
-			clear_env_list(env);
 			printf("exit\n");
 			break ;
 		}
 		add_history(command);
 		free (command);
 	}
+	clear_env_list(env);
 	rl_clear_history();
 	free (prompt);
 }

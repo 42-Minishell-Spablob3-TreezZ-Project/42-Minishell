@@ -43,39 +43,8 @@ void	add_arg(t_command *cmd, char *word)
 	new_argv[i] = ft_strdup(word);
 	new_argv[i + 1] = NULL;
 	free(cmd->argv);
-	//move this afterwards from here
-	/* cmd->argv = malloc((i + 2) * sizeof(char *)); */
-	/* j = 0; */
-	/* while (j < i) */
-	/* { */
-	/* 	int	k = 0; */
-	/* 	while (new_argv[j][k]) */
-	/* 	{ */
-	/* 		cmd->argv[j][k] = new_argv[j][k]; */
-	/* 		k++; */
-	/* 	} */
-	/* 	cmd->argv[j][k + 1] = '\0'; */
-	/* 	j++; */
-	/* } */
-	/* if (i == 0) */
-	/* { */
-	/* 	int	k = 0; */
-	/* 	while (new_argv[j][k]) */
-	/* 	{ */
-	/* 		cmd->argv[j][k] = new_argv[j][k]; */
-	/* 		k++; */
-	/* 	} */
-	/* 	cmd->argv[j][k + 1] = '\0'; */
-	/* } */
 	cmd->argv = new_argv;
-	/* j = 0; */
-	/* while (new_argv[j]) */
-	/* { */
-	/* 	free(new_argv[j]); */
-	/* 	j++; */
-	/* } */
-	/* free(new_argv); */
-	//till here
+
 }
 
 t_command	*parse_cmd(t_tokens *tokens)

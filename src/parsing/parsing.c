@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// Ponteiro para o previous node
 void	add_token(t_tokens **tokens, t_tokens *new)
 {
 	t_tokens	*last;
@@ -76,7 +75,7 @@ int	class_command(char *cmd, t_env **env)
 		return (0);
 	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)
 	{
-		free(command);
+		free_command(command);
 		return (0);
 	}
 	execute_command(command, env);
@@ -84,40 +83,4 @@ int	class_command(char *cmd, t_env **env)
 	return (1);
 }
 
-void	free_tokens(t_tokens *tokens)
-{
-	t_tokens	*tmp;
 
-	while (tokens)
-	{
-		tmp = tokens->next;
-		free(tokens->input);
-		free(tokens);
-		tokens = tmp;
-	}
-}
-void	free_command(t_command *cmd)
-{
-	t_command	*tmp;
-	int			i;
-
-	while (cmd)
-	{
-		tmp = cmd->next;
-		if (cmd->argv)
-		{
-			i = 0;
-			while (cmd->argv[i])
-			{
-				free(cmd->argv[i]);
-				i++;
-			}
-			free(cmd->argv);
-		}
-		free(cmd->infile);
-		free(cmd->outfile);
-		free(cmd->heredoc_delimiter);
-		free(cmd);
-		cmd = tmp;
-	}
-}

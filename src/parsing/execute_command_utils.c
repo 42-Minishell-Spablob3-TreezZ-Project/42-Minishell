@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int	execute_built_in(t_command *cmd)
+int	execute_built_in(t_command *cmd, t_env **env)
 {
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
@@ -24,6 +24,12 @@ int	execute_built_in(t_command *cmd)
 		get_current_dir();
 		exit(0);
 	}
+	else if (ft_strcmp(cmd->argv[0], "env") == 0)
+	{
+		print_env_list(env);
+		return (0);
+	}
+	
 	return (1);
 }
 
@@ -32,11 +38,6 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	if (ft_strcmp(cmd->argv[0], "cd") == 0)
 	{
 		cd_builtin(cmd, env);
-		return (0);
-	}
-	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-	{
-		print_env_list(env);
 		return (0);
 	}
 	else if (ft_strcmp(cmd->argv[0], "export") == 0)

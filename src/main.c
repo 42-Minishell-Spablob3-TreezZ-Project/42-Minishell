@@ -20,5 +20,5 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	handle_signals();
 	start_shell(envp);
-	exit(0);
+	return(0);
 }
