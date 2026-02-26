@@ -6,10 +6,8 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:32 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:55:33 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:18:33 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../includes/minishell.h"

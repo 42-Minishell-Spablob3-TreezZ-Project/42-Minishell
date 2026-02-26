@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 15:36:32 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:11:27 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	update_env_var(t_env **env, char *oldpwd, char *curr_dir)
 {
 	t_env	*temp;
-	int		OLDPWD_VAR;
+	int		oldpwdvar;
+
 	temp = *env;
-	
-	OLDPWD_VAR = 0;
+	oldpwdvar = 0;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, "PWD") == 0)
@@ -28,14 +28,14 @@ static void	update_env_var(t_env **env, char *oldpwd, char *curr_dir)
 		}
 		else if (ft_strcmp(temp->key, "OLDPWD") == 0)
 		{
-			OLDPWD_VAR = 1;
+			oldpwdvar = 1;
 			free(temp->value);
 			temp->value = ft_strdup(oldpwd);
 		}
 		temp = temp->next;
 	}
-		if (!OLDPWD_VAR)
-			add_env_node(env, "OLDPWD", ft_strdup(oldpwd));
+	if (!oldpwdvar)
+		add_env_node(env, "OLDPWD", ft_strdup(oldpwd));
 }
 
 static char	*get_path(t_command *cmd, t_env **env)
@@ -71,9 +71,9 @@ char	*get_env(char *str, t_env **env)
 	t_env	*temp;
 
 	temp = *env;
-	while(temp)
+	while (temp)
 	{
-		if(ft_strcmp(str, temp->key) == 0)
+		if (ft_strcmp(str, temp->key) == 0)
 			return (temp->value);
 		temp = temp->next;
 	}

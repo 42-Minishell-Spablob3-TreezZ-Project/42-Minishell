@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:28 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 14:26:35 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:14:54 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	delete_first_node(t_env **head)
 {
 	t_env	*temp;
-	
+
 	if (!head || !*head)
 		return ;
 	temp = *head;
@@ -39,7 +39,7 @@ void	delete_node(t_env **head, char *key)
 	current = *head;
 	while (current && current->next)
 	{
-		if (ft_strcmp(current->next->key, key)== 0)
+		if (ft_strcmp(current->next->key, key) == 0)
 		{
 			temp = current->next;
 			current->next = temp->next;
@@ -69,7 +69,6 @@ int	is_valid(char *str)
 		i++;
 	}
 	return (1);
-		
 }
 
 void	unset_built_in(t_command *cmd, t_env **env)
@@ -83,7 +82,7 @@ void	unset_built_in(t_command *cmd, t_env **env)
 		if (!is_valid(cmd->argv[i]))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		temp = *env;
 		while (temp)

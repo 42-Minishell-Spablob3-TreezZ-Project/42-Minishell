@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:40 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:56:42 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:19:24 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	handle_signals();
 	start_shell(envp);
-	return(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/23 16:17:09 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:27:55 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	tokenization(t_tokens **tokens, char *cmd)
 
 t_command	*start_lexer(char *cmd)
 {
-	t_command 	*command;
+	t_command	*command;
 	t_tokens	*tokens;
 
 	tokens = NULL;
@@ -63,7 +63,7 @@ t_command	*start_lexer(char *cmd)
 	expand_tokens(tokens);
 	command = parse_cmd(tokens);
 	free_tokens(tokens);
-	return(command);
+	return (command);
 }
 
 int	class_command(char *cmd, t_env **env)
@@ -86,5 +86,3 @@ int	class_command(char *cmd, t_env **env)
 	free_command(command);
 	return (1);
 }
-
-

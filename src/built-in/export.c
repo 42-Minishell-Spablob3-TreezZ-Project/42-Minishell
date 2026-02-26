@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 16:40:39 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:07:41 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	verify_env_var(char *var_key, char *value, char *equal_sign, \
 t_env **env)
 {
 	t_env	*temp;
-	
+
 	if (!is_valid(var_key))
 	{
 		export_print_error(var_key, value, equal_sign);
@@ -57,7 +57,7 @@ void	export_built_in(t_command *cmd, t_env **env)
 	char	*value;
 	int		key_len;
 	char	*equal_sign;
-	
+
 	i = 1;
 	while (cmd->argv[i])
 	{
@@ -72,12 +72,12 @@ void	export_built_in(t_command *cmd, t_env **env)
 		key_len = equal_sign - cmd->argv[i];
 		key = ft_substr(cmd->argv[i], 0, key_len);
 		value = ft_strdup(equal_sign + 1);
-		if(!verify_env_var(key, value, equal_sign, env))
+		if (!verify_env_var(key, value, equal_sign, env))
 		{
 			free(key);
 			free(value);
 			i++;
-			continue;
+			continue ;
 		}
 		add_env_node(env, key, value);
 		i++;

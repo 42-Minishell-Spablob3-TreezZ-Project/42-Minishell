@@ -6,7 +6,7 @@
 /*   By: grui-ant <grui-ant@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/02/25 14:02:31 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:23:06 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	free_env_array(char **array)
 	int	i;
 
 	i = 0;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		i++;

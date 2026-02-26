@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:50:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:35 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:53:00 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*expand_variable(char **str)
 
 	(*str)++;
 	start = *str;
-	if(**str == '?')
+	if (**str == '?')
 	{
 		(*str)++;
 		return (ft_itoa(g_exit_status));

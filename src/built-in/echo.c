@@ -6,10 +6,9 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:10 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/23 15:28:52 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:16:51 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -28,17 +27,16 @@ int	check_n_flag(char *argv)
 	if (argv[i] != 'n')
 		return (0);
 	else
-		return(1);
+		return (1);
 }
 
 void	echo_builtin(char **argv)
 {
-	int i;
-	int n_flag;
+	int	i;
+	int	n_flag;
 
 	i = 1;
 	n_flag = 0;
-
 	if (argv[i] && check_n_flag(argv[i]))
 	{
 		i = 2;
