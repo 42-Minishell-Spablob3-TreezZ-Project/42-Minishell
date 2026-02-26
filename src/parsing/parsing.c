@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 17:27:55 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:11:58 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	class_command(char *cmd, t_env **env)
 		free_command(command);
 		return (0);
 	}
+	g_exit_status = 0;
 	execute_command(command, env);
 	free_command(command);
 	return (1);

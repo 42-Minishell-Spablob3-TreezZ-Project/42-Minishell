@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 17:07:41 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:51:40 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	export_print_error(char *var_key, char *value, char *equal_sign)
 	if (value)
 		ft_putstr_fd(value, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
+	g_exit_status = 1;
 	return ;
 }
 
@@ -32,7 +33,6 @@ t_env **env)
 	if (!is_valid(var_key))
 	{
 		export_print_error(var_key, value, equal_sign);
-		g_exit_status = 1;
 		return (0);
 	}
 	temp = *env;
@@ -65,9 +65,12 @@ void	export_built_in(t_command *cmd, t_env **env)
 		if (!equal_sign)
 		{
 			if (!is_valid(cmd->argv[i]))
+			{
 				export_print_error(cmd->argv[i], 0, equal_sign);
+				return ;
+			}
+			g_exit_status = 0;
 			return ;
-			g_exit_status = 1;
 		}
 		key_len = equal_sign - cmd->argv[i];
 		key = ft_substr(cmd->argv[i], 0, key_len);
