@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 14:42:17 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:56:02 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,8 @@ void	free_env_array(char **array);
 void	free_new(t_tokens *new);
 void	free_tokens(t_tokens *tokens);
 void	free_command(t_command *cmd);
+
+//See where to place
+int		empty_prompt(char *cmd);
 
 #endif
