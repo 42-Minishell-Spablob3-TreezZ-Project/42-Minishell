@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:56:24 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/23 16:04:43 by grui-ant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-//Precisa de ser refatorada
 void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 {
 	int	start;
@@ -15,12 +26,12 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 	{
 		if (cmd[*i + 1] == '<')
 		{
-			new->type = TOKEN_HERE_DOC;
+			new->type = TOKEN_HEREDOC;
 			(*i) += 2;
 		}
 		else
 		{
-			new->type = TOKEN_REDIR_IN;
+			new->type = TOKEN_REDIRIN;
 			(*i)++;
 		}
 	}
@@ -33,7 +44,7 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 		}
 		else
 		{
-			new->type = TOKEN_REDIR_OUT;
+			new->type = TOKEN_REDIROUT;
 			(*i)++;
 		}
 	}
@@ -42,7 +53,7 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 {
-	int start;
+	int	start;
 
 	start = *i;
 	new->type = TOKEN_WORD;
@@ -55,7 +66,7 @@ t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 void	check_quotes(char *cmd, int *i)
 {
 	char	quote;
-	
+
 	if (is_quote(cmd[*i]))
 	{
 		quote = cmd[*i];
@@ -86,23 +97,28 @@ int	is_space(char c)
 	return (c == 32 || (c >= 9 && c <= 13));
 }
 
-int is_operator(char c)
+int	is_operator(char c)
 {
-    return (c == '|' || c == '>' || c == '<');
+	return (c == '|' || c == '>' || c == '<');
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
-    return (c == '"' || c == '\'');
+	return (c == '"' || c == '\'');
 }
 
-/* #include <stdio.h> */
+int	empty_prompt(char *cmd)
+{
+	int	i;
 
-/* int	main(void) */
-/* { */
-/* 	char	*str = "hello > yo"; */
-/* 	int	i = 0; */
-/* 	while (str[i]) */
-/* 		printf("%i\n", which_token(str, &i)); */
-/* 	return (0); */
-/* } */
+	i = 0;
+	if (cmd[0] == ' ')
+	{
+		while (cmd[i] && cmd[i] == ' ')
+			i++;
+		if (cmd[i] && cmd[i] != ' ')
+			return (0);
+		return (1);
+	}
+	return (0);
+}

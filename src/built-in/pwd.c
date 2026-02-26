@@ -1,14 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:54:46 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 11:54:47 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
-
-
-	// implementar forma de executar a funcao get_current_dir
-	
-	/* if (ft_strncmp (cmd, "pwd", INT_MAX) == 0)
-	{
-		get_current_dir();
-		return(0);
-	} */
-
 
 void get_current_dir()
 {

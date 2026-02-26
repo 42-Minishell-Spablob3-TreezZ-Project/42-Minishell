@@ -1,17 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:56:40 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 11:56:42 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
 
-int main(void)
+int	g_exit_status = 0;
+
+int	main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
 	handle_signals();
-	start_shell();
-	exit (0);
+	start_shell(envp);
+	return(0);
 }
-
-/* int	main(int argc, char **argv) */
-/* { */
-/* 	char	*test; */
-
-/* 	test = readline(argv[1]); */
-/* 	printf("%s", test); */
-/* 	return (0); */
-/* } */

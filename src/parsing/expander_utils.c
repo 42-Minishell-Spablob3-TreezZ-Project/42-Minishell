@@ -1,14 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:54:16 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 11:54:19 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	handle_single_quotes(char **str, char **result)
 {
-	// se carater anterior for duplas aspas seguido de aspas singulares e $. tenho que tratar $
-	/* if (*(*str - 1) == '"')
-		handle_double_quotes(str, result); */
-	(*str)++; // salto primeras aspas.
+	(*str)++;
 	while (**str && **str != '\'')
 	{
-		*result = ft_append(*result, **str); // percorro carateres e faço append.
+		*result = ft_append(*result, **str);
 		(*str)++;
 	}
 	if (**str != '\'')
@@ -16,10 +25,10 @@ void	handle_single_quotes(char **str, char **result)
 		printf("Error: unclosed quotes detected.\033[0m\n");
 		return ;
 	}
-// no caso da string nao tiver sido fechada com aspas. Ex: '$USER
-	/* if (**str == '\'') // salto ultimas aspas.
-		(*str)++; */
+	if (**str == '\'')
+		(*str)++;
 }
+
 void	handle_double_quotes(char **str, char **result)
 {
 	(*str)++;
@@ -27,7 +36,7 @@ void	handle_double_quotes(char **str, char **result)
 	{
 		if (**str == '$')
 			handle_dollar(str, result);
-		else 
+		else
 		{
 			*result = ft_append(*result, **str);
 			(*str)++;
@@ -38,6 +47,8 @@ void	handle_double_quotes(char **str, char **result)
 		printf("Error: unclosed quotes detected.\033[0m\n");
 		return ;
 	}
+	if (**str == '"')
+		(*str)++;
 }
 
 void	handle_dollar(char **str, char **result)

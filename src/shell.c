@@ -1,6 +1,16 @@
-#include "includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/25 14:02:36 by grui-ant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-volatile sig_atomic_t g_sigint = 0;
+#include "includes/minishell.h"
 
 char	*create_prompt(void)
 {
@@ -11,17 +21,20 @@ char	*create_prompt(void)
 	return (prompt);
 }
 
-void	start_shell(void)
+void	start_shell(char **envp)
 {
 	char	*command;
 	char	*prompt;
+	t_env	*env;
 
 	command = NULL;
 	prompt = create_prompt();
+	env = NULL;
+	env_bultin(&env, envp);
 	while (1)
 	{
 		command = readline(prompt);
-		if (!class_command(command))
+		if (!class_command(command, &env))
 		{
 			free (command);
 			printf("exit\n");
@@ -30,31 +43,7 @@ void	start_shell(void)
 		add_history(command);
 		free (command);
 	}
+	clear_env_list(env);
+	rl_clear_history();
 	free (prompt);
 }
-
-//enum { MAXC = 128 };
-
-
-/* int main (void){ */
-
-/*     char ps[MAXC] = "", */
-/*         *p = getenv("USER"), */
-/*         *host = getenv("HOSTNAME"), */
-/*         *s = NULL; */
-/*     int count = 1; */
-/*     sprintf(ps, "%d %s@%s> ", count, p, host); */
-/* //	CHECK WHAT THIS DOES PROPERLY */
-/*     using_history();    /\* initialize history *\/ */
-
-/*     while ((s = readline(ps))) { */
-/*         if (strcmp (s, "quit") == 0) { */
-/*             free (s); */
-/*             break; */
-/*         } */
-/*         add_history (s); */
-/*         free (s); */
-/*         count++; */
-/*         sprintf (ps, "%d %s@%s> ", count, p, host); */
-/*     } */
-/* } */

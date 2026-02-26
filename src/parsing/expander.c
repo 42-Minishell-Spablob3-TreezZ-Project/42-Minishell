@@ -1,18 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:50:06 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 11:54:35 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-void expand_tokens(t_tokens *tokens)
+void	expand_tokens(t_tokens *tokens)
 {
+	char	*tmp;
+
 	while (tokens)
 	{
 		if (tokens->type == TOKEN_WORD)
+		{
+			tmp = tokens->input;
 			tokens->input = expand_word(tokens->input);
+			free(tmp);
+		}
 		tokens = tokens->next;
 	}
 }
 
-char *expand_word(char *str)
+char	*expand_word(char *str)
 {
-	char *result;
+	char	*result;
+
 	result = NULL;
 	while (*str)
 	{
@@ -21,31 +40,29 @@ char *expand_word(char *str)
 		else if (*str == '"')
 			handle_double_quotes(&str, &result);
 		else if (*str == '$')
-		{
 			handle_dollar(&str, &result);
-			if (*str == '\'' || *str == '$' || *str == '"')
-				continue;
-		}
 		else
-			result = ft_append(result, *str); //concatenar carateres para formar string final.
-		str++;
+		{
+			result = ft_append(result, *str);
+			str++;
+		}
 	}
 	return (result);
 }
 
 char	*ft_append(char *dest, char c)
 {
-	int	len;
+	int		len;
 	char	*new;
-	int	i;
-	
+	int		i;
+
 	if (!dest)
 		len = 0;
 	else
 		len = ft_strlen(dest);
 	new = malloc(len + 2);
 	if (!new)
-		return NULL;
+		return (NULL);
 	i = 0;
 	if (dest)
 	{
@@ -63,9 +80,6 @@ char	*ft_append(char *dest, char c)
 
 char	*expand_variable(char **str)
 {
-/* 	*str++;
-	if (*str == '?')
-		return(ft_itoa(g_exit_status)); */
 	char	*start;
 	int		len;
 	char	*var_name;
@@ -73,21 +87,18 @@ char	*expand_variable(char **str)
 
 	(*str)++;
 	start = *str;
+	if(**str == '?')
+	{
+		(*str)++;
+		return (ft_itoa(g_exit_status));
+	}
 	while (**str && (ft_isalnum(**str) || **str == '_'))
 		(*str)++;
 	len = *str - start;
-	/* if (**str == '$')
-		(*str)--; */
 	var_name = ft_substr(start, 0, len);
 	env_var = getenv(var_name);
 	free(var_name);
 	if (!env_var)
-		return NULL;
+		return (NULL);
 	return (ft_strdup(env_var));
 }
-/* exemplo 
- 
-echo "$USER" --> expande
-echo '$USER' --> N expande
-
-*/

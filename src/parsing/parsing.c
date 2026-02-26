@@ -1,28 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/23 16:17:09 by grui-ant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-/* void	start_lexer(t_tokens **tokens, char *cmd) */
-/* { */
-/* 	int			i; */
-/* 	t_tokens	*new; */
-
-/* 	i = 0; */
-/* 	new = NULL; */
-/* 	while (cmd[i]) */
-/* 	{ */
-/* 		if (cmd[i] == 32 || (cmd[i] >= 9 && cmd[i] <= 13)) */
-/* 			i++; */
-/* 		is_operator(cmd[i]); */
-/* 			tokenize_operator(cmd, new, &i); */
-/* 		else */
-/* 			tokenize_word(cmd, new, &i); */
-/* 	} */
-/* } */
-
-// Ponteiro para o previous node 
 void	add_token(t_tokens **tokens, t_tokens *new)
 {
 	t_tokens	*last;
 
+	new->next = NULL;
 	if (!(*tokens))
 	{
 		*tokens = new;
@@ -36,7 +30,7 @@ void	add_token(t_tokens **tokens, t_tokens *new)
 	new->prev = last;
 }
 
-void	start_lexer(t_tokens **tokens, char *cmd)
+void	tokenization(t_tokens **tokens, char *cmd)
 {
 	int			i;
 	t_tokens	*new;
@@ -57,33 +51,40 @@ void	start_lexer(t_tokens **tokens, char *cmd)
 	}
 }
 
-//ALTERAR FUNCAO PARA START LEXER
-char	*parse_command(char *cmd)
+t_command	*start_lexer(char *cmd)
 {
+	t_command 	*command;
 	t_tokens	*tokens;
 
 	tokens = NULL;
 	if (!cmd)
-		return NULL;
-	start_lexer(&tokens, cmd);
+		return (NULL);
+	tokenization(&tokens, cmd);
 	expand_tokens(tokens);
-	return (tokens->input); //Apenas retorna primeiro node (não precisamo de retornar)
+	command = parse_cmd(tokens);
+	free_tokens(tokens);
+	return(command);
 }
 
-int	class_command(char *cmd)
+int	class_command(char *cmd, t_env **env)
 {
-	char	*parsed;
+	t_command	*command;
 
-	parsed = parse_command(cmd); //Chamar start lexer
-	if (!parsed)
+	if (!cmd)
 		return (0);
-	if (ft_strncmp (parsed, "exit", INT_MAX) == 0)
-		return (0);
-	//If invalid command
-	else if (parsed)
-	{
-		ft_printf("%s: command not found\n", parsed);
+	if (!cmd[0] || empty_prompt(cmd))
 		return (1);
+	command = start_lexer(cmd);
+	if (!command)
+		return (0);
+	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)
+	{
+		free_command(command);
+		return (0);
 	}
+	execute_command(command, env);
+	free_command(command);
 	return (1);
 }
+
+

@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:55:10 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/23 15:28:52 by grui-ant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
 
 int	check_n_flag(char *argv)
@@ -18,31 +31,27 @@ int	check_n_flag(char *argv)
 		return(1);
 }
 
-
 void	echo_builtin(char **argv)
 {
 	int i;
 	int n_flag;
 
-	i = 0;
+	i = 1;
 	n_flag = 0;
 
 	if (argv[i] && check_n_flag(argv[i]))
+	{
+		i = 2;
 		n_flag = 1;
+	}
 	while (argv[i])
 	{
-		printf("%s", argv[i]);
+		if (!argv[i + 1])
+			printf("%s", argv[i]);
+		else
+			printf("%s ", argv[i]);
 		i++;
 	}
 	if (!n_flag)
 		printf("\n");
 }
-
-
-/* 
-TESTAGEM SEM INPUT VERDADEIRO!
-int main(void)
-{
-	char *str[] = {"-n", NULL};
-	echo_builtin(str);
-} */

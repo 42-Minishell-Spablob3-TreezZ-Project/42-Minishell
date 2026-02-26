@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/19 11:55:49 by joapedro          #+#    #+#             */
+/*   Updated: 2026/02/19 11:55:51 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -12,9 +24,10 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 // variavel global para os sinais
-extern volatile sig_atomic_t g_sigint;
+extern int g_exit_status;
 
 //Libft
 
