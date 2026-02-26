@@ -6,13 +6,13 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 17:51:40 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:54:30 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	export_print_error(char *var_key, char *value, char *equal_sign)
+static void	export_print_error(char *var_key, char *value, char *equal_sign)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(var_key, 2);
@@ -25,7 +25,7 @@ void	export_print_error(char *var_key, char *value, char *equal_sign)
 	return ;
 }
 
-static	int	verify_env_var(char *var_key, char *value, char *equal_sign, \
+static int	verify_env_var(char *var_key, char *value, char *equal_sign, \
 t_env **env)
 {
 	t_env	*temp;
@@ -50,6 +50,21 @@ t_env **env)
 	return (1);
 }
 
+static int	check_equal_sign(char *equal_sign, char *cmd_argv)
+{
+	if (!equal_sign)
+	{
+		if (!is_valid(cmd_argv))
+		{
+			export_print_error(cmd_argv, 0, equal_sign);
+			return (1);
+		}
+		g_exit_status = 0;
+		return (1);
+	}
+	return (0);
+}
+
 void	export_built_in(t_command *cmd, t_env **env)
 {
 	int		i;
@@ -62,16 +77,8 @@ void	export_built_in(t_command *cmd, t_env **env)
 	while (cmd->argv[i])
 	{
 		equal_sign = ft_strchr(cmd->argv[i], '=');
-		if (!equal_sign)
-		{
-			if (!is_valid(cmd->argv[i]))
-			{
-				export_print_error(cmd->argv[i], 0, equal_sign);
-				return ;
-			}
-			g_exit_status = 0;
+		if (check_equal_sign(equal_sign, cmd->argv[i]))
 			return ;
-		}
 		key_len = equal_sign - cmd->argv[i];
 		key = ft_substr(cmd->argv[i], 0, key_len);
 		value = ft_strdup(equal_sign + 1);
