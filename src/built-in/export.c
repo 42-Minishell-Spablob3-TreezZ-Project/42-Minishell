@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:55:36 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:21:34 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,19 @@ void	export_built_in(t_command *cmd, t_env **env)
 	i = 1;
 	while (cmd->argv[i])
 	{
+
 		equal_sign = ft_strchr(cmd->argv[i], '=');
 		key_len = equal_sign - cmd->argv[i];
 		key = ft_substr(cmd->argv[i], 0, key_len);
-		verify_env_var(key, env);
 		value = ft_strdup(equal_sign + 1);
+		if (!is_valid(key))
+		{
+			free(key);
+			free(value);
+			printf("INVALIDO!!\n"); //tem de correr os argvs todos. so nao exporta os nao validos
+			return ;
+		}
+		verify_env_var(key, env); // verificar se ja existe.
 		add_env_node(env, key, value);
 		i++;
 	}

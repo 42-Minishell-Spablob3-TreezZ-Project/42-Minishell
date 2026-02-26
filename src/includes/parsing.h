@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/25 14:14:15 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:04:23 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		create_pipe(t_command *cmd, int pipe_fd[2]);
 void	echo_builtin(char **argv);
 int		cd_builtin(t_command *cmd, t_env **env);
 void	get_current_dir();
-int		execute_built_in(t_command *cmd, t_env **env);
+int		execute_built_in(t_command *cmd);
 int		exec_parent_built_in(t_command *cmd, t_env **env);
 void	env_bultin(t_env **env, char **envp);
 void	add_env_node(t_env **env, char *key, char *value);
@@ -65,6 +65,7 @@ char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
 void	export_built_in(t_command *cmd, t_env **env);
 void	unset_built_in(t_command *cmd, t_env	**env);
+int		is_valid(char *str);
 
 //frees
 void	clear_env_list(t_env *env);

@@ -6,13 +6,13 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/25 11:16:31 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:38:19 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execute_built_in(t_command *cmd, t_env **env)
+int	execute_built_in(t_command *cmd) //t_env **env)
 {
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
@@ -24,12 +24,6 @@ int	execute_built_in(t_command *cmd, t_env **env)
 		get_current_dir();
 		exit(0);
 	}
-	else if (ft_strcmp(cmd->argv[0], "env") == 0)
-	{
-		print_env_list(env);
-		return (0);
-	}
-	
 	return (1);
 }
 
