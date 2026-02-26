@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 14:44:46 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 15:36:32 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,23 @@ int	cd_builtin(t_command *cmd, t_env **env)
 
 	oldpwd = getcwd(NULL, 0);
 	path = get_path(cmd, env);
-	if (!path )
+	if (!path)
 	{
 		free(oldpwd);
+		g_exit_status = 1;
 		return (1);
 	}
 	if (chdir(path) != 0)
 	{
 		perror("cd");
 		free(oldpwd);
+		g_exit_status = 1;
 		return (1);
 	}
 	curr_dir = getcwd(NULL, 0);
 	update_env_var(env, oldpwd, curr_dir);
 	free(oldpwd);
 	free(curr_dir);
+	g_exit_status = 0;
 	return (0);
 }
