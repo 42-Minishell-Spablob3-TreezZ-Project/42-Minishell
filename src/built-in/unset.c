@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:28 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 12:17:54 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 14:26:35 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	delete_first_node(t_env **head)
 	return ;
 }
 
-static void	delete_node(t_env **head, char *key)
+void	delete_node(t_env **head, char *key)
 {
 	t_env	*temp;
 	t_env	*current;
