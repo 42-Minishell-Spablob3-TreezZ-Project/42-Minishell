@@ -43,9 +43,6 @@ void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
 void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
-void		free_new(t_tokens *new);
-void		free_tokens(t_tokens *tokens);
-void		free_command(t_command *cmd);
 
 // command execution
 void	execute_command(t_command *command, t_env **env);
@@ -66,6 +63,17 @@ void	print_env_list(t_env **env);
 char	**env_to_array(t_env *env);
 char	*get_env(char *str, t_env **env);
 int		ft_strcmp(char *s1, char *s2);
+void	export_built_in(t_command *cmd, t_env **env);
+void	unset_built_in(t_command *cmd, t_env	**env);
+int		is_valid(char *str);
+void	delete_node(t_env **head, char *key);
+
+//frees
+void	clear_env_list(t_env *env);
+void	free_env_array(char **array);
+void	free_new(t_tokens *new);
+void	free_tokens(t_tokens *tokens);
+void	free_command(t_command *cmd);
 
 //See where to place
 int		empty_prompt(char *cmd);

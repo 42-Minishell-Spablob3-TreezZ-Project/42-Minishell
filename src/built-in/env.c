@@ -6,12 +6,11 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:26 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 12:38:55 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/24 15:07:08 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	env_bultin(t_env **env, char **envp)
 {
@@ -42,13 +41,26 @@ void	env_bultin(t_env **env, char **envp)
 }
 void	add_env_node(t_env **env, char *key, char *value)
 {
-	t_env *env_node;
+	t_env	*env_node;
+	t_env	*head;
 
 	env_node = malloc(sizeof(t_env));
+	if (!env_node)
+		return ;
+	env_node->next = NULL;
+	if (!(*env))
+	{
+		env_node->key = key;
+		env_node->value = value;
+		*env = env_node;
+		return ;
+	}
 	env_node->key = key;
 	env_node->value = value;
-	env_node->next = *env;
-	*env = env_node;
+	head = *env;
+	while (head->next)
+		head = head->next;
+	head->next = env_node;
 }
 
 void	print_env_list(t_env **env)

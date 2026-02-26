@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 14:03:26 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 11:06:53 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void execute_command(t_command *cmd, t_env **env)
 	{
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
-		// antes de fork executar built-ins : cd, export, unset, exit.
 		if (exec_parent_built_in(cmd, env) == 0)
 			return ;
 		pid = fork(); //dividir o processo em pai e filho
@@ -94,7 +93,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
 	perror("execve failed");
-	//dar free na env_array;
+	free_env_array(env_array); //dar free na env_array;
 	exit(1);
 }
 

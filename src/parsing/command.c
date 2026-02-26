@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:58 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:55:02 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_command	*new_command(void)
 	t_command	*cmd;
 
 	cmd = ft_calloc(1, sizeof(t_command));
+	if (!cmd)
+		return NULL;
 	return (cmd);
 }
 
@@ -42,6 +44,7 @@ void	add_arg(t_command *cmd, char *word)
 	new_argv[i + 1] = NULL;
 	free(cmd->argv);
 	cmd->argv = new_argv;
+
 }
 
 t_command	*parse_cmd(t_tokens *tokens)
