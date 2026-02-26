@@ -6,23 +6,32 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 15:52:41 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:40:39 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static	int	verify_env_var(char *var_key, char *value, t_env **env)
+void	export_print_error(char *var_key, char *value, char *equal_sign)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(var_key, 2);
+	if (equal_sign)
+		ft_putstr_fd("=", 2);
+	if (value)
+		ft_putstr_fd(value, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	return ;
+}
+
+static	int	verify_env_var(char *var_key, char *value, char *equal_sign, \
+t_env **env)
 {
 	t_env	*temp;
 	
 	if (!is_valid(var_key))
 	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(var_key, 2);
-		ft_putstr_fd("=", 2);
-		ft_putstr_fd(value, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		export_print_error(var_key, value, equal_sign);
 		g_exit_status = 1;
 		return (0);
 	}
@@ -55,13 +64,15 @@ void	export_built_in(t_command *cmd, t_env **env)
 		equal_sign = ft_strchr(cmd->argv[i], '=');
 		if (!equal_sign)
 		{
+			if (!is_valid(cmd->argv[i]))
+				export_print_error(cmd->argv[i], 0, equal_sign);
 			return ;
 			g_exit_status = 1;
 		}
 		key_len = equal_sign - cmd->argv[i];
 		key = ft_substr(cmd->argv[i], 0, key_len);
 		value = ft_strdup(equal_sign + 1);
-		if(!verify_env_var(key, value, env))
+		if(!verify_env_var(key, value, equal_sign, env))
 		{
 			free(key);
 			free(value);
