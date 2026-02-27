@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	expand_tokens(t_tokens *tokens)
+void	expand_tokens(t_tokens *tokens, t_env **env)
 {
 	char	*tmp;
 
@@ -21,14 +21,14 @@ void	expand_tokens(t_tokens *tokens)
 		if (tokens->type == TOKEN_WORD)
 		{
 			tmp = tokens->input;
-			tokens->input = expand_word(tokens->input);
+			tokens->input = expand_word(tokens->input, env);
 			free(tmp);
 		}
 		tokens = tokens->next;
 	}
 }
 
-char	*expand_word(char *str)
+char	*expand_word(char *str, t_env **env)
 {
 	char	*result;
 
@@ -38,9 +38,9 @@ char	*expand_word(char *str)
 		if (*str == '\'')
 			handle_single_quotes(&str, &result);
 		else if (*str == '"')
-			handle_double_quotes(&str, &result);
+			handle_double_quotes(&str, &result, env);
 		else if (*str == '$')
-			handle_dollar(&str, &result);
+			handle_dollar(&str, &result, env);
 		else
 		{
 			result = ft_append(result, *str);
@@ -78,7 +78,7 @@ char	*ft_append(char *dest, char c)
 	return (new);
 }
 
-char	*expand_variable(char **str)
+char	*expand_variable(char **str, t_env **env)
 {
 	char	*start;
 	int		len;
@@ -96,7 +96,7 @@ char	*expand_variable(char **str)
 		(*str)++;
 	len = *str - start;
 	var_name = ft_substr(start, 0, len);
-	env_var = getenv(var_name);
+	env_var = get_env(var_name, env);
 	free(var_name);
 	if (!env_var)
 		return (NULL);

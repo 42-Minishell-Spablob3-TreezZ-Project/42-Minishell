@@ -51,7 +51,7 @@ void	tokenization(t_tokens **tokens, char *cmd)
 	}
 }
 
-t_command	*start_lexer(char *cmd)
+t_command	*start_lexer(char *cmd, t_env **env)
 {
 	t_command	*command;
 	t_tokens	*tokens;
@@ -60,7 +60,7 @@ t_command	*start_lexer(char *cmd)
 	if (!cmd)
 		return (NULL);
 	tokenization(&tokens, cmd);
-	expand_tokens(tokens);
+	expand_tokens(tokens, env);
 	command = parse_cmd(tokens);
 	free_tokens(tokens);
 	return (command);
@@ -74,7 +74,7 @@ int	class_command(char *cmd, t_env **env)
 		return (0);
 	if (!cmd[0] || empty_prompt(cmd))
 		return (1);
-	command = start_lexer(cmd);
+	command = start_lexer(cmd, env);
 	if (!command)
 		return (0);
 	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)

@@ -19,7 +19,7 @@
 int			class_command(char *cmd, t_env **env);
 void		add_token(t_tokens **tokens, t_tokens *new);
 void		tokenization(t_tokens **tokens, char *cmd);
-t_command	*start_lexer(char *cmd);
+t_command	*start_lexer(char *cmd, t_env **env);
 int			is_space(char c);
 int			is_operator(char c);
 int			is_quote(char c);
@@ -29,13 +29,13 @@ void		tokenize_operator(char *cmd, t_tokens *new, int *i);
 void		check_quotes(char *cmd, int *i);
 
 //Expander
-void		expand_tokens(t_tokens *tokens);
-char		*expand_word(char *str);
-char		*expand_variable(char **str);
+void		expand_tokens(t_tokens *tokens, t_env **env);
+char		*expand_word(char *str, t_env **env);
+char		*expand_variable(char **str, t_env **env);
 char		*ft_append(char *dest, char c);
 void		handle_single_quotes(char **str, char **result);
-void		handle_double_quotes(char **str, char **result);
-void		handle_dollar(char **str, char **result);
+void		handle_double_quotes(char **str, char **result, t_env **env);
+void		handle_dollar(char **str, char **result, t_env **env);
 
 //Command Parsing
 t_command	*new_command(void);

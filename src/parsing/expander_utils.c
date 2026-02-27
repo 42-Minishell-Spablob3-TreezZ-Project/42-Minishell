@@ -29,13 +29,13 @@ void	handle_single_quotes(char **str, char **result)
 		(*str)++;
 }
 
-void	handle_double_quotes(char **str, char **result)
+void	handle_double_quotes(char **str, char **result, t_env **env)
 {
 	(*str)++;
 	while (**str && **str != '"')
 	{
 		if (**str == '$')
-			handle_dollar(str, result);
+			handle_dollar(str, result, env);
 		else
 		{
 			*result = ft_append(*result, **str);
@@ -51,11 +51,11 @@ void	handle_double_quotes(char **str, char **result)
 		(*str)++;
 }
 
-void	handle_dollar(char **str, char **result)
+void	handle_dollar(char **str, char **result, t_env **env)
 {
 	char	*expanded;
 
-	expanded = expand_variable(str);
+	expanded = expand_variable(str, env);
 	if (expanded)
 	{
 		if (!result)
