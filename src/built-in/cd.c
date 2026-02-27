@@ -35,7 +35,7 @@ static void	update_env_var(t_env **env, char *oldpwd, char *curr_dir)
 		temp = temp->next;
 	}
 	if (!oldpwdvar)
-		add_env_node(env, "OLDPWD", ft_strdup(oldpwd));
+		add_env_node(env, ft_strdup("OLDPWD"), ft_strdup(oldpwd));
 }
 
 static char	*get_path(t_command *cmd, t_env **env)
@@ -44,26 +44,26 @@ static char	*get_path(t_command *cmd, t_env **env)
 
 	if (!cmd->argv[1] || ft_strcmp(cmd->argv[1], "~") == 0)
 	{
-		path = (get_env("HOME", env));
+		path = get_env("HOME", env);
 		if (!path)
 		{
 			printf("cd: HOME not set\n");
 			return (NULL);
 		}
-		return (path);
+		return (ft_strdup(path));
 	}
 	if (ft_strcmp(cmd->argv[1], "-") == 0)
 	{
-		path = (get_env("OLDPWD", env));
+		path = get_env("OLDPWD", env);
 		if (!path)
 		{
 			printf("cd: OLDPWD not set\n");
 			return (NULL);
 		}
 		printf("%s\n", path);
-		return (path);
+		return (ft_strdup(path));
 	}
-	return (cmd->argv[1]);
+	return (ft_strdup(cmd->argv[1]));
 }
 
 char	*get_env(char *str, t_env **env)
@@ -91,6 +91,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	if (!path)
 	{
 		free(oldpwd);
+		free(path);
 		g_exit_status = 1;
 		return (1);
 	}
@@ -98,6 +99,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	{
 		perror("cd");
 		free(oldpwd);
+		free(path);
 		g_exit_status = 1;
 		return (1);
 	}
@@ -105,6 +107,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	update_env_var(env, oldpwd, curr_dir);
 	free(oldpwd);
 	free(curr_dir);
+	free(path);
 	g_exit_status = 0;
 	return (0);
 }
