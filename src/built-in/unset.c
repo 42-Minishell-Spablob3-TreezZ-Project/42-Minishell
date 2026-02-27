@@ -43,12 +43,9 @@ void	delete_node(t_env **head, char *key)
 		{
 			temp = current->next;
 			current->next = temp->next;
-			if (current->next)
-			{
-				free(temp->value);
-				free(temp->key);
-				free(temp);
-			}
+			free(temp->value);
+			free(temp->key);
+			free(temp);
 			return ;
 		}
 		current = current->next;

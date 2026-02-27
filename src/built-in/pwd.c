@@ -17,5 +17,11 @@ void	get_current_dir(void)
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		perror("getcwd");
+		return ;
+	}
 	printf("%s\n", pwd);
+	free(pwd);
 }
