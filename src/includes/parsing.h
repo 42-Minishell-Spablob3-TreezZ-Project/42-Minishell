@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 17:03:50 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/02/27 16:48:18 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		handle_dollar(char **str, char **result);
 
 //Command Parsing
 t_command	*new_command(void);
-void		add_arg(t_command *cmd, char *word);
+//void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
 void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
