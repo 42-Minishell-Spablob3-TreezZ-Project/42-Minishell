@@ -70,7 +70,7 @@ int			is_valid(char *str);
 void		delete_node(t_env **head, char *key);
 
 //frees
-void		clear_env_list(t_env *env);
+void		clear_env_list(t_env **env);
 void		free_env_array(char **array);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);

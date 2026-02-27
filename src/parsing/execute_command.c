@@ -95,6 +95,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 	perror("execve failed");
 	g_exit_status = 2;
 	free_env_array(env_array); //dar free na env_array;
+	free_command(cmd);
 	exit(1);
 }
 
