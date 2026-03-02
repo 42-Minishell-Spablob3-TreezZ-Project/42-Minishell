@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:50:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 16:53:00 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:32:22 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*expand_variable(char **str, t_env **env)
 
 	(*str)++;
 	start = *str;
+	if (**str == '$')
+		printf("%i", getpid());
 	if (**str == '?')
 	{
 		(*str)++;

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 18:25:31 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:04:39 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,18 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		execute_redir_out(cmd);
 	if (cmd->infile)
 		execute_redir_in(cmd);
-	execute_built_in(cmd); // pwd e echo. restantes bultins executados no pai para haver alteracoes.
+	if (execute_built_in(cmd))// pwd e echo. restantes bultins executados no pai para haver alteracoes.
+	{
+		free_command(cmd);
+		clear_env_list(env);
+		exit(0); // fazer uma funcao exit em que da free em tudo.
+	}	
 	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
 	perror("execve failed");
 	g_exit_status = 2;
-	free_env_array(env_array); //dar free na env_array;
-	free_command(cmd);
+	free_env_array(env_array); //dar free na env_array; (por no exit function)
 	exit(1);
 }
 

@@ -6,25 +6,31 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 16:49:12 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/02 10:47:53 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execute_built_in(t_command *cmd)
+int	execute_built_in(t_command *cmd) //t_env **env)
 {
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
-		exit(0);
+		//free_command(cmd); // contar ao fernando que isto resolveu o leak assim do nada so pq experimentei "aleatoriamente"
+		//(env); // e isto tambem deu LOL
+		//exit (0) o problema podera estar no facto de que o programa faz exit em vez de return
+		return (1);
 	}
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 	{
 		get_current_dir();
-		exit(0);
+		//free_command(cmd);
+		//clear_env_list(env);
+		//exit (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	exec_parent_built_in(t_command *cmd, t_env **env)
