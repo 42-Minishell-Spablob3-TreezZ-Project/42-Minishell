@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:09 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 16:55:17 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:31:20 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ typedef struct s_tokens
 	struct s_tokens	*prev;
 }			t_tokens;
 
+//struct para heredocs
+typedef struct s_heredoc
+{
+	char				*delimiter;
+	int					fd[2];
+	struct s_heredoc	*next;
+}			t_heredoc;
+
 // struct para os comandos
 typedef struct s_command
 {
@@ -38,18 +46,18 @@ typedef struct s_command
 	char				*infile; // caso seja "<".
 	char				*outfile; // caso seja ">" ou ">>".
 	int					append; // flag para o append ">>".
-	char				*heredoc_delimiter; // no caso de heredoc <<.
+	struct s_heredoc	*heredocs; // no caso de heredoc <<.
 	int					heredoc_fd;
 	struct s_command	*next; // no caso de pipe.
 }			t_command;
 
 //struct para envp
-
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }			t_env;
+
 
 #endif

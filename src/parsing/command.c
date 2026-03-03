@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 11:23:04 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:35:34 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 		fd = open(cmd->infile, O_RDONLY);
 	}
 	else
-		cmd->heredoc_delimiter = ft_strdup((*tokens)->input);
+		add_heredoc(*tokens, cmd);
 	close (fd);	
 }
 

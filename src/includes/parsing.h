@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/02 10:34:39 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:36:04 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,10 @@ void		free_command(t_command *cmd);
 
 //See where to place
 int			empty_prompt(char *cmd);
+
+//heredoc
+void	add_heredoc(t_tokens *tokens, t_command *cmd);
+int		process_heredoc(t_command *cmd);
+
 
 #endif

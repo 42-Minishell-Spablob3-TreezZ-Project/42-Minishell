@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grui-ant <grui-ant@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/02/26 17:23:06 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:36:54 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_command(t_command *cmd)
 		}
 		free(cmd->infile);
 		free(cmd->outfile);
-		free(cmd->heredoc_delimiter);
+		//free(cmd->heredoc_delimiter);
 		free(cmd);
 		cmd = tmp;
 	}

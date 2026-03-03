@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 12:33:45 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:42:28 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void execute_command(t_command *cmd, t_env **env)
 	prev_fd = -1;
 	while (cmd)
 	{
+		process_heredoc(cmd);
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
 		if (exec_parent_built_in(cmd, env) == 0)
@@ -77,7 +78,6 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
 		close(prev_fd); // fechar o fd do comando anterior original.
 	}
-	// se houver proximo comando
 	if (cmd->next)
 	{
 		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
@@ -94,7 +94,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		clear_env_list(env);
 		exit(0); // fazer uma funcao exit em que da free em tudo.
 	}
-	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
+	path = ft_strjoin("/usr/bin/", cmd->argv[0]); // MUDAR! search na variavel PATH
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
 	perror("execve failed");
