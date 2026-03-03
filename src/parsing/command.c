@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 16:51:58 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/03 11:23:04 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,45 @@ t_command	*parse_cmd(t_tokens *tokens)
 
 void	redir_out(t_tokens **tokens, t_command *cmd)
 {
+	int	fd;
+
 	(*tokens) = (*tokens)->next;
 	if (cmd->outfile)
 		free(cmd->outfile);
 	cmd->outfile = ft_strdup((*tokens)->input);
 	if ((*tokens)->prev->type == TOKEN_APPEND)
+	{
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		cmd->append = 1;
+	}
 	else
+	{
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		cmd->append = 0;
+	}
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	close(fd);
 }
 
 void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 {
+	int	fd;
+	
+	fd = 0;
 	(*tokens) = (*tokens)->next;
 	if (cmd->infile)
 		free(cmd->infile);
 	if ((*tokens)->prev->type == TOKEN_REDIRIN)
+	{
 		cmd->infile = ft_strdup((*tokens)->input);
+		fd = open(cmd->infile, O_RDONLY);
+	}
 	else
 		cmd->heredoc_delimiter = ft_strdup((*tokens)->input);
+	close (fd);	
 }
+

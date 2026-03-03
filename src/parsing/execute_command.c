@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/02 11:04:39 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/03 12:33:45 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		free_command(cmd);
 		clear_env_list(env);
 		exit(0); // fazer uma funcao exit em que da free em tudo.
-	}	
+	}
 	path = ft_strjoin("/usr/bin/", cmd->argv[0]);
 	env_array = env_to_array(*env);
 	execve(path, cmd->argv, env_array);
@@ -108,27 +108,16 @@ void	execute_redir_out(t_command *cmd)
 	int	fd;
 
 	if (cmd->outfile && cmd->append == 0)
-	{
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("Error: Overwrite");
-			exit(1);
-		}
-		dup2(fd, 1);
-		close(fd);
-	}
 	else
-	{
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd < 0)
-		{
-			perror("Error: append");
-			exit(1);
-		}
-		dup2(fd, 1);
-		close(fd);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(1);
 	}
+	dup2(fd, 1); // criar condicao no caso de falhar o dup ??
+	close(fd);
 }
 
 void	execute_redir_in(t_command *cmd)

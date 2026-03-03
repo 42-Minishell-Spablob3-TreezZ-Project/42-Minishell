@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/02 10:47:53 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/03 11:29:04 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,11 @@ int	execute_built_in(t_command *cmd) //t_env **env)
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
-		//free_command(cmd); // contar ao fernando que isto resolveu o leak assim do nada so pq experimentei "aleatoriamente"
-		//(env); // e isto tambem deu LOL
-		//exit (0) o problema podera estar no facto de que o programa faz exit em vez de return
 		return (1);
 	}
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 	{
 		get_current_dir();
-		//free_command(cmd);
-		//clear_env_list(env);
-		//exit (0);
 		return (1);
 	}
 	return (0);
