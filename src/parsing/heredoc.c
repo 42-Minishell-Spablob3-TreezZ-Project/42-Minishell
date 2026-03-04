@@ -28,8 +28,18 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 
 int	process_heredoc(t_command *cmd)
 {
-	t_heredoc *temp;
+	t_heredoc	*temp;
+	t_heredoc	*last;
+	char		*line;
 
+	temp = cmd->heredocs;
+	if (!temp)
+		return (0);
+	while (temp)
+	{
+		last = temp;
+		temp = temp->next;
+	}
 	temp = cmd->heredocs;
 	while (temp)
 	{
@@ -38,6 +48,22 @@ int	process_heredoc(t_command *cmd)
 			perror("pipe");
 			return (-1);
 		}
+		while (1)
+		{
+			line = readline("> ");
+			if (line == NULL || ft_strcmp(line, temp->delimiter) == 0)
+			{
+				free(line);
+				break ;
+			}
+			if (temp == last)
+			{
+				write(temp->fd[1], line,ft_strlen(line));
+				write(temp->fd[1], "\n", 1);
+			}
+			free(line);
+		}
+		close(temp->fd[1]);
 		temp = temp->next;
 	}
 	return (0);

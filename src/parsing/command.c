@@ -109,9 +109,9 @@ void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 	{
 		cmd->infile = ft_strdup((*tokens)->input);
 		fd = open(cmd->infile, O_RDONLY);
+		close (fd);
 	}
 	else
 		add_heredoc(*tokens, cmd);
-	close (fd);	
 }
 

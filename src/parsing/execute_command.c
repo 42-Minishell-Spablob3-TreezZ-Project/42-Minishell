@@ -26,6 +26,7 @@ void execute_command(t_command *cmd, t_env **env)
 	int		pipe_fd[2];
 	int		prev_fd;
 	pid_t	pid;
+	t_heredoc *tmp;
 
 	prev_fd = -1;
 	while (cmd)
@@ -45,6 +46,15 @@ void execute_command(t_command *cmd, t_env **env)
 			child_process(cmd, pipe_fd, prev_fd, env);
 		if (prev_fd != -1)
 			close(prev_fd);//fechar pipe anterior;
+		if (cmd->heredocs)
+		{
+			tmp = cmd->heredocs;
+			while (tmp)
+			{
+				close(tmp->fd[0]);
+				tmp = tmp->next;
+			}
+		}
 		if (cmd->next)
 		{
 			close(pipe_fd[1]);//fechar o write
@@ -70,14 +80,24 @@ int	create_pipe(t_command *cmd, int pipe_fd[2])
 
 void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
-	char	*path;
-	char	**env_array;
+	char		*path;
+	char		**env_array;
+	t_heredoc	*temp;
+	
 	// se houver comando anterior
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
 		close(prev_fd); // fechar o fd do comando anterior original.
 	}
+	if (cmd->heredocs)
+	{
+		temp = cmd->heredocs;
+		while (temp->next)
+			temp = temp->next;
+		dup2(temp->fd[0], 0);
+		close (temp->fd[0]);
+	}	
 	if (cmd->next)
 	{
 		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
