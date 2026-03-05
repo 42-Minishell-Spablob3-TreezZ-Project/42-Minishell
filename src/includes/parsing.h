@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 13:44:49 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:32:09 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			create_pipe(t_command *cmd, int pipe_fd[2]);
 void		echo_builtin(char **argv);
 int			cd_builtin(t_command *cmd, t_env **env);
 void		get_current_dir(void);
-int			execute_built_in(t_command *cmd);
+int			execute_built_in(t_command *cmd, t_env **env);
 int			exec_parent_built_in(t_command *cmd, t_env **env);
 void		env_bultin(t_env **env, char **envp);
 void		add_env_node(t_env **env, char *key, char *value);
@@ -81,7 +81,7 @@ int			empty_prompt(char *cmd);
 
 //heredoc
 void	add_heredoc(t_tokens *tokens, t_command *cmd);
-int		process_heredoc(t_command *cmd);
+int		heredoc(t_command *cmd);
 
 //path
 char	*find_path(t_command *cmd, t_env **env);

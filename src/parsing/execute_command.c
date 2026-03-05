@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 13:51:12 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:32:03 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void execute_command(t_command *cmd, t_env **env)
 	prev_fd = -1;
 	while (cmd)
 	{
-		process_heredoc(cmd);
+		heredoc(cmd);
 		if (create_pipe(cmd, pipe_fd) < 0)
 			return ;
 		if (exec_parent_built_in(cmd, env) == 0)
@@ -65,6 +65,17 @@ void execute_command(t_command *cmd, t_env **env)
 	while (wait(NULL) > 0);
 }
 
+static void	dup_heredoc(t_command *cmd)
+{
+	t_heredoc	*temp;
+
+	temp = cmd->heredocs;
+	while (temp->next)
+		temp = temp->next;
+	dup2(temp->fd[0], 0);
+	close (temp->fd[0]);
+}
+
 int	create_pipe(t_command *cmd, int pipe_fd[2])
 {
 	if (cmd->next)// se houver cmd->next, criar pipe
@@ -78,42 +89,10 @@ int	create_pipe(t_command *cmd, int pipe_fd[2])
 	return (0);
 }
 
-void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
+static void	execve_function(char *path, t_command *cmd, t_env **env)
 {
-	char		*path;
-	char		**env_array;
-	t_heredoc	*temp;
-	
-	if (prev_fd != -1)
-	{
-		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
-		close(prev_fd); // fechar o fd do comando anterior original.
-	}
-	if (cmd->heredocs)
-	{
-		temp = cmd->heredocs;
-		while (temp->next)
-			temp = temp->next;
-		dup2(temp->fd[0], 0);
-		close (temp->fd[0]);
-	}	
-	if (cmd->next)
-	{
-		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
-		close(pipe_fd[0]); // fecha o pipe 
-		close(pipe_fd[1]);
-	}
-	if (cmd->outfile || cmd->append)
-		execute_redir_out(cmd);
-	if (cmd->infile)
-		execute_redir_in(cmd);
-	if (execute_built_in(cmd))// pwd e echo. restantes bultins executados no pai para haver alteracoes.
-	{
-		free_command(cmd);
-		clear_env_list(env);
-		exit(0); // fazer uma funcao exit em que da free em tudo.
-	}
-	path = find_path(cmd, env); // MUDAR! search na variavel PATH
+	char	**env_array;
+
 	env_array = env_to_array(*env);
 	if (path)
 	{
@@ -128,36 +107,30 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 	exit(1);
 }
 
-void	execute_redir_out(t_command *cmd)
+void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
-	int	fd;
+	char		*path;
 
-	if (cmd->outfile && cmd->append == 0)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
+	if (prev_fd != -1)
 	{
-		perror("open");
-		exit(1);
+		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
+		close(prev_fd); // fechar o fd do comando anterior original.
 	}
-	dup2(fd, 1); // criar condicao no caso de falhar o dup ??
-	close(fd);
-}
-
-void	execute_redir_in(t_command *cmd)
-{
-	int	fd;
-
+	if (cmd->heredocs)
+		dup_heredoc(cmd);
+	if (cmd->next)
+	{
+		dup2(pipe_fd[1], 1); //redireciona STDOUT para novo pipe.
+		close(pipe_fd[0]); // fecha o pipe 
+		close(pipe_fd[1]);
+	}
+	if (cmd->outfile || cmd->append)
+		execute_redir_out(cmd);
 	if (cmd->infile)
-	{
-		fd = open(cmd->infile, O_RDONLY);
-		if (fd < 0)
-		{
-			perror("open: infile");
-			exit(1);
-		}
-		dup2(fd, 0);
-		close(fd);
-	}
+		execute_redir_in(cmd);
+	if (execute_built_in(cmd, env))
+		exit(0);
+	path = find_path(cmd, env);
+	execve_function(path, cmd, env);
 }
+

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:44:00 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 13:44:02 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:12:21 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,32 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 	}
 }
 
-int	process_heredoc(t_command *cmd)
+static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
+{
+	char		*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (line == NULL || ft_strcmp(line, temp->delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		if (temp == last)
+		{
+			write(temp->fd[1], line,ft_strlen(line));
+			write(temp->fd[1], "\n", 1);
+		}
+		free(line);
+	}
+	close(temp->fd[1]);
+}
+
+int	heredoc(t_command *cmd)
 {
 	t_heredoc	*temp;
 	t_heredoc	*last;
-	char		*line;
 
 	temp = cmd->heredocs;
 	if (!temp)
@@ -58,22 +79,7 @@ int	process_heredoc(t_command *cmd)
 			perror("pipe");
 			return (-1);
 		}
-		while (1)
-		{
-			line = readline("> ");
-			if (line == NULL || ft_strcmp(line, temp->delimiter) == 0)
-			{
-				free(line);
-				break ;
-			}
-			if (temp == last)
-			{
-				write(temp->fd[1], line,ft_strlen(line));
-				write(temp->fd[1], "\n", 1);
-			}
-			free(line);
-		}
-		close(temp->fd[1]);
+		process_heredoc(temp, last);
 		temp = temp->next;
 	}
 	return (0);

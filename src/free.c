@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/03/05 12:55:25 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:35:38 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void	clear_env_list(t_env **env)
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
+	}
+}
+
+void	free_heredocs(t_heredoc *heredoc)
+{
+	t_heredoc	*tmp;
+	t_heredoc	*next;
+	
+	tmp = heredoc;
+	while(tmp)
+	{
+		next = tmp->next;
+		free(tmp->delimiter);
+		free(tmp);
+		tmp = next;
 	}
 }
 
@@ -46,7 +61,7 @@ void	free_command(t_command *cmd)
 		}
 		free(cmd->infile);
 		free(cmd->outfile);
-		//free(cmd->heredoc_delimiter);
+		free_heredocs(cmd->heredocs);
 		free(cmd);
 		cmd = tmp;
 	}
