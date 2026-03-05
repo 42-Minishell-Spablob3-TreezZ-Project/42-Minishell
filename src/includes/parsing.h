@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 12:55:38 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:44:49 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ int			empty_prompt(char *cmd);
 void	add_heredoc(t_tokens *tokens, t_command *cmd);
 int		process_heredoc(t_command *cmd);
 
+//path
+char	*find_path(t_command *cmd, t_env **env);
 
 #endif
