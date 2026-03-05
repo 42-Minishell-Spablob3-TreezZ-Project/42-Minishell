@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/03/03 14:36:54 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:55:25 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_tokens(t_tokens *tokens)
 	}
 }
 
-void	free_env_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
 

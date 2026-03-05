@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 14:36:04 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:55:38 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		delete_node(t_env **head, char *key);
 
 //frees
 void		clear_env_list(t_env **env);
-void		free_env_array(char **array);
+void		free_array(char **array);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
 void		free_command(t_command *cmd);

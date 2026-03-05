@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 14:42:28 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:39:45 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void execute_command(t_command *cmd, t_env **env)
 			return ;
 		if (exec_parent_built_in(cmd, env) == 0)
 			return ;
-		pid = fork(); //dividir o processo em pai e filho
+		pid = fork();
 		if (pid < 0)
 		{
 			perror("fork");
@@ -78,13 +78,64 @@ int	create_pipe(t_command *cmd, int pipe_fd[2])
 	return (0);
 }
 
+static char	*check_path(char **path_array, t_command *cmd)
+{
+	char	*dir_plus_bar;
+	int		i;
+	char	*result;
+		
+	i = 0;
+	while (path_array[i])
+	{
+		dir_plus_bar = ft_strjoin(path_array[i], "/");
+		result = ft_strjoin(dir_plus_bar, cmd->argv[0]);
+		free(dir_plus_bar);
+		if (access(result, X_OK) == 0)
+		{
+			free_array(path_array);
+			return(result);
+		}
+		free(result);
+		i++;
+	}
+	free_array(path_array);
+	return (NULL);
+}
+
+static char	*find_path(t_command *cmd, t_env **env)
+{
+	char	*result;
+	t_env	*temp;
+	char	**path_array;
+	
+	temp = *env;
+	if (ft_strchr(cmd->argv[0], '/'))
+	{
+		if (access(cmd->argv[0], X_OK) == 0) //verifica se o ficheiro existe e se e executavel -> (X_OK)
+			return(result = ft_strdup(cmd->argv[0]));
+		else
+			return (NULL);
+	}
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, "PATH") == 0)
+		{
+			path_array = ft_split(temp->value, ':');
+			if (!path_array)
+				return (NULL);
+			return (check_path(path_array, cmd));
+		}
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char		*path;
 	char		**env_array;
 	t_heredoc	*temp;
 	
-	// se houver comando anterior
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
@@ -114,12 +165,18 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 		clear_env_list(env);
 		exit(0); // fazer uma funcao exit em que da free em tudo.
 	}
-	path = ft_strjoin("/usr/bin/", cmd->argv[0]); // MUDAR! search na variavel PATH
+	path = find_path(cmd, env); // MUDAR! search na variavel PATH
 	env_array = env_to_array(*env);
-	execve(path, cmd->argv, env_array);
+	if (path)
+	{
+		execve(path, cmd->argv, env_array);
+		free(path);
+	}
 	perror("execve failed");
 	g_exit_status = 2;
-	free_env_array(env_array); //dar free na env_array; (por no exit function)
+	free_array(env_array); //dar free na env_array; (por no exit function)
+	clear_env_list(env);
+	free_command(cmd);
 	exit(1);
 }
 
