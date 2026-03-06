@@ -38,12 +38,10 @@ static void	execve_function(char *path, t_command *cmd, t_env **env)
 	
 	env_array = env_to_array(*env);
 	if (path)
-	{
 		execve(path, cmd->argv, env_array);
-		free(path);
-	}
+	free(path);
 	perror("execve failed");
-	g_exit_status = 2;
+	g_exit_status = 127;
 	free_array(env_array); //dar free na env_array; (por no exit function)
 	clear_env_list(env);
 	free_command(cmd);
@@ -52,7 +50,7 @@ static void	execve_function(char *path, t_command *cmd, t_env **env)
 
 static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
-	char		*path;
+	char	*path;
 	
 	if (prev_fd != -1)
 	{
