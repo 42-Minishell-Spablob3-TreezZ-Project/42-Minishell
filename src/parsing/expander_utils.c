@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:16 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:19 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:34:42 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,13 @@ void	handle_dollar(char **str, char **result, t_env **env)
 		*result = ft_strjoin(*result, expanded);
 		free(expanded);
 	}
+}
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while ((s1[i] == s2[i]) && s1[i] && s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:44:00 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 15:12:21 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:10:39 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
 	close(temp->fd[1]);
 }
 
-int	heredoc(t_command *cmd)
+int	init_heredoc(t_command *cmd)
 {
 	t_heredoc	*temp;
 	t_heredoc	*last;
@@ -83,4 +83,15 @@ int	heredoc(t_command *cmd)
 		temp = temp->next;
 	}
 	return (0);
+}
+
+void	dup_heredoc(t_command *cmd)
+{
+	t_heredoc	*temp;
+
+	temp = cmd->heredocs;
+	while (temp->next)
+		temp = temp->next;
+	dup2(temp->fd[0], 0);
+	close (temp->fd[0]);
 }

@@ -6,93 +6,36 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 15:32:03 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:15:17 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void execute_command(t_command *cmd, t_env **env)
+
+static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 {
-	//retornar exit_status assim que o comando foi executado ou nao.
-	//guardar o valor do last pid (valor do ultimo processo) no parent para depois retornar o seu exit_status
-	//só deve retornar exit_status do ultimo comando EX: ls | wc --> o exit status é referente ao wc.
-	
-	//comando ok	0
-	//erro genérico	1
-	//command not found	127
-	//Ctrl+C	130
-	//Ctrl+\	131
-	int		pipe_fd[2];
-	int		prev_fd;
-	pid_t	pid;
 	t_heredoc *tmp;
-
-	prev_fd = -1;
-	while (cmd)
+	
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	tmp = cmd->heredocs;
+	while (tmp)
 	{
-		heredoc(cmd);
-		if (create_pipe(cmd, pipe_fd) < 0)
-			return ;
-		if (exec_parent_built_in(cmd, env) == 0)
-			return ;
-		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			return ;
-		}
-		if (pid == 0)
-			child_process(cmd, pipe_fd, prev_fd, env);
-		if (prev_fd != -1)
-			close(prev_fd);//fechar pipe anterior;
-		if (cmd->heredocs)
-		{
-			tmp = cmd->heredocs;
-			while (tmp)
-			{
-				close(tmp->fd[0]);
-				tmp = tmp->next;
-			}
-		}
-		if (cmd->next)
-		{
-			close(pipe_fd[1]);//fechar o write
-			prev_fd = pipe_fd[0]; //read para o proximo comando
-		}
-		cmd = cmd->next;
+		close(tmp->fd[0]);
+		tmp = tmp->next;
 	}
-	while (wait(NULL) > 0);
-}
-
-static void	dup_heredoc(t_command *cmd)
-{
-	t_heredoc	*temp;
-
-	temp = cmd->heredocs;
-	while (temp->next)
-		temp = temp->next;
-	dup2(temp->fd[0], 0);
-	close (temp->fd[0]);
-}
-
-int	create_pipe(t_command *cmd, int pipe_fd[2])
-{
-	if (cmd->next)// se houver cmd->next, criar pipe
-	{	
-		if (pipe(pipe_fd) < 0)
-		{
-			perror("pipe"); // funcao pipe retorna 0 se bem sucedida e -1 em caso de erro.
-			return (-1);
-		}
+	if (cmd->next)
+	{
+		close(pipe_fd[1]);//fechar o write
+		*prev_fd = pipe_fd[0]; //read para o proximo comando
 	}
-	return (0);
 }
 
 static void	execve_function(char *path, t_command *cmd, t_env **env)
 {
 	char	**env_array;
-
+	
 	env_array = env_to_array(*env);
 	if (path)
 	{
@@ -107,10 +50,10 @@ static void	execve_function(char *path, t_command *cmd, t_env **env)
 	exit(1);
 }
 
-void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
+static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char		*path;
-
+	
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
@@ -134,3 +77,43 @@ void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 	execve_function(path, cmd, env);
 }
 
+static int	create_pipe(t_command *cmd, int pipe_fd[2])
+{
+	if (cmd->next)
+	{	
+		if (pipe(pipe_fd) < 0)
+		{
+			perror("pipe");
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+void execute_command(t_command *cmd, t_env **env)
+{
+	int		pipe_fd[2];
+	int		prev_fd;
+	pid_t	pid;
+
+	prev_fd = -1;
+	while (cmd)
+	{
+		init_heredoc(cmd);
+		if (create_pipe(cmd, pipe_fd) < 0)
+			return ;
+		if (exec_parent_built_in(cmd, env) == 0)
+			return ;
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			return ;
+		}
+		if (pid == 0)
+			child_process(cmd, pipe_fd, prev_fd, env);
+		close_parent_fds(cmd, pipe_fd, &prev_fd);
+		cmd = cmd->next;
+	}
+	while (wait(NULL) > 0);
+}

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 15:32:09 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:14:48 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
 void		execute_command(t_command *command, t_env **env);
 void		execute_redir_out(t_command *cmd);
 void		execute_redir_in(t_command *cmd);
-void		child_process(t_command *cmd, int pipe_fd[2], int prev_fd, \
-t_env **env);
-int			create_pipe(t_command *cmd, int pipe_fd[2]);
 
 // built-in execution
 void		echo_builtin(char **argv);
@@ -81,7 +78,8 @@ int			empty_prompt(char *cmd);
 
 //heredoc
 void	add_heredoc(t_tokens *tokens, t_command *cmd);
-int		heredoc(t_command *cmd);
+int		init_heredoc(t_command *cmd);
+void	dup_heredoc(t_command *cmd);
 
 //path
 char	*find_path(t_command *cmd, t_env **env);
