@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/26 17:11:27 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:47:47 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	update_env_var(t_env **env, char *oldpwd, char *curr_dir)
 			free(temp->value);
 			temp->value = ft_strdup(curr_dir);
 		}
+		if (temp->next == NULL && ft_strcmp(temp->key, "PWD") != 0)
+			add_env_node(env, ft_strdup("PWD"), ft_strdup(curr_dir));
 		else if (ft_strcmp(temp->key, "OLDPWD") == 0)
 		{
 			oldpwdvar = 1;

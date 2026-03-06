@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:28 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 10:31:37 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:23:11 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	unset_built_in(t_command *cmd, t_env **env)
 	{
 		if (!is_valid(cmd->argv[i]))
 		{
+			g_exit_status = 1;
 			i++;
 			continue ;
 		}

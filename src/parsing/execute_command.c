@@ -6,12 +6,11 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 11:15:17 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:06:58 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 {
@@ -32,28 +31,32 @@ static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 	}
 }
 
-static void	execve_function(char *path, t_command *cmd, t_env **env)
+static void	execve_function(char *path, t_command *cmd, t_env **env, char **env_array)
 {
-	char	**env_array;
-	
-	env_array = env_to_array(*env);
-	if (path)
+	if (!path)
 	{
-		execve(path, cmd->argv, env_array);
-		free(path);
+		printf("%s: command not found\n", cmd->argv[0]);
+		free_array(env_array);
+		clear_env_list(env);
+		free_command(cmd);
+		exit(1);
 	}
+	execve(path, cmd->argv, env_array);
 	perror("execve failed");
-	g_exit_status = 2;
-	free_array(env_array); //dar free na env_array; (por no exit function)
+	g_exit_status = 2; // exit status errado
+	free_array(env_array);
 	clear_env_list(env);
 	free_command(cmd);
+	free(path);
 	exit(1);
 }
 
 static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char		*path;
+	char		**env_array;
 	
+	printf("Executing: %s\n", cmd->argv[0]);
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0); //redireciona STDIN para o pipe.
@@ -74,7 +77,8 @@ static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **e
 	if (execute_built_in(cmd, env))
 		exit(0);
 	path = find_path(cmd, env);
-	execve_function(path, cmd, env);
+	env_array = env_to_array(*env);
+	execve_function(path, cmd, env, env_array);
 }
 
 static int	create_pipe(t_command *cmd, int pipe_fd[2])

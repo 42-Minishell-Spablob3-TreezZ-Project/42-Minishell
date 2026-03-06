@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 10:59:41 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:52:40 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ int	execute_built_in(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 	{
 		get_current_dir();
+		free_command(cmd);
+		clear_env_list(env);
+		return (1);
+	}
+	else if (ft_strcmp(cmd->argv[0], "env") == 0)
+	{
+		print_env_list(env);
 		free_command(cmd);
 		clear_env_list(env);
 		return (1);
