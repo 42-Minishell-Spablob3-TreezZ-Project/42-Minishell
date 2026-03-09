@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/03/05 15:35:38 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:54:22 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,12 @@ void	free_heredocs(t_heredoc *heredoc)
 void	free_command(t_command *cmd)
 {
 	t_command	*tmp;
-	int			i;
 
 	while (cmd)
 	{
 		tmp = cmd->next;
 		if (cmd->argv)
-		{
-			i = 0;
-			while (cmd->argv[i])
-			{
-				free(cmd->argv[i]);
-				i++;
-			}
-			free(cmd->argv);
-		}
+			free_array(cmd->argv);
 		free(cmd->infile);
 		free(cmd->outfile);
 		free_heredocs(cmd->heredocs);

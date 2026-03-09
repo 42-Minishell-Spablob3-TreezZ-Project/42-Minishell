@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 12:40:46 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:14:44 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@ char	*create_prompt(void)
 
 void	start_shell(char **envp)
 {
-	char	*command;
+	char	*line;
 	char	*prompt;
 	t_env	*env;
 
-	command = NULL;
+	line = NULL;
 	prompt = create_prompt();
 	env = NULL;
 	env_bultin(&env, envp);
 	while (1)
 	{
-		command = readline(prompt);
-		if (!class_command(command, &env))
+		line = readline(prompt);
+		if (!class_command(line, &env))
 		{
-			free (command);
+			free (line);
 			printf("exit\n");
 			break ;
 		}
-		add_history(command);
-		free (command);
+		add_history(line);
+		free (line);
 	}
 	clear_env_list(&env);
 	rl_clear_history();

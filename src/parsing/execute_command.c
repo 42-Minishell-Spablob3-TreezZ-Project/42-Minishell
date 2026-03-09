@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 11:15:17 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:04:27 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 	}
 }
 
-static void	execve_function(char *path, t_command *cmd, t_env **env)
+static void	execve_function(t_command *tmp, t_command *cmd, char *path, t_env **env)
 {
 	char	**env_array;
 	
@@ -44,13 +44,14 @@ static void	execve_function(char *path, t_command *cmd, t_env **env)
 	g_exit_status = 127;
 	free_array(env_array); //dar free na env_array; (por no exit function)
 	clear_env_list(env);
-	free_command(cmd);
+	free_command(tmp);
 	exit(1);
 }
 
-static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
+static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char	*path;
+	
 	
 	if (prev_fd != -1)
 	{
@@ -72,7 +73,7 @@ static void	child_process(t_command *cmd, int pipe_fd[2], int prev_fd, t_env **e
 	if (execute_built_in(cmd, env))
 		exit(0);
 	path = find_path(cmd, env);
-	execve_function(path, cmd, env);
+	execve_function(tmp, cmd, path, env);
 }
 
 static int	create_pipe(t_command *cmd, int pipe_fd[2])
@@ -90,10 +91,12 @@ static int	create_pipe(t_command *cmd, int pipe_fd[2])
 
 void execute_command(t_command *cmd, t_env **env)
 {
-	int		pipe_fd[2];
-	int		prev_fd;
-	pid_t	pid;
+	int			pipe_fd[2];
+	int			prev_fd;
+	pid_t		pid;
+	t_command	*tmp;
 
+	tmp = cmd;
 	prev_fd = -1;
 	while (cmd)
 	{
@@ -109,7 +112,7 @@ void execute_command(t_command *cmd, t_env **env)
 			return ;
 		}
 		if (pid == 0)
-			child_process(cmd, pipe_fd, prev_fd, env);
+			child_process(tmp, cmd, pipe_fd, prev_fd, env);
 		close_parent_fds(cmd, pipe_fd, &prev_fd);
 		cmd = cmd->next;
 	}
