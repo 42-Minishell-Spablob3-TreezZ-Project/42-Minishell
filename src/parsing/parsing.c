@@ -50,7 +50,18 @@ void	tokenization(t_tokens **tokens, char *cmd)
 		add_token(tokens, new);
 	}
 }
-
+static int	is_redir(t_tokens *tmp)
+{
+	if (tmp->type == TOKEN_REDIROUT 
+	|| tmp->type == TOKEN_APPEND
+	|| tmp->type == TOKEN_REDIRIN
+	|| tmp->type == TOKEN_HEREDOC)
+	{
+		if (!tmp->next || tmp->next->type != TOKEN_WORD)
+			return (1);
+	}
+	return (0);
+}
 static int	validate_syntax(t_tokens *tokens)
 {
 	t_tokens *tmp;
@@ -66,16 +77,10 @@ static int	validate_syntax(t_tokens *tokens)
 				return(0);
 			}
 		}
-		else if (tmp->next)
+		else if (is_redir(tmp))
 		{
-			if ((tmp->type == TOKEN_REDIROUT && tmp->next->type != TOKEN_WORD)
-			|| (tmp->type == TOKEN_APPEND && tmp->next->type != TOKEN_WORD)
-			|| (tmp->type == TOKEN_REDIRIN && tmp->next->type != TOKEN_WORD)
-			|| (tmp->type == TOKEN_HEREDOC && tmp->next->type != TOKEN_WORD))
-			{
-				printf("minishell: syntax error near unexpected token `newline`\n");
-				return(0);
-			}
+			printf("minishell: syntax error near unexpected token `newline`\n");
+			return(0);
 		}
 		tmp = tmp->next;
 	}
@@ -125,12 +130,3 @@ int	class_command(char *cmd, t_env **env)
 	free_command(command);
 	return (1);
 }
-
-/* void free_and_exit(t_tokens *tokens, t_command *cmd, t_env **env)
-{
-	free_tokens(tokens);
-	free_command(cmd);
-	clear_env_list(env);
-	g_exit_status = 2;
-	return ;
-} */
