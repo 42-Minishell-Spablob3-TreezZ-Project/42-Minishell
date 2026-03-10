@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 12:13:57 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:25:30 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		free_array(char **array);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
 void		free_command(t_command *cmd);
-void		free_and_exit(t_tokens *tokens, t_command *cmd, t_env **env);
+//void		free_and_exit(t_tokens *tokens, t_command *cmd, t_env **env);
 
 //See where to place
 int			empty_prompt(char *cmd);

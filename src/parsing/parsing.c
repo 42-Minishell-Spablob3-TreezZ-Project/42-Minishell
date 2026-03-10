@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 12:39:53 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:28:32 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,25 @@ static int	validate_syntax(t_tokens *tokens)
 	tmp = tokens;
 	while(tmp)
 	{
-		if (tmp->type == TOKEN_REDIROUT && tmp->next->type != TOKEN_WORD)
+		if (tmp->type == TOKEN_PIPE)
 		{
-			printf("minishell: syntax error near unexpected token `newline`\n");
-			return(0);
+			if (!tmp->next || !tmp->prev || tmp->next->type != TOKEN_WORD)
+			{
+				printf("minishell: syntax error near unexpected token `|`\n");
+				return(0);
+			}
 		}
-		else
-			return (1);
+		else if (tmp->next)
+		{
+			if ((tmp->type == TOKEN_REDIROUT && tmp->next->type != TOKEN_WORD)
+			|| (tmp->type == TOKEN_APPEND && tmp->next->type != TOKEN_WORD)
+			|| (tmp->type == TOKEN_REDIRIN && tmp->next->type != TOKEN_WORD)
+			|| (tmp->type == TOKEN_HEREDOC && tmp->next->type != TOKEN_WORD))
+			{
+				printf("minishell: syntax error near unexpected token `newline`\n");
+				return(0);
+			}
+		}
 		tmp = tmp->next;
 	}
 	return (1);
