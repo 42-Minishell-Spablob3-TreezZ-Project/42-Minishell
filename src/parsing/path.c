@@ -42,14 +42,9 @@ char	*find_path(t_command *cmd, t_env **env)
 	t_env	*temp;
 	char	**path_array;
 	
-	temp = *env;
 	if (ft_strchr(cmd->argv[0], '/'))
-	{
-		if (access(cmd->argv[0], X_OK) == 0) //verifica se o ficheiro existe e se e executavel -> (X_OK)
-			return(result = ft_strdup(cmd->argv[0]));
-		else
-			return (NULL);
-	}
+		return(result = ft_strdup(cmd->argv[0]));
+	temp = *env;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, "PATH") == 0)

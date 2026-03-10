@@ -14,6 +14,13 @@
 
 int	execute_built_in(t_command *cmd, t_env **env)
 {
+	if (!cmd->argv || !cmd->argv[0])
+	{
+		free_command(cmd);
+		clear_env_list(env);
+		exit (0);
+	}	
+		
 	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
@@ -33,7 +40,9 @@ int	execute_built_in(t_command *cmd, t_env **env)
 
 int	exec_parent_built_in(t_command *cmd, t_env **env)
 {
-	if (ft_strcmp(cmd->argv[0], "cd") == 0)
+	if (!cmd->argv || !cmd->argv[0])
+		return (1);
+	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
 	{
 		cd_builtin(cmd, env);
 		return (0);
@@ -50,7 +59,6 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	}
 	return (1);
 }
-
 
 void	execute_redir_out(t_command *cmd)
 {

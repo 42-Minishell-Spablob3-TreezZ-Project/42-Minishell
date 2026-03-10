@@ -80,6 +80,15 @@ char	*get_env(char *str, t_env **env)
 	return (NULL);
 }
 
+static void update_and_free(t_env **env, char *oldpwd, char *curr_dir, char *path)
+{
+	update_env_var(env, oldpwd, curr_dir);
+	free(oldpwd);
+	free(curr_dir);
+	free(path);
+	g_exit_status = 0;
+}
+
 int	cd_builtin(t_command *cmd, t_env **env)
 {
 	char	*path;
@@ -97,17 +106,14 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	}
 	if (chdir(path) != 0)
 	{
-		perror("cd");
+		write(2, "Minishell: cd: " ,15);
+		perror(path);
 		free(oldpwd);
 		free(path);
 		g_exit_status = 1;
 		return (1);
 	}
 	curr_dir = getcwd(NULL, 0);
-	update_env_var(env, oldpwd, curr_dir);
-	free(oldpwd);
-	free(curr_dir);
-	free(path);
-	g_exit_status = 0;
+	update_and_free(env, oldpwd, curr_dir, path);
 	return (0);
 }

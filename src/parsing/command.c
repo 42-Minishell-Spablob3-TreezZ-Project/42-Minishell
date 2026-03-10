@@ -46,27 +46,27 @@ void	add_arg(t_command *cmd, char *word)
 	cmd->argv = new_argv;
 }
 
-t_command	*parse_cmd(t_tokens *tokens)
+t_command	*parse_cmd(t_tokens *token)
 {
 	t_command	*cmd;
 	t_command	*head;
 
 	head = new_command();
 	cmd = head;
-	while (tokens && tokens->input)
+	while (token)
 	{
-		if (tokens->type == TOKEN_WORD)
-			add_arg(cmd, tokens->input);
-		else if (tokens->type == TOKEN_PIPE)
+		if (token->type == TOKEN_WORD && token->input && token->input[0] != '\0')
+			add_arg(cmd, token->input);
+		else if (token->type == TOKEN_PIPE)
 		{
 			cmd->next = new_command();
 			cmd = cmd->next;
 		}
-		else if (tokens->type == TOKEN_REDIROUT || tokens->type == TOKEN_APPEND)
-			redir_out(&tokens, cmd);
-		else if (tokens->type == TOKEN_REDIRIN || tokens->type == TOKEN_HEREDOC)
-			redir_in_and_heredoc(&tokens, cmd);
-		tokens = tokens->next;
+		else if (token->type == TOKEN_REDIROUT || token->type == TOKEN_APPEND)
+			redir_out(&token, cmd);
+		else if (token->type == TOKEN_REDIRIN || token->type == TOKEN_HEREDOC)
+			redir_in_and_heredoc(&token, cmd);
+		token = token->next;
 	}
 	return (head);
 }

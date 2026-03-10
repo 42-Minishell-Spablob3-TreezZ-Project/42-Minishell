@@ -88,12 +88,14 @@ char	*expand_variable(char **str, t_env **env)
 	(*str)++;
 	start = *str;
 	if (**str == '$')
-		printf("%i", getpid());
+		return(ft_itoa(getpid()));
 	if (**str == '?')
 	{
 		(*str)++;
 		return (ft_itoa(g_exit_status));
 	}
+	if (!**str || !(ft_isalpha(**str) || **str == '_'))
+		return (ft_strdup("$"));
 	while (**str && (ft_isalnum(**str) || **str == '_'))
 		(*str)++;
 	len = *str - start;
