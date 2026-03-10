@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/09 14:11:49 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/10 12:39:53 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,42 @@ void	tokenization(t_tokens **tokens, char *cmd)
 	}
 }
 
+static int	validate_syntax(t_tokens *tokens)
+{
+	t_tokens *tmp;
+
+	tmp = tokens;
+	while(tmp)
+	{
+		if (tmp->type == TOKEN_REDIROUT && tmp->next->type != TOKEN_WORD)
+		{
+			printf("minishell: syntax error near unexpected token `newline`\n");
+			return(0);
+		}
+		else
+			return (1);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 t_command	*start_lexer(char *cmd, t_env **env)
 {
 	t_command	*command;
 	t_tokens	*tokens;
 
+	command = NULL;
 	tokens = NULL;
 	if (!cmd)
 		return (NULL);
 	tokenization(&tokens, cmd);
 	expand_tokens(tokens, env);
+	if (!validate_syntax(tokens))
+	{
+		free_tokens(tokens);
+		g_exit_status = 2;
+		return (NULL);
+	}
 	command = parse_cmd(tokens);
 	free_tokens(tokens);
 	return (command);
@@ -76,7 +102,7 @@ int	class_command(char *cmd, t_env **env)
 		return (1);
 	command = start_lexer(cmd, env);
 	if (!command)
-		return (0);
+		return (1);
 	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)
 	{
 		free_command(command);
@@ -87,3 +113,12 @@ int	class_command(char *cmd, t_env **env)
 	free_command(command);
 	return (1);
 }
+
+/* void free_and_exit(t_tokens *tokens, t_command *cmd, t_env **env)
+{
+	free_tokens(tokens);
+	free_command(cmd);
+	clear_env_list(env);
+	g_exit_status = 2;
+	return ;
+} */
