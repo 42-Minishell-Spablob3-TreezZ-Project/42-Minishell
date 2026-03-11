@@ -6,11 +6,39 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:24 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/23 16:04:43 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:57:27 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	check_redir_in(char *cmd, t_tokens *new, int *i)
+{
+	if (cmd[*i + 1] == '<')
+	{
+		new->type = TOKEN_HEREDOC;
+		(*i) += 2;
+	}
+	else
+	{
+		new->type = TOKEN_REDIRIN;
+		(*i)++;
+	}
+}
+
+static void	check_redir_out(char *cmd, t_tokens *new, int *i)
+{
+	if (cmd[*i + 1] == '>')
+	{
+		new->type = TOKEN_APPEND;
+		(*i) += 2;
+	}
+	else
+	{
+		new->type = TOKEN_REDIROUT;
+		(*i)++;
+	}
+}
 
 void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 {
@@ -23,31 +51,9 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 		(*i)++;
 	}
 	else if (cmd[*i] == '<')
-	{
-		if (cmd[*i + 1] == '<')
-		{
-			new->type = TOKEN_HEREDOC;
-			(*i) += 2;
-		}
-		else
-		{
-			new->type = TOKEN_REDIRIN;
-			(*i)++;
-		}
-	}
+		check_redir_in(cmd, new, i);
 	else if (cmd[*i] == '>')
-	{
-		if (cmd[*i + 1] == '>')
-		{
-			new->type = TOKEN_APPEND;
-			(*i) += 2;
-		}
-		else
-		{
-			new->type = TOKEN_REDIROUT;
-			(*i)++;
-		}
-	}
+		check_redir_out(cmd, new, i);
 	new->input = ft_substr(cmd, start, *i - start);
 }
 
@@ -81,44 +87,4 @@ void	check_quotes(char *cmd, int *i)
 		while (cmd[*i] && !is_space(cmd[*i]) && !is_operator(cmd[*i]))
 			(*i)++;
 	}
-}
-
-int	which_token(char *cmd, int *i)
-{
-	if (cmd[*i] == 32 || (cmd[*i] >= 9 && cmd[*i] <= 13))
-		(*i)++;
-	else if (cmd[*i] == '|' || cmd[*i] == '>' || cmd[*i] == '<')
-		return (0);
-	return (1);
-}
-
-int	is_space(char c)
-{
-	return (c == 32 || (c >= 9 && c <= 13));
-}
-
-int	is_operator(char c)
-{
-	return (c == '|' || c == '>' || c == '<');
-}
-
-int	is_quote(char c)
-{
-	return (c == '"' || c == '\'');
-}
-
-int	empty_prompt(char *cmd)
-{
-	int	i;
-
-	i = 0;
-	if (cmd[0] == ' ')
-	{
-		while (cmd[i] && cmd[i] == ' ')
-			i++;
-		if (cmd[i] && cmd[i] != ' ')
-			return (0);
-		return (1);
-	}
-	return (0);
 }

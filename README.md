@@ -59,12 +59,13 @@ If you're feeling lazy, you can set your current shell to run it on startup by a
 
 ## Resources
 TODO LIST:
-Resources
-Exit/execution/error status codes
-Unset failure error message
-Replace printf's with perror or write 2
-cd fails with "too many args" error if directory has spaces in its name
-remove/comment make valgrind rule in makefile
+- Resources
+- Exit/execution/error status codes
+- Unset failure error message
+- Replace printf's with perror or write 2
+- cd fails with "too many args" error if directory has spaces in its name
+- remove/comment make valgrind rule in makefile
+- unclosed quotes prints error, but still prints string with echo
 
 ## License
 This project, including the **42-Libft Library**, is licensed under the **GNU GPL-2.0-or-later.**
