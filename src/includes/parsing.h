@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 14:25:30 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 11:18:41 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,22 @@ void		execute_command(t_command *command, t_env **env);
 void		execute_redir_out(t_command *cmd);
 void		execute_redir_in(t_command *cmd);
 
-// built-in execution
+//builtins
 void		echo_builtin(char **argv);
 int			cd_builtin(t_command *cmd, t_env **env);
-void		get_current_dir(void);
-int			execute_built_in(t_command *cmd, t_env **env);
-int			exec_parent_built_in(t_command *cmd, t_env **env);
 void		env_bultin(t_env **env, char **envp);
+void		export_built_in(t_command *cmd, t_env **env);
+void		exit_builtin(t_command *cmd, t_env **env);
+
+// built-in execution
+void		get_current_dir(void);
+int			execute_child_builtin(t_command *cmd, t_env **env);
+int			exec_parent_built_in(t_command *cmd, t_env **env);
 void		add_env_node(t_env **env, char *key, char *value);
 void		print_env_list(t_env **env);
 char		**env_to_array(t_env *env);
 char		*get_env(char *str, t_env **env);
 int			ft_strcmp(char *s1, char *s2);
-void		export_built_in(t_command *cmd, t_env **env);
 void		unset_built_in(t_command *cmd, t_env	**env);
 int			is_valid(char *str);
 void		delete_node(t_env **head, char *key);
@@ -72,7 +75,6 @@ void		free_array(char **array);
 void		free_new(t_tokens *new);
 void		free_tokens(t_tokens *tokens);
 void		free_command(t_command *cmd);
-//void		free_and_exit(t_tokens *tokens, t_command *cmd, t_env **env);
 
 //See where to place
 int			empty_prompt(char *cmd);

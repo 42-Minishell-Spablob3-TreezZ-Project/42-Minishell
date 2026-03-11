@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 15:28:32 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:27:44 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,6 @@ int	class_command(char *cmd, t_env **env)
 	command = start_lexer(cmd, env);
 	if (!command)
 		return (1);
-	if (command->argv && ft_strncmp (command->argv[0], "exit", INT_MAX) == 0)
-	{
-		free_command(command);
-		return (0);
-	}
 	g_exit_status = 0;
 	execute_command(command, env);
 	free_command(command);

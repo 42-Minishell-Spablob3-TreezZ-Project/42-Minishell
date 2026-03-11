@@ -6,22 +6,21 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:49:02 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 10:59:41 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 12:28:58 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execute_built_in(t_command *cmd, t_env **env)
+int	execute_child_builtin(t_command *cmd, t_env **env)
 {
 	if (!cmd->argv || !cmd->argv[0])
 	{
 		free_command(cmd);
 		clear_env_list(env);
 		exit (0);
-	}	
-		
-	if (ft_strcmp(cmd->argv[0], "echo") == 0)
+	}
+	else if (ft_strcmp(cmd->argv[0], "echo") == 0)
 	{
 		echo_builtin(cmd->argv);
 		free_command(cmd);
@@ -55,6 +54,11 @@ int	exec_parent_built_in(t_command *cmd, t_env **env)
 	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
 	{
 		unset_built_in(cmd, env);
+		return (0);
+	}
+	else if (ft_strcmp (cmd->argv[0], "exit") == 0)
+	{
+		exit_builtin(cmd, env);
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/09 15:04:27 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:30:45 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int pr
 		execute_redir_in(cmd);
 	if (cmd->outfile || cmd->append)
 		execute_redir_out(cmd);
-	if (execute_built_in(cmd, env))
+	if (execute_child_builtin(cmd, env))
 		exit(0);
 	path = find_path(cmd, env);
 	execve_function(tmp, cmd, path, env);
