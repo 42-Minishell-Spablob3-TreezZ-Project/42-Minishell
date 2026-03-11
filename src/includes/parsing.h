@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:25:46 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:43:26 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void		free_command(t_command *cmd);
 int			empty_prompt(char *cmd);
 
 //heredoc
-void	add_heredoc(t_tokens *tokens, t_command *cmd);
-int		init_heredoc(t_command *cmd);
-void	dup_heredoc(t_command *cmd);
+void		add_heredoc(t_tokens *tokens, t_command *cmd);
+int			init_heredoc(t_command *cmd);
+void		dup_heredoc(t_command *cmd);
 
 //path
-char	*find_path(t_command *cmd, t_env **env);
+char		*find_path(t_command *cmd, t_env **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:09 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/03 14:31:20 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:42:56 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_heredoc
 // struct para os comandos
 typedef struct s_command
 {
+	struct s_command	*head;
 	char				**argv; //argumentos do comando.
 	char				*infile; // caso seja "<".
 	char				*outfile; // caso seja ">" ou ">>".
@@ -58,6 +59,5 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }			t_env;
-
 
 #endif

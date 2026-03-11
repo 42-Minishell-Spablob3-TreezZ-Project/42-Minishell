@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:06:04 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:34:45 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_command	*parse_cmd(t_tokens *token)
 
 	head = new_command();
 	cmd = head;
+	cmd->head = head;
 	while (token)
 	{
 		if (token->type == TOKEN_WORD && token->input && \
@@ -62,6 +63,7 @@ token->input[0] != '\0')
 		{
 			cmd->next = new_command();
 			cmd = cmd->next;
+			cmd->head = head;
 		}
 		else if (token->type == TOKEN_REDIROUT || token->type == TOKEN_APPEND)
 			redir_out(&token, cmd);

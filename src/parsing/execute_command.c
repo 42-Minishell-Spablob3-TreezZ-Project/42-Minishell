@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:17:14 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:46:45 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 	}
 }
 
-static void	execve_func(t_command *tmp, t_command *cmd, char *path, t_env **env)
+static void	execve_func(t_command *cmd, char *path, t_env **env)
 {
 	char	**env_array;
 
@@ -43,11 +43,11 @@ static void	execve_func(t_command *tmp, t_command *cmd, char *path, t_env **env)
 		write(2, ": command not found\n", 20);
 		free_array(env_array);
 		clear_env_list(env);
-		free_command(tmp);
+		free_command(cmd->head);
 		exit(127);
 	}
 	execve(path, cmd->argv, env_array);
-	if (errno == EACCES) // no caso do errno der permission denied. EACCES significa permission denied.
+	if (errno == EACCES)
 	{
 		write(2, "Minishell: permission denied\n", 29);
 		g_exit_status = 126;
@@ -56,11 +56,12 @@ static void	execve_func(t_command *tmp, t_command *cmd, char *path, t_env **env)
 	perror("minishell");
 	free_array(env_array);
 	clear_env_list(env);
-	free_command(tmp);
+	free_command(cmd->head);
 	exit(127);
 }
 
-static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
+static void	child_process(t_command *cmd, int pipe_fd[2], \
+int prev_fd, t_env **env)
 {
 	char	*path;
 
@@ -84,7 +85,7 @@ static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int pr
 	if (execute_child_builtin(cmd, env))
 		exit(0);
 	path = find_path(cmd, env);
-	execve_func(tmp, cmd, path, env);
+	execve_func(cmd, path, env);
 }
 
 static int	create_pipe(t_command *cmd, int pipe_fd[2])
@@ -100,7 +101,7 @@ static int	create_pipe(t_command *cmd, int pipe_fd[2])
 	return (0);
 }
 
-void execute_command(t_command *cmd, t_env **env)
+void	execute_command(t_command *cmd, t_env **env)
 {
 	int			pipe_fd[2];
 	int			prev_fd;
@@ -108,9 +109,7 @@ void execute_command(t_command *cmd, t_env **env)
 	pid_t		last_pid;
 	pid_t		wait_pid;
 	int			status;
-	t_command	*tmp;
 
-	tmp = cmd;
 	prev_fd = -1;
 	while (cmd)
 	{
@@ -128,7 +127,7 @@ void execute_command(t_command *cmd, t_env **env)
 		if (cmd->next == NULL)
 			last_pid = pid;
 		if (pid == 0)
-			child_process(tmp, cmd, pipe_fd, prev_fd, env);
+			child_process(cmd, pipe_fd, prev_fd, env);
 		close_parent_fds(cmd, pipe_fd, &prev_fd);
 		cmd = cmd->next;
 	}
