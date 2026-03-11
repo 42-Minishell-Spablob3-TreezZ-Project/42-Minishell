@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:30:00 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:34:25 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,12 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	char	*oldpwd;
 	char	*curr_dir;
 
-	if (cmd->argv[2])
-	{
-		ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
-		g_exit_status = 1;
+	if (check_cd_args(cmd))
 		return (1);
-	}
 	oldpwd = getcwd(NULL, 0);
 	path = get_path(cmd, env);
-	if (!path)
-	{
-		free(oldpwd);
-		free(path);
-		g_exit_status = 1;
+	if (check_cd_path(path, oldpwd))
 		return (1);
-	}
 	if (chdir(path) != 0)
 	{
 		write(2, "Minishell: cd: ", 15);

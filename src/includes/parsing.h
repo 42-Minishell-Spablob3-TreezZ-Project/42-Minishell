@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 14:43:26 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:36:36 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		execute_command(t_command *command, t_env **env);
 void		execute_redir_out(t_command *cmd);
 void		execute_redir_in(t_command *cmd);
 
-//builtins
+//built-ins
 void		echo_builtin(char **argv);
 int			cd_builtin(t_command *cmd, t_env **env);
 void		env_bultin(t_env **env, char **envp);
@@ -69,6 +69,10 @@ int			ft_strcmp(char *s1, char *s2);
 void		unset_built_in(t_command *cmd, t_env	**env);
 int			is_valid(char *str);
 void		delete_node(t_env **head, char *key);
+
+//built-in utils
+int			check_cd_args(t_command *cmd);
+int			check_cd_path(char *path, char *oldpwd);
 
 //frees
 void		clear_env_list(t_env **env);
