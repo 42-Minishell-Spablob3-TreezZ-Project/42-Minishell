@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:54:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 11:52:02 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:06:04 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_command	*parse_cmd(t_tokens *token)
 	cmd = head;
 	while (token)
 	{
-		if (token->type == TOKEN_WORD && token->input && token->input[0] != '\0')
+		if (token->type == TOKEN_WORD && token->input && \
+token->input[0] != '\0')
 			add_arg(cmd, token->input);
 		else if (token->type == TOKEN_PIPE)
 		{
@@ -100,7 +101,7 @@ void	redir_out(t_tokens **tokens, t_command *cmd)
 void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 {
 	int	fd;
-	
+
 	fd = 0;
 	(*tokens) = (*tokens)->next;
 	if (cmd->infile)
@@ -114,4 +115,3 @@ void	redir_in_and_heredoc(t_tokens **tokens, t_command *cmd)
 	else
 		add_heredoc(*tokens, cmd);
 }
-

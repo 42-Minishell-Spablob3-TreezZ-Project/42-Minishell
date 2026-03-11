@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 10:30:45 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:17:14 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 {
-	t_heredoc *tmp;
-	
+	t_heredoc	*tmp;
+
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	tmp = cmd->heredocs;
@@ -31,10 +31,10 @@ static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 	}
 }
 
-static void	execve_function(t_command *tmp, t_command *cmd, char *path, t_env **env)
+static void	execve_func(t_command *tmp, t_command *cmd, char *path, t_env **env)
 {
 	char	**env_array;
-	
+
 	env_array = env_to_array(*env);
 	if (!path)
 	{
@@ -63,7 +63,7 @@ static void	execve_function(t_command *tmp, t_command *cmd, char *path, t_env **
 static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int prev_fd, t_env **env)
 {
 	char	*path;
-	
+
 	if (prev_fd != -1)
 	{
 		dup2(prev_fd, 0);
@@ -84,13 +84,13 @@ static void	child_process(t_command *tmp, t_command *cmd, int pipe_fd[2], int pr
 	if (execute_child_builtin(cmd, env))
 		exit(0);
 	path = find_path(cmd, env);
-	execve_function(tmp, cmd, path, env);
+	execve_func(tmp, cmd, path, env);
 }
 
 static int	create_pipe(t_command *cmd, int pipe_fd[2])
 {
 	if (cmd->next)
-	{	
+	{
 		if (pipe(pipe_fd) < 0)
 		{
 			perror("pipe");

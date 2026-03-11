@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:29 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 10:27:44 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:26:36 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,42 +49,6 @@ void	tokenization(t_tokens **tokens, char *cmd)
 			tokenize_word(cmd, new, &i);
 		add_token(tokens, new);
 	}
-}
-static int	is_redir(t_tokens *tmp)
-{
-	if (tmp->type == TOKEN_REDIROUT 
-	|| tmp->type == TOKEN_APPEND
-	|| tmp->type == TOKEN_REDIRIN
-	|| tmp->type == TOKEN_HEREDOC)
-	{
-		if (!tmp->next || tmp->next->type != TOKEN_WORD)
-			return (1);
-	}
-	return (0);
-}
-static int	validate_syntax(t_tokens *tokens)
-{
-	t_tokens *tmp;
-
-	tmp = tokens;
-	while(tmp)
-	{
-		if (tmp->type == TOKEN_PIPE)
-		{
-			if (!tmp->next || !tmp->prev || tmp->next->type != TOKEN_WORD)
-			{
-				printf("minishell: syntax error near unexpected token `|`\n");
-				return(0);
-			}
-		}
-		else if (is_redir(tmp))
-		{
-			printf("minishell: syntax error near unexpected token `newline`\n");
-			return(0);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
 }
 
 t_command	*start_lexer(char *cmd, t_env **env)

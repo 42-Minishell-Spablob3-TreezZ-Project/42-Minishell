@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:44:00 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/06 11:10:39 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:03:18 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 	t_heredoc	*temp;
 
 	new = malloc(sizeof(t_heredoc));
-	if(!new)
+	if (!new)
 		return ;
 	new->delimiter = ft_strdup(tokens->input);
-	new->fd[0]	= -1;
+	new->fd[0] = -1;
 	new->fd[1] = -1;
 	new->next = NULL;
-
 	if (cmd->heredocs == NULL)
 		cmd->heredocs = new;
 	else
@@ -38,7 +37,7 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 
 static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
 {
-	char		*line;
+	char	*line;
 
 	while (1)
 	{
@@ -50,7 +49,7 @@ static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
 		}
 		if (temp == last)
 		{
-			write(temp->fd[1], line,ft_strlen(line));
+			write(temp->fd[1], line, ft_strlen(line));
 			write(temp->fd[1], "\n", 1);
 		}
 		free(line);

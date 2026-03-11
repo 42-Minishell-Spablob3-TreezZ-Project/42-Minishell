@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 12:43:15 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:30:00 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*get_env(char *str, t_env **env)
 	return (NULL);
 }
 
-static void update_and_free(t_env **env, char *oldpwd, char *curr_dir, char *path)
+static void	update_free(t_env **env, char *oldpwd, char *curr_dir, char *path)
 {
 	update_env_var(env, oldpwd, curr_dir);
 	free(oldpwd);
@@ -112,7 +112,7 @@ int	cd_builtin(t_command *cmd, t_env **env)
 	}
 	if (chdir(path) != 0)
 	{
-		write(2, "Minishell: cd: " ,15);
+		write(2, "Minishell: cd: ", 15);
 		perror(path);
 		free(oldpwd);
 		free(path);
@@ -120,6 +120,6 @@ int	cd_builtin(t_command *cmd, t_env **env)
 		return (1);
 	}
 	curr_dir = getcwd(NULL, 0);
-	update_and_free(env, oldpwd, curr_dir, path);
+	update_free(env, oldpwd, curr_dir, path);
 	return (0);
 }

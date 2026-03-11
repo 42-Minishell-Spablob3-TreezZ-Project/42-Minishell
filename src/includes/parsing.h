@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 11:18:41 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:25:46 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		add_arg(t_command *cmd, char *word);
 t_command	*parse_cmd(t_tokens *tokens);
 void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
+int			validate_syntax(t_tokens *tokens);
 
 // command execution
 void		execute_command(t_command *command, t_env **env);

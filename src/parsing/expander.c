@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:50:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/02 11:32:22 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:19:53 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*expand_variable(char **str, t_env **env)
 	(*str)++;
 	start = *str;
 	if (**str == '$')
-		return(ft_itoa(getpid()));
+		return (ft_itoa(getpid()));
 	if (**str == '?')
 	{
 		(*str)++;

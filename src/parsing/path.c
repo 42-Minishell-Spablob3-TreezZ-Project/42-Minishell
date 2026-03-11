@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:42:53 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/05 13:45:02 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:27:05 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*check_path(char **path_array, t_command *cmd)
 	char	*dir_plus_bar;
 	int		i;
 	char	*result;
-		
+
 	i = 0;
 	while (path_array[i])
 	{
@@ -27,7 +27,7 @@ static char	*check_path(char **path_array, t_command *cmd)
 		if (access(result, X_OK) == 0)
 		{
 			free_array(path_array);
-			return(result);
+			return (result);
 		}
 		free(result);
 		i++;
@@ -41,9 +41,9 @@ char	*find_path(t_command *cmd, t_env **env)
 	char	*result;
 	t_env	*temp;
 	char	**path_array;
-	
+
 	if (ft_strchr(cmd->argv[0], '/'))
-		return(result = ft_strdup(cmd->argv[0]));
+		return (result = ft_strdup(cmd->argv[0]));
 	temp = *env;
 	while (temp)
 	{
