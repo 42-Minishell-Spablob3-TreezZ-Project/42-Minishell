@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 15:36:36 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:29:57 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,16 @@ void		redir_out(t_tokens **tokens, t_command *cmd);
 void		redir_in_and_heredoc(t_tokens **tokens, t_command *cmd);
 int			validate_syntax(t_tokens *tokens);
 
-// command execution
+//command execution
 void		execute_command(t_command *command, t_env **env);
 void		execute_redir_out(t_command *cmd);
 void		execute_redir_in(t_command *cmd);
+
+//command utils misc
+int			neg_pid(pid_t pid);
+void		wait_pid(pid_t pid, pid_t last_pid, int status);
+int			create_pipe(t_command *cmd, int pipe_fd[2]);
+int			pipe_or_built_in(t_command *cmd, int *pipe_fd, t_env **env);
 
 //built-ins
 void		echo_builtin(char **argv);

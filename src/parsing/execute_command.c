@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 14:46:45 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:29:35 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,42 +88,23 @@ int prev_fd, t_env **env)
 	execve_func(cmd, path, env);
 }
 
-static int	create_pipe(t_command *cmd, int pipe_fd[2])
-{
-	if (cmd->next)
-	{
-		if (pipe(pipe_fd) < 0)
-		{
-			perror("pipe");
-			return (-1);
-		}
-	}
-	return (0);
-}
-
 void	execute_command(t_command *cmd, t_env **env)
 {
 	int			pipe_fd[2];
 	int			prev_fd;
 	pid_t		pid;
 	pid_t		last_pid;
-	pid_t		wait_pid;
 	int			status;
 
 	prev_fd = -1;
 	while (cmd)
 	{
 		init_heredoc(cmd);
-		if (create_pipe(cmd, pipe_fd) < 0)
-			return ;
-		if (exec_parent_built_in(cmd, env) == 0)
+		if (pipe_or_built_in(cmd, pipe_fd, env))
 			return ;
 		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
+		if (neg_pid(pid))
 			return ;
-		}
 		if (cmd->next == NULL)
 			last_pid = pid;
 		if (pid == 0)
@@ -131,14 +112,6 @@ void	execute_command(t_command *cmd, t_env **env)
 		close_parent_fds(cmd, pipe_fd, &prev_fd);
 		cmd = cmd->next;
 	}
-	while ((wait_pid = wait(&status)) > 0)
-	{
-		if (wait_pid == last_pid)
-		{
-			if (WIFEXITED(status))
-				g_exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				g_exit_status = 128 + WTERMSIG(status);
-		}
-	}
+	while ((pid = wait(&status)) > 0)
+		wait_pid(pid, last_pid, status);
 }
