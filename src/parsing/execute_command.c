@@ -38,9 +38,9 @@ static void	execve_func(t_command *cmd, char *path, t_env **env)
 	env_array = env_to_array(*env);
 	if (!path)
 	{
-		write(2, "minishell: ", 11);
-		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-		write(2, ": command not found\n", 20);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->argv[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		free_array(env_array);
 		clear_env_list(env);
 		free_command(cmd->head);
@@ -49,7 +49,7 @@ static void	execve_func(t_command *cmd, char *path, t_env **env)
 	execve(path, cmd->argv, env_array);
 	if (errno == EACCES)
 	{
-		write(2, "Minishell: permission denied\n", 29);
+		ft_putstr_fd("Minishell: Permission denied\n", 2);
 		g_exit_status = 126;
 		exit(126);
 	}
