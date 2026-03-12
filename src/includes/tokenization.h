@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:09 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 14:42:56 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:44:32 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_tokens
 {
 	t_token_type	type;
 	char			*input;
+	int				quoted;
 	struct s_tokens	*next;
 	struct s_tokens	*prev;
 }			t_tokens;
@@ -36,6 +37,7 @@ typedef struct s_heredoc
 {
 	char				*delimiter;
 	int					fd[2];
+	int					expand;
 	struct s_heredoc	*next;
 }			t_heredoc;
 

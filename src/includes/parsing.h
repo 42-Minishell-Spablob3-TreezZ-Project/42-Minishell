@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 13:19:00 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:48:14 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			is_quote(char c);
 int			which_token(char *cmd, int *i);
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i);
 void		tokenize_operator(char *cmd, t_tokens *new, int *i);
-void		check_quotes(char *cmd, int *i);
+void		check_quotes(char *cmd, int *i, int *quoted);
 
 //Expander
 void		expand_tokens(t_tokens *tokens, t_env **env);
@@ -92,8 +92,9 @@ int			empty_prompt(char *cmd);
 
 //heredoc
 void		add_heredoc(t_tokens *tokens, t_command *cmd);
-int			init_heredoc(t_command *cmd);
+int			init_heredoc(t_command *cmd, t_env **env);
 void		dup_heredoc(t_command *cmd);
+char		*expand_line(char *line, t_env **env);
 
 //path
 char		*find_path(t_command *cmd, t_env **env);

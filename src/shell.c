@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 13:18:34 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:37:10 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,4 @@ void	start_shell(char **envp)
 	}
 	clear_env_list(&env);
 	rl_clear_history();
-	free (line);
 }

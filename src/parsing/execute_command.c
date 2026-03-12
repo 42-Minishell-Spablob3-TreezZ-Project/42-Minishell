@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 15:35:39 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:03:13 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	execute_command(t_command *cmd, t_env **env)
 	prev_fd = -1;
 	while (cmd)
 	{
-		init_heredoc(cmd);
+		init_heredoc(cmd, env);
 		if (pipe_or_built_in(cmd, pipe_fd, env))
 			return ;
 		g_exit_status = -1;

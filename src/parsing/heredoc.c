@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:44:00 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:03:18 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:47:22 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static	int	has_quotes(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	add_heredoc(t_tokens *tokens, t_command *cmd)
 {
@@ -20,6 +34,9 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 	new = malloc(sizeof(t_heredoc));
 	if (!new)
 		return ;
+	new->expand = !tokens->quoted;
+	if (has_quotes(tokens->input))
+		new->expand = 0;
 	new->delimiter = ft_strdup(tokens->input);
 	new->fd[0] = -1;
 	new->fd[1] = -1;
@@ -35,9 +52,10 @@ void	add_heredoc(t_tokens *tokens, t_command *cmd)
 	}
 }
 
-static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
+static void	process_heredoc(t_heredoc *temp, t_heredoc *last, t_env **env)
 {
 	char	*line;
+	char	*expanded;
 
 	while (1)
 	{
@@ -46,6 +64,11 @@ static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
 		{
 			free(line);
 			break ;
+		}
+		if (temp->expand)
+		{
+			expanded = expand_line(line, env);
+			line = expanded;
 		}
 		if (temp == last)
 		{
@@ -57,7 +80,7 @@ static void	process_heredoc(t_heredoc *temp, t_heredoc *last)
 	close(temp->fd[1]);
 }
 
-int	init_heredoc(t_command *cmd)
+int	init_heredoc(t_command *cmd, t_env **env)
 {
 	t_heredoc	*temp;
 	t_heredoc	*last;
@@ -78,7 +101,7 @@ int	init_heredoc(t_command *cmd)
 			perror("pipe");
 			return (-1);
 		}
-		process_heredoc(temp, last);
+		process_heredoc(temp, last, env);
 		temp = temp->next;
 	}
 	return (0);
