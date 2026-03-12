@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:24:54 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/03/12 13:05:03 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:45:48 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ void	wait_pid(pid_t last_pid)
 			if (WIFEXITED(status))
 				g_exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
+			{
 				g_exit_status = 128 + WTERMSIG(status);
+				if (WTERMSIG(status) == SIGQUIT)
+					write(2, "Quit (core dumped)\n", 19);
+				else if (WTERMSIG(status) == SIGINT)
+					write(2, "\n", 1);
+			}
 		}
 		pid = wait(&status);
 	}

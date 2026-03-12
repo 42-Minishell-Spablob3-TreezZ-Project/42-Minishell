@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:48 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 15:27:37 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:42:49 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	block_signal(void)
 	sigaction(SIGINT, &s_sa, NULL);
 	sigaction(SIGQUIT, &s_sa, NULL);
 }
-	
+
 void	sighandler(int sig, siginfo_t *info, void *context)
 {
 	(void)info;
@@ -64,5 +64,6 @@ int	handle_signals(void)
 	s_sa.sa_handler = sighandler_quit;
 	s_sa.sa_flags = 0;
 	sigaction(SIGQUIT, &s_sa, NULL);
+	signal(SIGQUIT, SIG_IGN); 
 	return (0);
 }
