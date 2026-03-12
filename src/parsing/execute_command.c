@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 17:29:35 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:02:11 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	execute_command(t_command *cmd, t_env **env)
 	int			prev_fd;
 	pid_t		pid;
 	pid_t		last_pid;
-	int			status;
 
 	prev_fd = -1;
 	while (cmd)
@@ -112,6 +111,5 @@ void	execute_command(t_command *cmd, t_env **env)
 		close_parent_fds(cmd, pipe_fd, &prev_fd);
 		cmd = cmd->next;
 	}
-	while ((pid = wait(&status)) > 0)
-		wait_pid(pid, last_pid, status);
+	wait_pid(last_pid);
 }

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/10 12:38:50 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:18:34 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*create_prompt(void)
 	prompt = "@minisheila>$ ";
 	prompt = ft_strjoin(getenv("USER"), prompt);
 	return (prompt);
-}
+} 
 
 void	start_shell(char **envp)
 {
@@ -28,12 +28,13 @@ void	start_shell(char **envp)
 	t_env	*env;
 
 	line = NULL;
-	prompt = create_prompt();
 	env = NULL;
 	env_bultin(&env, envp);
 	while (1)
 	{
+		prompt = create_prompt();
 		line = readline(prompt);
+		free(prompt);
 		if (!class_command(line, &env))
 		{
 			free (line);
@@ -45,5 +46,5 @@ void	start_shell(char **envp)
 	}
 	clear_env_list(&env);
 	rl_clear_history();
-	free (prompt);
+	free (line);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command_utils_misc.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grui-ant <grui-ant@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:24:54 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/03/11 17:29:28 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:05:03 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,22 @@ int	neg_pid(pid_t pid)
 	return (0);
 }
 
-void	wait_pid(pid_t pid, pid_t last_pid, int status)
+void	wait_pid(pid_t last_pid)
 {
-	if (pid == last_pid)
+	int		status;
+	pid_t	pid;
+
+	pid = wait(&status);
+	while (pid > 0)
 	{
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				g_exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_exit_status = 128 + WTERMSIG(status);
+		}
+		pid = wait(&status);
 	}
 }
 
