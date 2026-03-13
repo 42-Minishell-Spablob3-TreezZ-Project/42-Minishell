@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/13 12:15:03 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:09:42 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ static void	close_parent_fds(t_command *cmd, int pipe_fd[2], int *prev_fd)
 	}
 }
 
+static void	free_all(t_command *cmd, t_env **env, char **array, char *path)
+{
+	free(path);
+	free_array(array);
+	clear_env_list(env);
+	free_command(cmd->head);
+}
+
 static void	execve_func(t_command *cmd, char *path, t_env **env)
 {
 	char	**env_array;
@@ -50,13 +58,12 @@ static void	execve_func(t_command *cmd, char *path, t_env **env)
 	if (errno == EACCES)
 	{
 		ft_putstr_fd("Minishell: Permission denied\n", 2);
+		free_all(cmd, env, env_array, path);
 		g_exit_status = 126;
 		exit(126);
 	}
 	perror("minishell");
-	free_array(env_array);
-	clear_env_list(env);
-	free_command(cmd->head);
+	free_all(cmd, env, env_array, path);
 	exit(127);
 }
 
