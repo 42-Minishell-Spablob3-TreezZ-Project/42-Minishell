@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:57:44 by jpmesquita        #+#    #+#             */
-/*   Updated: 2026/03/12 20:36:13 by jpmesquita       ###   ########.fr       */
+/*   Updated: 2026/03/13 12:31:07 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,33 @@ static char	*expand_heredoc(char **str, t_env **env)
 		return (ft_strdup(""));
 	return (ft_strdup(env_var));
 }
+
+static	void	expand_line2(char **ptr, char **result, t_env **env)
+{
+	char	*tmp;
+	int		i;
+
+	tmp = expand_heredoc(ptr, env);
+	i = 0;
+	while (tmp[i])
+	{
+		*result = ft_append(*result, tmp[i]);
+		i++;
+	}
+	free (tmp);
+}
+
 char	*expand_line(char *line, t_env **env)
 {
 	char	*result;
-	char	*tmp;
 	char	*ptr;
-	int		i;
 
 	result = NULL;
 	ptr = line;
 	while (*ptr)
 	{
 		if (*ptr == '$')
-		{
-			tmp = expand_heredoc(&ptr, env);
-			i = 0;
-			while (tmp[i])
-			{
-				result = ft_append(result, tmp[i]);
-				i++;
-			}
-			free (tmp);
-		}
+			expand_line2(&ptr, &result, env);
 		else
 		{
 			result = ft_append(result, *ptr);
@@ -69,5 +74,5 @@ char	*expand_line(char *line, t_env **env)
 		}
 	}
 	free (line);
-	return(result);
+	return (result);
 }

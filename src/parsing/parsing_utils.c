@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:24 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 20:55:41 by jpmesquita       ###   ########.fr       */
+/*   Updated: 2026/03/13 12:13:34 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,26 @@ void	tokenize_operator(char *cmd, t_tokens *new, int *i)
 t_tokens	*tokenize_word(char *cmd, t_tokens *new, int *i)
 {
 	int	start;
-	int quoted;//
+	int	quoted;
 
-	quoted = 0;//
+	quoted = 0;
 	start = *i;
 	new->type = TOKEN_WORD;
 	while (cmd[*i] && !is_space(cmd[*i]) && !is_operator(cmd[*i]))
 		check_quotes(cmd, i, &quoted);
 	new->input = ft_substr(cmd, start, *i - start);
-	new->quoted = quoted; //
+	new->quoted = quoted;
 	return (new);
 }
 
 void	check_quotes(char *cmd, int *i, int *quoted)
 {
-	char	quote;//
+	char	quote;
 
 	if (is_quote(cmd[*i]))
 	{
 		quote = cmd[*i];
-		(*quoted) = 1;//
+		(*quoted) = 1;
 		(*i)++;
 		while (cmd[*i] && cmd[*i] != quote)
 			(*i)++;

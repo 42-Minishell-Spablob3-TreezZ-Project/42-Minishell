@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:57 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 18:37:10 by jpmesquita       ###   ########.fr       */
+/*   Updated: 2026/03/13 12:14:29 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*create_prompt(void)
 	prompt = "@minisheila>$ ";
 	prompt = ft_strjoin(getenv("USER"), prompt);
 	return (prompt);
-} 
+}
 
 void	start_shell(char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:48 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 15:42:49 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/13 12:15:51 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ int	handle_signals(void)
 	s_sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&s_sa.sa_mask);
 	sigaction(SIGINT, &s_sa, NULL);
-
 	s_sa.sa_handler = sighandler_quit;
 	s_sa.sa_flags = 0;
 	sigaction(SIGQUIT, &s_sa, NULL);
-	signal(SIGQUIT, SIG_IGN); 
+	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }

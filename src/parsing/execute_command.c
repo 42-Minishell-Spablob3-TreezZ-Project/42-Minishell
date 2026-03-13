@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:48:47 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/12 20:03:13 by jpmesquita       ###   ########.fr       */
+/*   Updated: 2026/03/13 12:15:03 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	child_process(t_command *cmd, int pipe_fd[2], \
 int prev_fd, t_env **env)
 {
 	char	*path;
-	
+
 	block_signal();
 	if (prev_fd != -1)
 	{
