@@ -6,7 +6,7 @@
 #    By: grui-ant <grui-ant@student.42port...>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/11 15:42:34 by grui-ant          #+#    #+#              #
-#    Updated: 2026/03/11 15:42:39 by grui-ant         ###   ########.fr        #
+#    Updated: 2026/03/13 12:28:05 by grui-ant         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -19,7 +19,7 @@ LIBFT_PATH = ./lib/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror #-g
 
 RM = rm -f
 
@@ -46,7 +46,7 @@ fclean: clean
 
 re: fclean all
 
-valgrind: re
-	valgrind --suppressions=./.supps/readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell
+#valgrind: re
+#	valgrind --suppressions=./.supps/readline.supp --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell
 
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re #valgrind
