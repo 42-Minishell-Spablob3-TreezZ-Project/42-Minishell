@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:50:06 by joapedro          #+#    #+#             */
-/*   Updated: 2026/03/11 13:19:53 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/13 23:11:23 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	expand_tokens(t_tokens *tokens, t_env **env)
 
 	while (tokens)
 	{
-		if (tokens->type == TOKEN_WORD)
+		if (tokens->type == TOKEN_WORD && (!tokens->prev 
+		||tokens->prev->type != TOKEN_HEREDOC))
 		{
 			tmp = tokens->input;
 			tokens->input = expand_word(tokens->input, env);
