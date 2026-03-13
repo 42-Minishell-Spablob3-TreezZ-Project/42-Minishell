@@ -3,50 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: grui-ant <grui-ant@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:52:09 by grui-ant          #+#    #+#             */
-/*   Updated: 2026/02/25 14:02:31 by grui-ant         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:44:27 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	clear_env_list(t_env *env)
+void	clear_env_list(t_env **env)
 {
 	t_env	*tmp;
 
-	while (env)
+	while (*env)
 	{
-		tmp = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
-		env = tmp;
+		tmp = *env;
+		*env = (*env)->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
+void	free_heredocs(t_heredoc *heredoc)
+{
+	t_heredoc	*tmp;
+	t_heredoc	*next;
+
+	tmp = heredoc;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->delimiter);
+		free(tmp);
+		tmp = next;
 	}
 }
 
 void	free_command(t_command *cmd)
 {
 	t_command	*tmp;
-	int			i;
 
 	while (cmd)
 	{
 		tmp = cmd->next;
 		if (cmd->argv)
-		{
-			i = 0;
-			while (cmd->argv[i])
-			{
-				free(cmd->argv[i]);
-				i++;
-			}
-			free(cmd->argv);
-		}
+			free_array(cmd->argv);
 		free(cmd->infile);
 		free(cmd->outfile);
-		free(cmd->heredoc_delimiter);
+		free_heredocs(cmd->heredocs);
 		free(cmd);
 		cmd = tmp;
 	}
@@ -65,12 +71,12 @@ void	free_tokens(t_tokens *tokens)
 	}
 }
 
-void	free_env_array(char **array)
+void	free_array(char **array)
 {
 	int	i;
 
 	i = 0;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		i++;

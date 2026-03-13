@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jpmesquita <jpmesquita@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:56:09 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 11:21:21 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:44:32 by jpmesquita       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,46 @@
 
 typedef enum s_token_type
 {
-	TOKEN_WORD, 
+	TOKEN_WORD,
 	TOKEN_PIPE,
 	TOKEN_REDIRIN,
 	TOKEN_REDIROUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
-	
-}	t_token_type;
+}		t_token_type;
 
 typedef struct s_tokens
 {
-	t_token_type		type;
-	char				*input;
-	struct	s_tokens	*next;
-	struct	s_tokens	*prev;
-}				t_tokens;
+	t_token_type	type;
+	char			*input;
+	int				quoted;
+	struct s_tokens	*next;
+	struct s_tokens	*prev;
+}			t_tokens;
+
+//struct para heredocs
+typedef struct s_heredoc
+{
+	char				*delimiter;
+	int					fd[2];
+	int					expand;
+	struct s_heredoc	*next;
+}			t_heredoc;
 
 // struct para os comandos
 typedef struct s_command
 {
+	struct s_command	*head;
 	char				**argv; //argumentos do comando.
 	char				*infile; // caso seja "<".
 	char				*outfile; // caso seja ">" ou ">>".
 	int					append; // flag para o append ">>".
-	char				*heredoc_delimiter; // no caso de heredoc <<.
+	struct s_heredoc	*heredocs; // no caso de heredoc <<.
 	int					heredoc_fd;
 	struct s_command	*next; // no caso de pipe.
-}		t_command;
+}			t_command;
 
 //struct para envp
-
 typedef struct s_env
 {
 	char			*key;

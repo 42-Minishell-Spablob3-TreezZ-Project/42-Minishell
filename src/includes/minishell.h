@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:49 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/19 11:55:51 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/03/13 12:34:32 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/wait.h>
-
-// variavel global para os sinais
-extern int g_exit_status;
+# include <errno.h>
 
 //Libft
 
@@ -38,6 +36,9 @@ extern int g_exit_status;
 # include "shell.h"
 # include "parsing.h"
 # include "tokenization.h"
+
+//Global variable for exit status ids
+extern int	g_exit_status;
 
 //Defines
 

@@ -32,37 +32,38 @@ However, you should be able to install the equivalent packages and build on your
 
 Install the following <ins>dependencies</ins>:
 
-WE STILL NEED TO CHECK THIS:
-
-`sudo apt install clang gcc git libxext-dev libbsd-dev make xorg zlib1g-dev`
+- `sudo apt install clang gcc git libxext-dev libbsd-dev make xorg zlib1g-dev`
 
 **Clone** this repository using **Git**, `cd` into it, and pull all dependencies:
 
-`git clone https://github.com/42-Minishell-Spablob3-TreezZ-Project/42-Minishell.git`
-`cd 42-Minishell && git submodule update --init --recursive`
+- `git clone https://github.com/42-Minishell-Spablob3-TreezZ-Project/42-Minishell.git`
+- `cd 42-Minishell && git submodule update --init --recursive`
 
 Once that's done, run **GNU Make** to build the source code into a **executable binary**:
 
-`make`
+- `make`
 
 The `make clean` and `make fclean` flags are also available to **clean up** the files created during compilation, as well as the binary, from the repository.
 
 ### Instructions
 Once the project is compiled, you can start using the **Minishell** by running this on your terminal, while on the <ins>same directory you compiled it on</ins>:
-`./minishell`
+
+- `./minishell`
 
 And that's it! You're using it! You can now use it like you would use any **sh-compatible Unix Shell.**
 You can additionally add it to your terminal emulator as the default shell.
 
 If you're feeling lazy, you can set your current shell to run it on startup by adding this to your `.zshrc` or `.bashrc`:
-`/path/to/minishell/directory/minishell`
+
+- `/path/to/minishell/directory/minishell`
 
 ## Resources
-TODO LIST:
-Resources
-Exit/execution/error status codes
-Unset failure error message
-Replace printf's with perror or write 2
+
+- **[The Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.pdf)**;
+- The various `man` entries on our systems;
+- Multiple websites found on our web searches;
+- The help of our **colleagues**;
+- AI was used to explain some of Bash's functions more thoroughly.
 
 ## License
 This project, including the **42-Libft Library**, is licensed under the **GNU GPL-2.0-or-later.**

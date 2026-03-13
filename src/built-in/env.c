@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:55:26 by joapedro          #+#    #+#             */
-/*   Updated: 2026/02/24 15:07:08 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:15:49 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	env_bultin(t_env **env, char **envp)
 		i++;
 	}
 }
+
 void	add_env_node(t_env **env, char *key, char *value)
 {
 	t_env	*env_node;
@@ -74,6 +75,7 @@ void	print_env_list(t_env **env)
 		temp = temp->next;
 	}
 }
+
 int	env_array_len(t_env *env)
 {
 	int	i;
@@ -84,7 +86,7 @@ int	env_array_len(t_env *env)
 		i++;
 		env = env->next;
 	}
-	return(i);
+	return (i);
 }
 
 char	**env_to_array(t_env *env)
