@@ -1,5 +1,3 @@
-*This project has been created as part of the 42 curriculum by **grui-ant** and **joapedro**.*
-
 # $> 42-Minishell 🖥️
 
 ## A project most commonly known as "Mini Hell".
@@ -64,6 +62,11 @@ If you're feeling lazy, you can set your current shell to run it on startup by a
 - Multiple websites found on our web searches;
 - The help of our **colleagues**;
 - AI was used to explain some of Bash's functions more thoroughly.
+
+## Notes
+This project was done as part of the [42 curriculum](https://www.42network.org/) by **grui-ant** and **joapedro**. Grade achieved: **97/100**
+
+The `original` branch contains the repository exactly as we delivered it. The `main` branch is the default branch, with further improvements we might make down the line.
 
 ## License
 This project, including the **42-Libft Library**, is licensed under the **GNU GPL-2.0-or-later.**
